@@ -1,0 +1,136 @@
+[
+  {
+    "id": "qg-legal-scope",
+    "order": 1,
+    "phase": "Phase 1 Applicability",
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Is your organization established in the EU?",
+        "type": "yesNo",
+        "targetAttribute": "legalScope.isEUEntity"
+      },
+      {
+        "id": "q2",
+        "text": "Do you place AI systems on the EU market or use their output in the EU?",
+        "type": "yesNo",
+        "targetAttribute": "legalScope.placesOnEU"
+      },
+      {
+        "id": "q3",
+        "text": "Are you a natural person using AI for non-professional activities?",
+        "type": "yesNo",
+        "targetAttribute": "legalScope.isNonProfessional"
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-ai-system-scope",
+    "order": 2,
+    "phase": "Phase 1 Applicability",
+    "questions": [
+      {
+        "id": "q4",
+        "text": "Does the system meet the AI definition?",
+        "type": "yesNo",
+        "targetAttribute": "aiSystemScope.meetsAIDef"
+      },
+      {
+        "id": "q5",
+        "text": "Is it exclusively for military, research, or security purposes?",
+        "type": "yesNo",
+        "targetAttribute": "aiSystemScope.isExempt"
+      },
+      {
+        "id": "q6",
+        "text": "Is it a legacy system without significant changes?",
+        "type": "yesNo",
+        "targetAttribute": "aiSystemScope.isLegacy"
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-role-assignment",
+    "order": 3,
+    "phase": "Phase 2 Role Assignment",
+    "questions": [
+      {
+        "id": "q7",
+        "text": "Do you develop and place the AI system on the market under your name?",
+        "type": "yesNo",
+        "targetAttribute": "roleAssignment.isProvider"
+      },
+      {
+        "id": "q8",
+        "text": "Do you use the AI system under your authority (not personally)?",
+        "type": "yesNo",
+        "targetAttribute": "roleAssignment.isDeployer"
+      },
+      {
+        "id": "q9",
+        "text": "Do you import AI from third countries to the EU?",
+        "type": "yesNo",
+        "targetAttribute": "roleAssignment.isImporter"
+      },
+      {
+        "id": "q10",
+        "text": "Do you distribute AI in the EU supply chain?",
+        "type": "yesNo",
+        "targetAttribute": "roleAssignment.isDistributor"
+      },
+      {
+        "id": "q11",
+        "text": "Are you a product manufacturer integrating AI?",
+        "type": "yesNo",
+        "targetAttribute": "roleAssignment.isProductManufacturer"
+      },
+      {
+        "id": "q12",
+        "text": "Do you represent a non-EU provider?",
+        "type": "yesNo",
+        "targetAttribute": "roleAssignment.isAuthorizedRepresentative"
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-risk-classification",
+    "order": 4,
+    "phase": "Phase 2 Risk Classification",
+    "questions": [
+      {
+        "id": "q13",
+        "text": "Is the system prohibited (e.g., social scoring, real-time biometric ID in public)?",
+        "type": "yesNo",
+        "targetAttribute": "riskClassification.isProhibited"
+      },
+      {
+        "id": "q14",
+        "text": "Does it qualify as high-risk (e.g., in critical infrastructure, employment, law enforcement)?",
+        "type": "yesNo",
+        "targetAttribute": "riskClassification.isHighRisk"
+      },
+      {
+        "id": "q15",
+        "text": "Does it involve limited risk (e.g., chatbots, deep fakes)?",
+        "type": "yesNo",
+        "targetAttribute": "riskClassification.isLimitedRisk"
+      },
+      {
+        "id": "q16",
+        "text": "Is it a general-purpose AI model?",
+        "type": "yesNo",
+        "targetAttribute": "riskClassification.isGPAI"
+      },
+      {
+        "id": "q17",
+        "text": "If Yes: Does it exceed 10^25 FLOPs or pose systemic risks?",
+        "type": "yesNo",
+        "targetAttribute": "riskClassification.hasSystemicRisk"
+      }
+    ],
+    "isComplete": false
+  }
+] 
