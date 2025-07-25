@@ -2,9 +2,15 @@
   {
     "id": "obl-1",
     "article": "Article 4",
-    "description": "AI literacy measures for staff.",
-    "applicableRoles": ["Provider", "Deployer"],
-    "riskCategory": ["Minimal", "Low"],
+    "description": "AI literacy measures for sta",
+    "applicableRoles": [
+      "Provider",
+      "Deployer"
+    ],
+    "riskCategory": [
+      "Minimal",
+      "Low"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -12,8 +18,14 @@
     "id": "obl-2",
     "article": "Article 50",
     "description": "Transparency for AI interactions.",
-    "applicableRoles": ["Provider", "Deployer"],
-    "riskCategory": ["Minimal", "Low"],
+    "applicableRoles": [
+      "Provider",
+      "Deployer"
+    ],
+    "riskCategory": [
+      "Minimal",
+      "Low"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -21,8 +33,14 @@
     "id": "obl-3",
     "article": "Article 49",
     "description": "Registration in EU database (if applicable).",
-    "applicableRoles": ["Provider", "AuthorizedRepresentative"],
-    "riskCategory": ["Minimal", "Low"],
+    "applicableRoles": [
+      "Provider",
+      "AuthorizedRepresentative"
+    ],
+    "riskCategory": [
+      "Minimal",
+      "Low"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -30,8 +48,15 @@
     "id": "obl-4",
     "article": "Article 71",
     "description": "Data entry into EU database.",
-    "applicableRoles": ["Provider", "Deployer", "AuthorizedRepresentative"],
-    "riskCategory": ["Minimal", "Low"],
+    "applicableRoles": [
+      "Provider",
+      "Deployer",
+      "AuthorizedRepresentative"
+    ],
+    "riskCategory": [
+      "Minimal",
+      "Low"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -39,8 +64,13 @@
     "id": "obl-5",
     "article": "Article 50",
     "description": "Transparency for emotion recognition, deep fakes, etc.",
-    "applicableRoles": ["Provider", "Deployer"],
-    "riskCategory": ["Limited"],
+    "applicableRoles": [
+      "Provider",
+      "Deployer"
+    ],
+    "riskCategory": [
+      "Limited"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -48,8 +78,12 @@
     "id": "obl-6",
     "article": "Article 6",
     "description": "Classification and documentation.",
-    "applicableRoles": ["Provider"],
-    "riskCategory": ["High"],
+    "applicableRoles": [
+      "Provider"
+    ],
+    "riskCategory": [
+      "High"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -57,8 +91,12 @@
     "id": "obl-7",
     "article": "Article 8",
     "description": "Compliance demonstration.",
-    "applicableRoles": ["Provider"],
-    "riskCategory": ["High"],
+    "applicableRoles": [
+      "Provider"
+    ],
+    "riskCategory": [
+      "High"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -66,8 +104,12 @@
     "id": "obl-8",
     "article": "Article 26",
     "description": "Deployer measures and oversight.",
-    "applicableRoles": ["Deployer"],
-    "riskCategory": ["High"],
+    "applicableRoles": [
+      "Deployer"
+    ],
+    "riskCategory": [
+      "High"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -75,9 +117,17 @@
     "id": "obl-9",
     "article": "Article 25",
     "description": "Value chain responsibilities.",
-    "applicableRoles": ["Provider", "Deployer", "ProductManufacturer", "Importer", "Distributor"],
-    "riskCategory": ["High"],
+    "applicableRoles": [
+      "Provider",
+      "Deployer",
+      "ProductManufacturer",
+      "Importer",
+      "Distributor"
+    ],
+    "riskCategory": [
+      "High"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   }
-] 
+]

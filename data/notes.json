@@ -3,8 +3,15 @@
     "id": "note-1",
     "title": "Consider regular staff training",
     "description": "Regularly update staff on AI Act requirements and best practices.",
-    "applicableRoles": ["Provider", "Deployer"],
-    "riskCategory": ["Minimal", "Low", "Limited"],
+    "applicableRoles": [
+      "Provider",
+      "Deployer"
+    ],
+    "riskCategory": [
+      "Minimal",
+      "Low",
+      "Limited"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
   },
@@ -12,9 +19,32 @@
     "id": "note-2",
     "title": "Document transparency measures",
     "description": "Keep clear records of how transparency obligations are met for each AI system.",
-    "applicableRoles": ["Provider", "Deployer", "ProductManufacturer"],
-    "riskCategory": ["Limited", "High"],
+    "applicableRoles": [
+      "Provider",
+      "Deployer",
+      "ProductManufacturer"
+    ],
+    "riskCategory": [
+      "Limited",
+      "High"
+    ],
     "isGPAIApplicable": false,
     "hasSystemicRiskApplicable": false
+  },
+  {
+    "id": "asd",
+    "title": "asdasd",
+    "description": "asdasdasd",
+    "applicableRoles": [
+      "Deployer",
+      "ProductManufacturer",
+      "AuthorizedRepresentative"
+    ],
+    "riskCategory": [
+      "No-risk",
+      "Limited"
+    ],
+    "isGPAIApplicable": true,
+    "hasSystemicRiskApplicable": false
   }
-] 
+]

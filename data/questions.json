@@ -58,39 +58,69 @@
     "questions": [
       {
         "id": "q7",
-        "text": "Do you develop and place the AI system on the market under your name?",
-        "type": "yesNo",
-        "targetAttribute": "roleAssignment.isProvider"
+        "text": "Which roles apply to you?",
+        "type": "multipleChoice",
+        "options": [
+          {
+            "value": "provider",
+            "label": "Provider"
+          },
+          {
+            "value": "deployer",
+            "label": "Deployer"
+          },
+          {
+            "value": "importer",
+            "label": "Importer"
+          },
+          {
+            "value": "distributor",
+            "label": "Distributor"
+          },
+          {
+            "value": "product_manufacturer",
+            "label": "Product Manufacturer"
+          },
+          {
+            "value": "authorized_representative",
+            "label": "Authorized Representative"
+          }
+        ],
+        "allowMultiple": true,
+        "targetAttribute": "roleAssignment.roles"
       },
       {
         "id": "q8",
-        "text": "Do you use the AI system under your authority (not personally)?",
-        "type": "yesNo",
-        "targetAttribute": "roleAssignment.isDeployer"
-      },
-      {
-        "id": "q9",
-        "text": "Do you import AI from third countries to the EU?",
-        "type": "yesNo",
-        "targetAttribute": "roleAssignment.isImporter"
-      },
-      {
-        "id": "q10",
-        "text": "Do you distribute AI in the EU supply chain?",
-        "type": "yesNo",
-        "targetAttribute": "roleAssignment.isDistributor"
-      },
-      {
-        "id": "q11",
-        "text": "Are you a product manufacturer integrating AI?",
-        "type": "yesNo",
-        "targetAttribute": "roleAssignment.isProductManufacturer"
-      },
-      {
-        "id": "q12",
-        "text": "Do you represent a non-EU provider?",
-        "type": "yesNo",
-        "targetAttribute": "roleAssignment.isAuthorizedRepresentative"
+        "text": "Select your primary role.",
+        "type": "singleChoice",
+        "options": [
+          {
+            "value": "provider",
+            "label": "Provider"
+          },
+          {
+            "value": "deployer",
+            "label": "Deployer"
+          },
+          {
+            "value": "importer",
+            "label": "Importer"
+          },
+          {
+            "value": "distributor",
+            "label": "Distributor"
+          },
+          {
+            "value": "product_manufacturer",
+            "label": "Product Manufacturer"
+          },
+          {
+            "value": "authorized_representative",
+            "label": "Authorized Representative"
+          }
+        ],
+        "allowMultiple": false,
+        "targetAttribute": "roleAssignment.primaryRole"
       }
     ],
     "isComplete": false
@@ -132,5 +162,30 @@
       }
     ],
     "isComplete": false
+  },
+  {
+    "id": "qg-test",
+    "order": 5,
+    "phase": "PHASE -1",
+    "questions": [
+      {
+        "id": "Q1",
+        "text": "is this a question?",
+        "type": "multipleChoice",
+        "targetAttribute": "asdads",
+        "options": [
+          {
+            "value": "option1",
+            "label": "option1"
+          },
+          {
+            "value": "option2",
+            "label": "option2"
+          }
+        ],
+        "allowMultiple": false
+      }
+    ],
+    "isComplete": false
   }
-] 
+]
