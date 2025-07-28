@@ -1,13 +1,18 @@
-import { Table, Button, ActionIcon, Modal, TextInput, NumberInput, Select, Group, Stack } from '@mantine/core';
+import { Table, Button, ActionIcon, Modal, TextInput, NumberInput, Select, Group, Stack, Textarea } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconChevronDown, IconChevronRight, IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
 import questionsData from '../data/questions.json';
 import { AssessmentPhase } from '@/entities/enums';
+import { AssessmentManager } from '@/entities/AssessmentManager';
 
 export default function QuestionsCRUD() {
   const [questionGroups, setQuestionGroups] = useState<any[]>(questionsData);
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  // Create AssessmentManager instance to get method names
+  const assessmentManager = new AssessmentManager();
+  const availableMethodNames = assessmentManager.getAvailableMethodNames();
 
   // Add modal state
   const [addOpen, setAddOpen] = useState(false);
@@ -34,7 +39,7 @@ export default function QuestionsCRUD() {
   const [qId, setQId] = useState('');
   const [qText, setQText] = useState('');
   const [qType, setQType] = useState<'yesNo' | 'multipleChoice' | 'singleChoice'>('yesNo');
-  const [qTarget, setQTarget] = useState('');
+  const [qMethodName, setQMethodName] = useState('');
   const [qOptions, setQOptions] = useState<{ value: string; label: string }[]>([]);
   const [qOptionValue, setQOptionValue] = useState('');
   const [qOptionLabel, setQOptionLabel] = useState('');
@@ -47,7 +52,7 @@ export default function QuestionsCRUD() {
   const [editQId, setEditQId] = useState('');
   const [editQText, setEditQText] = useState('');
   const [editQType, setEditQType] = useState<'yesNo' | 'multipleChoice' | 'singleChoice'>('yesNo');
-  const [editQTarget, setEditQTarget] = useState('');
+  const [editQMethodName, setEditQMethodName] = useState('');
   const [editQOptions, setEditQOptions] = useState<{ value: string; label: string }[]>([]);
   const [editQOptionValue, setEditQOptionValue] = useState('');
   const [editQOptionLabel, setEditQOptionLabel] = useState('');
@@ -64,6 +69,12 @@ export default function QuestionsCRUD() {
   const phaseOptions = Object.values(AssessmentPhase).map(phase => ({
     value: phase,
     label: phase
+  }));
+
+  // Create method name options for the dropdown
+  const methodNameOptions = availableMethodNames.map(methodName => ({
+    value: methodName,
+    label: methodName
   }));
 
   const handleExpand = (groupId: string) => {
@@ -138,7 +149,7 @@ export default function QuestionsCRUD() {
     setQId('');
     setQText('');
     setQType('yesNo');
-    setQTarget('');
+    setQMethodName('');
     setQOptions([]);
     setQOptionValue('');
     setQOptionLabel('');
@@ -160,8 +171,8 @@ export default function QuestionsCRUD() {
 
   const handleAddQuestion = () => {
     setQError('');
-    if (!qId.trim() || !qText.trim() || !qTarget.trim()) {
-      setQError('ID, Text, and Target Attribute are required');
+    if (!qId.trim() || !qText.trim() || !qMethodName.trim()) {
+      setQError('ID, Text, and Method Name are required');
       return;
     }
     if (addQGroupIdx === null) {return;}
@@ -178,7 +189,7 @@ export default function QuestionsCRUD() {
       id: qId,
       text: qText,
       type: qType,
-      targetAttribute: qTarget,
+      methodName: qMethodName,
     };
     if (qType === 'multipleChoice' || qType === 'singleChoice') {
       newQ.options = qOptions;
@@ -200,7 +211,7 @@ export default function QuestionsCRUD() {
     setEditQId(q.id);
     setEditQText(q.text);
     setEditQType(q.type);
-    setEditQTarget(q.targetAttribute);
+    setEditQMethodName(q.methodName);
     setEditQOptions(q.options ? [...q.options] : []);
     setEditQOptionValue('');
     setEditQOptionLabel('');
@@ -222,8 +233,8 @@ export default function QuestionsCRUD() {
 
   const handleEditQuestion = () => {
     setEditQError('');
-    if (!editQId.trim() || !editQText.trim() || !editQTarget.trim()) {
-      setEditQError('ID, Text, and Target Attribute are required');
+    if (!editQId.trim() || !editQText.trim() || !editQMethodName.trim()) {
+      setEditQError('ID, Text, and Method Name are required');
       return;
     }
     if (editQGroupIdx === null || editQIdx === null) {return;}
@@ -240,7 +251,7 @@ export default function QuestionsCRUD() {
       id: editQId,
       text: editQText,
       type: editQType,
-      targetAttribute: editQTarget,
+      methodName: editQMethodName,
     };
     if (editQType === 'multipleChoice' || editQType === 'singleChoice') {
       updatedQ.options = editQOptions;
@@ -383,12 +394,14 @@ export default function QuestionsCRUD() {
           required
           mb="sm"
         />
-        <TextInput
-          label="Text"
+        <Textarea
+          label="Text (Markdown supported)"
           value={qText}
           onChange={e => setQText(e.currentTarget.value)}
           required
           mb="sm"
+          minRows={3}
+          autosize
         />
         <Select
           label="Type"
@@ -434,10 +447,11 @@ export default function QuestionsCRUD() {
             </Stack>
           </>
         )}
-        <TextInput
-          label="Target Attribute"
-          value={qTarget}
-          onChange={e => setQTarget(e.currentTarget.value)}
+        <Select
+          label="Method Name"
+          value={qMethodName}
+          onChange={v => setQMethodName(v || '')}
+          data={methodNameOptions}
           required
           mb="sm"
         />
@@ -453,12 +467,14 @@ export default function QuestionsCRUD() {
           required
           mb="sm"
         />
-        <TextInput
-          label="Text"
+        <Textarea
+          label="Text (Markdown supported)"
           value={editQText}
           onChange={e => setEditQText(e.currentTarget.value)}
           required
           mb="sm"
+          minRows={3}
+          autosize
         />
         <Select
           label="Type"
@@ -504,10 +520,11 @@ export default function QuestionsCRUD() {
             </Stack>
           </>
         )}
-        <TextInput
-          label="Target Attribute"
-          value={editQTarget}
-          onChange={e => setEditQTarget(e.currentTarget.value)}
+        <Select
+          label="Method Name"
+          value={editQMethodName}
+          onChange={v => setEditQMethodName(v || '')}
+          data={methodNameOptions}
           required
           mb="sm"
         />
@@ -566,7 +583,7 @@ export default function QuestionsCRUD() {
                         <Table.Th>Text</Table.Th>
                         <Table.Th>Type</Table.Th>
                         <Table.Th>Options</Table.Th>
-                        <Table.Th>Target Attribute</Table.Th>
+                        <Table.Th>Method Name</Table.Th>
                         <Table.Th>Actions</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
@@ -581,7 +598,7 @@ export default function QuestionsCRUD() {
                               ? q.options.map((opt: any) => opt.label).join(', ')
                               : '-'}
                           </Table.Td>
-                          <Table.Td>{q.targetAttribute}</Table.Td>
+                          <Table.Td>{q.methodName}</Table.Td>
                           <Table.Td>
                             <Button size="xs" variant="light" mr={4} onClick={() => openEditQuestionModal(idx, qIdx)}>Edit</Button>
                             <Button size="xs" color="red" variant="light" onClick={() => openDeleteQuestionModal(idx, qIdx)}>Delete</Button>
