@@ -2,7 +2,7 @@
   {
     "id": "qg-legal-scope",
     "order": 1,
-    "phase": "Phase 1 Applicability",
+    "phase": "Applicability",
     "questions": [
       {
         "id": "q1",
@@ -28,7 +28,7 @@
   {
     "id": "qg-ai-system-scope",
     "order": 2,
-    "phase": "Phase 1 Applicability",
+    "phase": "Applicability",
     "questions": [
       {
         "id": "q4",
@@ -54,7 +54,7 @@
   {
     "id": "qg-role-assignment",
     "order": 3,
-    "phase": "Phase 2 Role Assignment",
+    "phase": "Roles",
     "questions": [
       {
         "id": "q7",
@@ -128,7 +128,7 @@
   {
     "id": "qg-risk-classification",
     "order": 4,
-    "phase": "Phase 2 Risk Classification",
+    "phase": "Risk",
     "questions": [
       {
         "id": "q13",
@@ -164,26 +164,21 @@
     "isComplete": false
   },
   {
-    "id": "qg-test",
+    "id": "qg-gpai-systemic-risk",
     "order": 5,
-    "phase": "PHASE -1",
+    "phase": "GPAI",
     "questions": [
       {
-        "id": "Q1",
-        "text": "is this a question?",
-        "type": "multipleChoice",
-        "targetAttribute": "asdads",
-        "options": [
-          {
-            "value": "option1",
-            "label": "option1"
-          },
-          {
-            "value": "option2",
-            "label": "option2"
-          }
-        ],
-        "allowMultiple": false
+        "id": "q18",
+        "text": "Does your AI system qualify as a General Purpose AI model?",
+        "type": "yesNo",
+        "targetAttribute": "riskClassification.isGPAI"
+      },
+      {
+        "id": "q19",
+        "text": "Does your GPAI model exceed 10^25 FLOPs or pose systemic risks?",
+        "type": "yesNo",
+        "targetAttribute": "riskClassification.hasSystemicRisk"
       }
     ],
     "isComplete": false

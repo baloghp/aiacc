@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Stepper, Paper, Flex, Box } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import AssessmentIntroStep from "@/components/assessment/AssessmentIntroStep";
@@ -11,6 +11,8 @@ import AssessmentRiskClassificationStep from "@/components/assessment/Assessment
 import AssessmentGPAIStep from "@/components/assessment/AssessmentGPAIStep";
 import AssessmentResultsStep from "@/components/assessment/AssessmentResultsStep";
 import AssessmentResultsPanel from "@/components/assessment/AssessmentResultsPanel";
+import { AssessmentManager } from "@/entities/AssessmentManager";
+
 
 const stepLabels = [
   "Welcome",
@@ -26,6 +28,9 @@ const stepLabels = [
 export default function AssessmentPage() {
   const [activeStep, setActiveStep] = useState(0);
   const isMobile = useMediaQuery('(max-width: 768px)');
+  
+  // Create AssessmentManager instance using useRef to persist across renders
+  const assessmentManagerRef = useRef<AssessmentManager>(new AssessmentManager());
 
   // State for obligations and notes to show in the results panel
   const [obligations, _setObligations] = useState([]); // TODO: type Obligation[]
@@ -81,36 +86,42 @@ export default function AssessmentPage() {
             <AssessmentCompanyStep
               previousStep={() => setActiveStep((s) => s - 1)}
               nextStep={() => setActiveStep((s) => s + 1)}
+              assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 2 && (
             <AssessmentAISystemStep
               previousStep={() => setActiveStep((s) => s - 1)}
               nextStep={() => setActiveStep((s) => s + 1)}
+              assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 3 && (
             <AssessmentApplicabilityStep
               previousStep={() => setActiveStep((s) => s - 1)}
               nextStep={() => setActiveStep((s) => s + 1)}
+              assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 4 && (
             <AssessmentRoleAssignmentStep
               previousStep={() => setActiveStep((s) => s - 1)}
               nextStep={() => setActiveStep((s) => s + 1)}
+              assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 5 && (
             <AssessmentRiskClassificationStep
               previousStep={() => setActiveStep((s) => s - 1)}
               nextStep={() => setActiveStep((s) => s + 1)}
+              assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 6 && (
             <AssessmentGPAIStep
               previousStep={() => setActiveStep((s) => s - 1)}
               nextStep={() => setActiveStep((s) => s + 1)}
+              assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 7 && (

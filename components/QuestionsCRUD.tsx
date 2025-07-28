@@ -3,6 +3,7 @@ import { notifications } from '@mantine/notifications';
 import { IconChevronDown, IconChevronRight, IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
 import questionsData from '../data/questions.json';
+import { AssessmentPhase } from '@/entities/enums';
 
 export default function QuestionsCRUD() {
   const [questionGroups, setQuestionGroups] = useState<any[]>(questionsData);
@@ -58,6 +59,12 @@ export default function QuestionsCRUD() {
   const [deleteQIdx, setDeleteQIdx] = useState<number | null>(null);
 
   const [saving, setSaving] = useState(false);
+
+  // Create phase options for the dropdown
+  const phaseOptions = Object.values(AssessmentPhase).map(phase => ({
+    value: phase,
+    label: phase
+  }));
 
   const handleExpand = (groupId: string) => {
     setExpanded(expanded === groupId ? null : groupId);
@@ -321,10 +328,11 @@ export default function QuestionsCRUD() {
           required
           mb="sm"
         />
-        <TextInput
+        <Select
           label="Phase"
           value={newGroupPhase}
-          onChange={e => setNewGroupPhase(e.currentTarget.value)}
+          onChange={v => setNewGroupPhase(v || '')}
+          data={phaseOptions}
           required
           mb="sm"
         />
@@ -348,10 +356,11 @@ export default function QuestionsCRUD() {
           required
           mb="sm"
         />
-        <TextInput
+        <Select
           label="Phase"
           value={editGroupPhase}
-          onChange={e => setEditGroupPhase(e.currentTarget.value)}
+          onChange={v => setEditGroupPhase(v || '')}
+          data={phaseOptions}
           required
           mb="sm"
         />

@@ -1,7 +1,13 @@
 import { Button, Group, Title, Text, Box } from "@mantine/core";
 import type { StepNavProps } from "./AssessmentIntroStep";
+import { AssessmentManager } from "@/entities/AssessmentManager";
 
-export default function AssessmentRoleAssignmentStep({ nextStep, previousStep }: StepNavProps & { previousStep?: () => void }) {
+interface AssessmentRoleAssignmentStepProps extends StepNavProps {
+  previousStep?: () => void;
+  assessmentManager: AssessmentManager;
+}
+
+export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, assessmentManager: _assessmentManager }: AssessmentRoleAssignmentStepProps) {
   return (
     <Box>
       <Title order={3}>Role Assignment</Title>

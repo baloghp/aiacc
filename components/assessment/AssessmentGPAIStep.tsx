@@ -1,7 +1,13 @@
 import { Button, Group, Title, Text, Box } from "@mantine/core";
 import type { StepNavProps } from "./AssessmentIntroStep";
+import { AssessmentManager } from "@/entities/AssessmentManager";
 
-export default function AssessmentGPAIStep({ nextStep, previousStep }: StepNavProps & { previousStep?: () => void }) {
+interface AssessmentGPAIStepProps extends StepNavProps {
+  previousStep?: () => void;
+  assessmentManager: AssessmentManager;
+}
+
+export default function AssessmentGPAIStep({ nextStep, previousStep, assessmentManager: _assessmentManager }: AssessmentGPAIStepProps) {
   return (
     <Box>
       <Title order={3}>GPAI/Systemic Risk</Title>

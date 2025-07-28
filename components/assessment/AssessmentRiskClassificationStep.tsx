@@ -1,7 +1,13 @@
 import { Button, Group, Title, Text, Box } from "@mantine/core";
 import type { StepNavProps } from "./AssessmentIntroStep";
+import { AssessmentManager } from "@/entities/AssessmentManager";
 
-export default function AssessmentRiskClassificationStep({ nextStep, previousStep }: StepNavProps & { previousStep?: () => void }) {
+interface AssessmentRiskClassificationStepProps extends StepNavProps {
+  previousStep?: () => void;
+  assessmentManager: AssessmentManager;
+}
+
+export default function AssessmentRiskClassificationStep({ nextStep, previousStep, assessmentManager: _assessmentManager }: AssessmentRiskClassificationStepProps) {
   return (
     <Box>
       <Title order={3}>Risk Classification</Title>
