@@ -1,0 +1,309 @@
+{
+  "questionGroups": [
+    {
+      "id": "applicability-1",
+      "name": "Role and Market Presence",
+      "phase": "Applicability",
+      "order": 1,
+      "questions": [
+        {
+          "id": "role_developer",
+          "text": "**Are you using, developing or procuring an AI system?**\n\nDeveloping or procuring the AI system has an impact on your potential obligations under the EU AI Act.\n\n**Hint:** Fine-tuning is likely considered developing, while retrieval augmented generation likely is not considered developing under the Act. If you are merely integrating and using a third-party AI system without any modification, you are not considered as a developer.",
+          "type": "singleChoice",
+          "methodName": "setRoleAssignmentPrimaryRole",
+          "options": [
+            { "value": "Developer", "label": "I'm the developer of the AI system (or someone developed it in my name)" },
+            { "value": "Developer and User", "label": "I'm the developer of the AI system (or someone developed it in my name), and I'm using it myself" },
+            { "value": "Procuring and Using", "label": "I'm procuring and using the AI system myself" },
+            { "value": "None Developer or User", "label": "None of these" }
+          ]
+        },
+        {
+          "id": "market_availability",
+          "text": "**Do you make the AI system available within the EU?**\n\n**Meaning:** Are you the first one supplying the AI system for distribution or use on the EU market in the course of a commercial activity (whether for payment or free of charge)?",
+          "type": "yesNo",
+          "methodName": "setLegalScopePlacesOnEU"
+        },
+        {
+          "id": "service_provision",
+          "text": "**Are you putting the AI system into service in the EU?**\n\n**Meaning:** Are you the first one supplying the AI system directly to a deployer (\"user\"), including yourself?\n\n**Hint:** Both for internal or external use of the AI system.",
+          "type": "yesNo",
+          "methodName": "setAISystemScopeMeetsAIDef"
+        },
+        {
+          "id": "own_name_trademark",
+          "text": "**Are you doing so under your own name or trademark?**\n\n**Meaning:** The AI system is associated with your organization.",
+          "type": "yesNo",
+          "methodName": "setLegalScopeIsEUEntity"
+        },
+        {
+          "id": "substantial_modification",
+          "text": "**Did you substantially modify the AI system or change its intended purpose?**\n\nChanging an AI system (in its intended purpose) after it has been already placed on the market or been put into operation can impact your obligations under the EU AI Act.",
+          "type": "yesNo",
+          "methodName": "setAISystemScopeIsExempt"
+        },
+        {
+          "id": "safety_component",
+          "text": "**Will you integrate the AI system as a safety component into the following products and put your name or trademark on it?**\n\nThe relevant products include (see Annex I, section A of the AI Act): Machinery, toy safety, recreational craft or personal watercraft, lifts and its safety components, equipment and protective systems in potentially explosive atmospheres, radio equipment, pressure equipment, cableway installations, personal protective equipment, appliances to burn gaseous fuels, medical devices and in-vitro diagnostic medical devices.",
+          "type": "yesNo",
+          "methodName": "setAISystemScopeIsLegacy"
+        }
+      ]
+    },
+    {
+      "id": "applicability-2",
+      "name": "Geographic Scope",
+      "phase": "Applicability",
+      "order": 2,
+      "questions": [
+        {
+          "id": "eu_location",
+          "text": "**Are you located or established in the EU?**",
+          "type": "yesNo",
+          "methodName": "setLegalScopeIsEUEntity"
+        },
+        {
+          "id": "output_eu_usage",
+          "text": "**Will the output of the AI system be used (by recipients) in the EU?**\n\nThis can also be true even though you are not based in the EU.",
+          "type": "yesNo",
+          "methodName": "setLegalScopeOutputInEU"
+        },
+        {
+          "id": "authorized_representative",
+          "text": "**Are you carrying out the AI Act obligations on behalf of an AI system provider?**\n\n**Meaning:** You are authorized by written mandate to represent a provider who is based outside the EU.",
+          "type": "yesNo",
+          "methodName": "setLegalScopeIsNonProfessional"
+        }
+      ]
+    },
+    {
+      "id": "applicability-3",
+      "name": "Exemptions and Exclusions",
+      "phase": "Applicability",
+      "order": 3,
+      "questions": [
+        {
+          "id": "personal_non_professional",
+          "text": "**Are you using the AI system purely for personal, non-professional activities?**\n\nThere are some exemptions (see Article 2 in the AI Act).",
+          "type": "yesNo",
+          "methodName": "setLegalScopeIsNonProfessional"
+        },
+        {
+          "id": "exemptions_rd_military",
+          "text": "**Does your AI system pursue one of the following purposes?**\n\nThere are some exemptions (see Article 2 in the AI Act).",
+          "type": "multipleChoice",
+          "methodName": "setAISystemScopeExclusions",
+          "options": [
+            { "value": "R&D", "label": "It's only used for scientific research and development" },
+            { "value": "Military", "label": "It's exclusively used for military, defense or national security purposes" },
+            { "value": "Non-EU Authority", "label": "It's used for law enforcement or judicial cooperation by a non-EU public authority or international organization together with the EU (Member States)" },
+            { "value": "None", "label": "None of these" }
+          ]
+        },
+        {
+          "id": "free_open_source",
+          "text": "**Is your AI system released under a free and open-source license?**\n\nThere are some exemptions (see Article 2 in the AI Act).",
+          "type": "yesNo",
+          "methodName": "setAISystemScopeIsExempt"
+        }
+      ]
+    },
+    {
+      "id": "roles-1",
+      "name": "Role Assignment",
+      "phase": "Roles",
+      "order": 1,
+      "questions": [
+        {
+          "id": "primary_role",
+          "text": "**What is your primary role in relation to the AI system?**\n\nBased on your previous answers, please confirm your primary role:",
+          "type": "singleChoice",
+          "methodName": "setRoleAssignmentPrimaryRole",
+          "options": [
+            { "value": "Provider", "label": "Provider - I develop, supply, or make available the AI system" },
+            { "value": "Deployer", "label": "Deployer - I use the AI system in my organization" },
+            { "value": "Both", "label": "Both Provider and Deployer - I develop and use the AI system" },
+            { "value": "Importer", "label": "Importer - I import AI systems from outside the EU" },
+            { "value": "Distributor", "label": "Distributor - I distribute AI systems in the EU market" }
+          ]
+        },
+        {
+          "id": "additional_roles",
+          "text": "**Do you have any additional roles or responsibilities?**\n\nSelect all that apply:",
+          "type": "multipleChoice",
+          "methodName": "setRoleAssignmentRoles",
+          "options": [
+            { "value": "Provider", "label": "Provider" },
+            { "value": "Deployer", "label": "Deployer" },
+            { "value": "Importer", "label": "Importer" },
+            { "value": "Distributor", "label": "Distributor" },
+            { "value": "Authorized Representative", "label": "Authorized Representative" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "risk-1",
+      "name": "Prohibited Practices",
+      "phase": "Risk",
+      "order": 1,
+      "questions": [
+        {
+          "id": "prohibited_use_cases",
+          "text": "**Can your AI system be used for one of the following purposes?**\n\nThere are some prohibited use-cases (see Article 5 in the AI Act).",
+          "type": "multipleChoice",
+          "methodName": "setRiskClassificationIsProhibited",
+          "options": [
+            { "value": "Manipulation", "label": "Manipulate or deceive a person (subconsciously), such that this person's behavior or decision-making is distorted, leading to significant harm to someone" },
+            { "value": "Exploitation", "label": "Exploit the vulnerabilities of a person due to their age, disability, or social or economic situation, such that this person's behavior or decision-making is distorted, leading to significant harm to someone" },
+            { "value": "Social Scoring", "label": "Score or classify people based on social behavior or personality traits (\"Social Scoring\"), leading to unjustified or unfavorable treatment of them" },
+            { "value": "Crime Risk", "label": "Assess or predict the risk of a person committing a crime based on personality traits" },
+            { "value": "Facial Recognition", "label": "Create or expand facial recognition databases through untargeted scraping of facial images" },
+            { "value": "Emotions", "label": "Inferring emotions of people at the workplace or educational institutions, except for medical or safety purposes" },
+            { "value": "Biometric Categorization", "label": "Biometric categorization systems deducing or inferring race, political opinions, trade union membership, religious beliefs, sex life, or sexual orientation" },
+            { "value": "Remote Identification", "label": "Real-time remote biometric identification in public spaces for law enforcement" },
+            { "value": "None", "label": "None of the above" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "risk-2",
+      "name": "High-Risk Assessment",
+      "phase": "Risk",
+      "order": 2,
+      "questions": [
+        {
+          "id": "annex_iii_use_cases",
+          "text": "**Is your AI system used in one of the following areas?**\n\nThere are some use-cases that are classified as high-risk because they can significantly harm people or their fundamental rights if the AI system fails or is misused. (see Article 6 or Annex III in the AI Act)",
+          "type": "multipleChoice",
+          "methodName": "setRiskClassificationIsHighRisk",
+          "options": [
+            { "value": "Biometrics", "label": "Biometrics, incl. emotion recognition" },
+            { "value": "Infrastructure", "label": "Critical infrastructure, incl. digital infrastructure, road traffic and energy supply" },
+            { "value": "Education", "label": "Education, incl. evaluating learning outcomes and access to education" },
+            { "value": "Human Resources", "label": "Human Resources, incl. recruitment, task allocation and promotion or termination decisions" },
+            { "value": "Public Benefits", "label": "Essential private and public benefits or services, incl. finance, insurance, healthcare and emergency services" },
+            { "value": "Law Enforcement", "label": "Law enforcement" },
+            { "value": "Migration", "label": "Migration, asylum and border controls, incl. security risk assessments and examination of residence permits" },
+            { "value": "Justice", "label": "Administration of justice and democratic processes, incl. interpreting facts and the law and elections" },
+            { "value": "None", "label": "None of the above" }
+          ]
+        },
+        {
+          "id": "high_risk_argument",
+          "text": "**Can you argue that the high-risk AI system is not harmful?**\n\nA high-risk AI system is not considered posing significant harm to the health, safety or fundamental rights of people if at least one of these conditions is met:\n\n- The AI system performs a narrow procedural task\n- The AI system only improves the result of a previous human activity\n- The AI system only detects deviations from previous decision patterns and does not replace or influence the human assessment\n- The AI system is intended to perform a preparatory task to an assessment relevant for the purposes of the use cases listed in Annex III",
+          "type": "yesNo",
+          "methodName": "setRiskClassificationIsLimitedRisk"
+        }
+      ]
+    },
+    {
+      "id": "risk-3",
+      "name": "Annex I Products",
+      "phase": "Risk",
+      "order": 3,
+      "questions": [
+        {
+          "id": "annex_i_section_a",
+          "text": "**Is your AI system used in one of the following products or sectors?**\n\nThere are some use-cases that are always classified as high-risk if they act as a safety component of already regulated products or if the system itself is an already regulated product (see Article 6 or Annex I in the AI Act)",
+          "type": "multipleChoice",
+          "methodName": "setRiskClassificationIsHighRisk",
+          "options": [
+            { "value": "Machinery", "label": "Machinery" },
+            { "value": "Toys", "label": "Toys" },
+            { "value": "Recreational", "label": "Recreational craft and personal watercraft" },
+            { "value": "Lifts", "label": "Lifts and safety components of lifts" },
+            { "value": "Explosive Protection", "label": "Equipment and protective systems in potentially explosive atmospheres" },
+            { "value": "Radio", "label": "Radio equipment" },
+            { "value": "Pressure", "label": "Pressure equipment" },
+            { "value": "Cableway", "label": "Ropeways / cableway installations" },
+            { "value": "Protection", "label": "Personal protective equipment" },
+            { "value": "Fuels", "label": "Appliance for burning gaseous fuels" },
+            { "value": "Medical Devices", "label": "Medical devices" },
+            { "value": "In Vitro", "label": "In vitro diagnostic medical devices" },
+            { "value": "None", "label": "None of the above" }
+          ]
+        },
+        {
+          "id": "annex_i_section_b",
+          "text": "**Is your AI system used in one of the following products or sectors?**\n\nThere are some use-cases that are always classified as high-risk if they act as a safety component of already regulated products or if the system itself is an already regulated product (see Article 6 or Annex I in the AI Act)",
+          "type": "multipleChoice",
+          "methodName": "setRiskClassificationIsHighRisk",
+          "options": [
+            { "value": "Civil Aviation", "label": "Civil aviation (security)" },
+            { "value": "Vehicles", "label": "Two-, three- and four-wheeled vehicles" },
+            { "value": "Agricultural", "label": "Agricultural and forestry vehicles" },
+            { "value": "Motor Vehicles", "label": "Motor vehicles and motor vehicle trailers, as well as systems, components or separate technical units of these vehicles" },
+            { "value": "Marine", "label": "Marine equipment" },
+            { "value": "Railway", "label": "Interoperability of the railway system" },
+            { "value": "None", "label": "None of the above" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gpai-1",
+      "name": "General Purpose AI Assessment",
+      "phase": "GPAI",
+      "order": 1,
+      "questions": [
+        {
+          "id": "gpai_provider",
+          "text": "**Are you providing a GPAI model?**\n\nA general-purpose AI or foundational model, which is trained on a large amount of data and can perform various distinct tasks (see Article 3 in the AI Act).",
+          "type": "yesNo",
+          "methodName": "setRiskClassificationIsGPAI"
+        },
+        {
+          "id": "gpai_systemic_risk",
+          "text": "**Does your GPAI model have high capabilities?**\n\nGPAI models that have high capabilities pose systemic risks (see Article 51 in the AI Act). The model has high capabilities if one of these conditions is met:\n\n- The cumulative amount of computing power (used for training) is above 10^25 FLOPS\n- The European Commission classifies the GPAI model as a model with high capabilities (e.g. due to the number of parameters, the input or output modalities, or to the reach in the EU market, for instance when the GPAI model is accessible to at least 10,000 business users)",
+          "type": "yesNo",
+          "methodName": "setRiskClassificationHasSystemicRisk"
+        },
+        {
+          "id": "gpai_systemic_risk_argument",
+          "text": "**Can you argue that your GPAI model does not have a systemic risk?**\n\nGPAI models that have high capabilities pose systemic risks (see Article 51 in the AI Act). If you have sufficiently substantiated arguments that demonstrate to the European Commission that your GPAI model cannot pose a systemic risk, you can avoid additional obligations (see Article 52 in the AI Act).",
+          "type": "yesNo",
+          "methodName": "setRiskClassificationHasSystemicRisk"
+        },
+        {
+          "id": "gpai_free_open_source",
+          "text": "**Is the GPAI free and open-source?**\n\nGPAI models that are released under a free and open-source license that allows for the access, usage, modification, and distribution of the model, and whose parameters, including the weights, the information on the model architecture, and the information on model usage, are made publicly available, can avoid additional obligations (see Article 53 in the AI Act).",
+          "type": "yesNo",
+          "methodName": "setAISystemScopeIsExempt"
+        }
+      ]
+    },
+    {
+      "id": "transparency-1",
+      "name": "Transparency Obligations",
+      "phase": "GPAI",
+      "order": 2,
+      "questions": [
+        {
+          "id": "limited_risk_provider",
+          "text": "**Can your AI system be used for one of the following purposes?**\n\nThere are some use-cases that are subject to transparency obligations (see Article 50 in the AI Act).",
+          "type": "multipleChoice",
+          "methodName": "setRiskClassificationIsLimitedRisk",
+          "options": [
+            { "value": "Interaction", "label": "Interacts with people" },
+            { "value": "Content", "label": "Generates synthetic content (e.g. text, video, audio, images)" },
+            { "value": "None", "label": "None of these" }
+          ]
+        },
+        {
+          "id": "limited_risk_deployer",
+          "text": "**Can your AI system be used for one of the following purposes?**\n\nThere are some use-cases that are subject to transparency obligations (see Article 50 in the AI Act).",
+          "type": "multipleChoice",
+          "methodName": "setRiskClassificationIsLimitedRisk",
+          "options": [
+            { "value": "Emotion", "label": "Recognizes the emotions of a person or categorizes biometrics" },
+            { "value": "Deep Fake", "label": "Generates or manipulates content (video, audio, images), which can be used for Deep Fakes" },
+            { "value": "Text Public", "label": "Generates or manipulates text, used to inform the public" },
+            { "value": "None", "label": "None of these" }
+          ]
+        }
+      ]
+    }
+  ]
+} 
