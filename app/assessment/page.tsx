@@ -131,7 +131,12 @@ export default function AssessmentPage() {
       </Flex>
       {/* Results panel below the wizard, same width as content */}
       
-      <AssessmentResultsPanel obligations={obligations} notes={notes} />
+      <AssessmentResultsPanel 
+        obligations={obligations} 
+        notes={notes}
+        company={assessmentManagerRef.current.getState().company}
+        aiSystem={assessmentManagerRef.current.getState().aiSystem}
+      />
     </Box>
   );
 } 
