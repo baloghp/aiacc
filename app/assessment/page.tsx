@@ -12,6 +12,7 @@ import AssessmentGPAIStep from "@/components/assessment/AssessmentGPAIStep";
 import AssessmentResultsStep from "@/components/assessment/AssessmentResultsStep";
 import AssessmentResultsPanel from "@/components/assessment/AssessmentResultsPanel";
 import { AssessmentManager } from "@/entities/AssessmentManager";
+import { ColorSchemeToggle } from "@/components/ColorSchemeToggle/ColorSchemeToggle";
 
 
 const stepLabels = [
@@ -32,9 +33,7 @@ export default function AssessmentPage() {
   // Create AssessmentManager instance using useRef to persist across renders
   const assessmentManagerRef = useRef<AssessmentManager>(new AssessmentManager());
 
-  // State for obligations and notes to show in the results panel
-  const [obligations, _setObligations] = useState([]); // TODO: type Obligation[]
-  const [notes, _setNotes] = useState([]); // TODO: type Note[]
+
 
   return (
     <Box maw={1100} mx="auto" w="100%">
@@ -45,6 +44,13 @@ export default function AssessmentPage() {
         p="xl"
         style={{ minHeight: "80vh" }}
       >
+        {/* Color Scheme Toggle - Top Left (Hidden on Mobile) */}
+        {!isMobile && (
+          <Box style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10 }}>
+            <ColorSchemeToggle />
+          </Box>
+        )}
+        
         <Stepper
           orientation={isMobile ? 'horizontal' : 'vertical'}
           active={activeStep}
@@ -132,8 +138,7 @@ export default function AssessmentPage() {
       {/* Results panel below the wizard, same width as content */}
       
       <AssessmentResultsPanel 
-        obligations={obligations} 
-        notes={notes}
+        assessmentState={assessmentManagerRef.current.getState()}
         company={assessmentManagerRef.current.getState().company}
         aiSystem={assessmentManagerRef.current.getState().aiSystem}
       />
