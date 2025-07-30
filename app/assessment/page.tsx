@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Stepper, Paper, Flex, Box } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import AssessmentIntroStep from "@/components/assessment/AssessmentIntroStep";
@@ -11,7 +11,7 @@ import AssessmentRiskClassificationStep from "@/components/assessment/Assessment
 import AssessmentGPAIStep from "@/components/assessment/AssessmentGPAIStep";
 import AssessmentResultsStep from "@/components/assessment/AssessmentResultsStep";
 import AssessmentResultsPanel from "@/components/assessment/AssessmentResultsPanel";
-import { AssessmentManager } from "@/entities/AssessmentManager";
+import { AssessmentManager, AssessmentState } from "@/entities/AssessmentManager";
 import { ColorSchemeToggle } from "@/components/ColorSchemeToggle/ColorSchemeToggle";
 
 
@@ -29,9 +29,27 @@ const stepLabels = [
 export default function AssessmentPage() {
   const [activeStep, setActiveStep] = useState(0);
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const [assessmentState, setAssessmentState] = useState<AssessmentState | undefined>(undefined);
   
   // Create AssessmentManager instance using useRef to persist across renders
   const assessmentManagerRef = useRef<AssessmentManager>(new AssessmentManager());
+
+  // Update assessment state whenever it changes
+  useEffect(() => {
+    const updateState = () => {
+      setAssessmentState(assessmentManagerRef.current.getState());
+    };
+    
+    // Initial state
+    updateState();
+  }, [activeStep]);
+
+  // Method to get current assessment state
+  const getCurrentAssessmentState = () => {
+    const newState = assessmentManagerRef.current.getState();
+    console.log('Getting current assessment state:', newState);
+    return newState;
+  };
 
 
 
@@ -91,42 +109,60 @@ export default function AssessmentPage() {
           {activeStep === 1 && (
             <AssessmentCompanyStep
               previousStep={() => setActiveStep((s) => s - 1)}
-              nextStep={() => setActiveStep((s) => s + 1)}
+              nextStep={() => {
+                setActiveStep((s) => s + 1);
+                setAssessmentState(getCurrentAssessmentState());
+              }}
               assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 2 && (
             <AssessmentAISystemStep
               previousStep={() => setActiveStep((s) => s - 1)}
-              nextStep={() => setActiveStep((s) => s + 1)}
+              nextStep={() => {
+                setActiveStep((s) => s + 1);
+                setAssessmentState(getCurrentAssessmentState());
+              }}
               assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 3 && (
             <AssessmentApplicabilityStep
               previousStep={() => setActiveStep((s) => s - 1)}
-              nextStep={() => setActiveStep((s) => s + 1)}
+              nextStep={() => {
+                setActiveStep((s) => s + 1);
+                setAssessmentState(getCurrentAssessmentState());
+              }}
               assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 4 && (
             <AssessmentRoleAssignmentStep
               previousStep={() => setActiveStep((s) => s - 1)}
-              nextStep={() => setActiveStep((s) => s + 1)}
+              nextStep={() => {
+                setActiveStep((s) => s + 1);
+                setAssessmentState(getCurrentAssessmentState());
+              }}
               assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 5 && (
             <AssessmentRiskClassificationStep
               previousStep={() => setActiveStep((s) => s - 1)}
-              nextStep={() => setActiveStep((s) => s + 1)}
+              nextStep={() => {
+                setActiveStep((s) => s + 1);
+                setAssessmentState(getCurrentAssessmentState());
+              }}
               assessmentManager={assessmentManagerRef.current}
             />
           )}
           {activeStep === 6 && (
             <AssessmentGPAIStep
               previousStep={() => setActiveStep((s) => s - 1)}
-              nextStep={() => setActiveStep((s) => s + 1)}
+              nextStep={() => {
+                setActiveStep((s) => s + 1);
+                setAssessmentState(getCurrentAssessmentState());
+              }}
               assessmentManager={assessmentManagerRef.current}
             />
           )}
@@ -138,9 +174,9 @@ export default function AssessmentPage() {
       {/* Results panel below the wizard, same width as content */}
       
       <AssessmentResultsPanel 
-        assessmentState={assessmentManagerRef.current.getState()}
-        company={assessmentManagerRef.current.getState().company}
-        aiSystem={assessmentManagerRef.current.getState().aiSystem}
+        assessmentState={assessmentState}
+        company={assessmentState?.company}
+        aiSystem={assessmentState?.aiSystem}
       />
     </Box>
   );

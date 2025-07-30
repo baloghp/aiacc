@@ -9,6 +9,7 @@ interface AssessmentNotesListProps {
 }
 
 export default function AssessmentNotesList({ assessmentState }: AssessmentNotesListProps) {
+  console.log('AssessmentNotesList component rendered with state:', assessmentState);
   const [notes, setNotes] = useState<Note[]>([]);
   const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
 

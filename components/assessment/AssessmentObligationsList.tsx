@@ -9,17 +9,23 @@ interface AssessmentObligationsListProps {
 }
 
 export default function AssessmentObligationsList({ assessmentState }: AssessmentObligationsListProps) {
+  console.log('AssessmentObligationsList component rendered with state:', assessmentState);
   const [obligations, setObligations] = useState<Obligation[]>([]);
   const [filteredObligations, setFilteredObligations] = useState<Obligation[]>([]);
 
   // Load obligations from JSON
   useEffect(() => {
+    console.log('Loading obligations from JSON:', obligationsData);
     setObligations(obligationsData);
   }, []);
 
   // Filter obligations based on assessment state
   useEffect(() => {
+    console.log('AssessmentObligationsList filtering with state:', assessmentState);
+    console.log('Available obligations:', obligations.length);
+    
     if (!assessmentState || obligations.length === 0) {
+      console.log('No assessment state or obligations, clearing filtered');
       setFilteredObligations([]);
       return;
     }
@@ -29,7 +35,15 @@ export default function AssessmentObligationsList({ assessmentState }: Assessmen
                                assessmentState.aiSystem.name.trim() !== "" && 
                                assessmentState.aiSystem.intendedPurpose.trim() !== "";
 
+    console.log('Assessment started check:', {
+      companyName: assessmentState.company.name,
+      aiSystemName: assessmentState.aiSystem.name,
+      intendedPurpose: assessmentState.aiSystem.intendedPurpose,
+      hasAssessmentStarted
+    });
+
     if (!hasAssessmentStarted) {
+      console.log('Assessment not started yet, clearing filtered');
       setFilteredObligations([]);
       return;
     }
@@ -51,8 +65,22 @@ export default function AssessmentObligationsList({ assessmentState }: Assessmen
       const systemicRiskMatches = !obligation.hasSystemicRiskApplicable || 
         (obligation.hasSystemicRiskApplicable && assessmentState.riskClassification.hasSystemicRisk);
 
+      const matches = hasMatchingRole || hasMatchingRisk || gpaIMatches || systemicRiskMatches;
+      
+      console.log(`Obligation ${obligation.id} filtering:`, {
+        hasMatchingRole,
+        hasMatchingRisk,
+        gpaIMatches,
+        systemicRiskMatches,
+        matches,
+        userRoles: assessmentState.roleAssignment.roles,
+        obligationRoles: obligation.applicableRoles,
+        userRiskLevel: assessmentState.riskClassification.riskLevel,
+        obligationRiskCategories: obligation.riskCategory
+      });
+
       // Apply OR logic: obligation applies if ANY of the conditions match
-      return hasMatchingRole || hasMatchingRisk || gpaIMatches || systemicRiskMatches;
+      return matches;
     });
 
     setFilteredObligations(filtered);
