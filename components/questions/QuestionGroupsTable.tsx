@@ -38,7 +38,7 @@ export function QuestionGroupsTable({
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {questionGroups.map((group: any, idx: number) => [
+        {questionGroups.map((group: any, _idx: number) => [
           <Table.Tr key={group.id}>
             <Table.Td>
               <ActionIcon
@@ -65,22 +65,25 @@ export function QuestionGroupsTable({
                   Add Question
                 </Button>
                 <Table withColumnBorders striped={false} style={{ margin: 0 }}>
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>ID</Table.Th>
-                      <Table.Th>Text</Table.Th>
-                      <Table.Th>Type</Table.Th>
-                      <Table.Th>Options</Table.Th>
-                      <Table.Th>Tags</Table.Th>
-                      <Table.Th>Actions</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
+                                     <Table.Thead>
+                                           <Table.Tr>
+                        <Table.Th>Order</Table.Th>
+                        <Table.Th>ID</Table.Th>
+                        <Table.Th>Text</Table.Th>
+                        <Table.Th>Type</Table.Th>
+                        <Table.Th>Options</Table.Th>
+                        <Table.Th>Tags</Table.Th>
+                        <Table.Th>Dependencies</Table.Th>
+                        <Table.Th>Actions</Table.Th>
+                      </Table.Tr>
+                   </Table.Thead>
                   <Table.Tbody>
-                    {group.questions.map((q: any, qIdx: number) => (
-                      <Table.Tr key={q.id}>
-                        <Table.Td>{q.id}</Table.Td>
-                        <Table.Td>{q.text}</Table.Td>
-                        <Table.Td>{q.type}</Table.Td>
+                                         {group.questions.map((q: any, _qIdx: number) => (
+                       <Table.Tr key={q.id}>
+                         <Table.Td>{q.order || 1}</Table.Td>
+                         <Table.Td>{q.id}</Table.Td>
+                         <Table.Td>{q.text}</Table.Td>
+                         <Table.Td>{q.type}</Table.Td>
                         <Table.Td>
                           {(q.type === 'multipleChoice' || q.type === 'singleChoice') && q.options && q.options.length > 0
                             ? q.options.map((opt: any) => opt.label).join(', ')
@@ -105,6 +108,17 @@ export function QuestionGroupsTable({
                                </Group>
                              ) : '-';
                            })()}
+                         </Table.Td>
+                         <Table.Td>
+                           {q.dependencies && q.dependencies.length > 0 ? (
+                             <Group gap={4}>
+                               {q.dependencies.map((dep: string) => (
+                                 <Badge key={dep} size="xs" variant="light" color="orange">
+                                   {dep}
+                                 </Badge>
+                               ))}
+                             </Group>
+                           ) : '-'}
                          </Table.Td>
                         <Table.Td>
                           <Button size="xs" variant="light" mr={4} onClick={() => onEditQuestion(group.id, q)}>Edit</Button>

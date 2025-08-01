@@ -18,9 +18,11 @@ export interface Question {
   id: string;
   text: string;
   type: 'yesNo' | 'multipleChoice' | 'singleChoice';
+  order: number;
   methodName: string;
   options?: { value: string; label: string }[];
   allowMultiple?: boolean;
+  dependencies?: string[];
 }
 
 interface QuestionRendererProps {
@@ -42,12 +44,30 @@ export default function QuestionRenderer({
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // Sort questions by order and filter by dependencies
+  const sortedQuestions = [...questions]
+    .filter(question => {
+      // If no dependencies, show the question
+      if (!question.dependencies || question.dependencies.length === 0) {
+        return true;
+      }
+      
+      // Check if any of the required dependencies are present in active tags
+      const currentState = assessmentManager.getState();
+      const activeTags = currentState.activeTags || [];
+      
+      return question.dependencies.some(dependency => 
+        activeTags.includes(dependency)
+      );
+    })
+    .sort((a, b) => (a.order || 1) - (b.order || 1));
+
   // Load existing answers from AssessmentManager
   useEffect(() => {
     const currentState = assessmentManager.getState();
     const existingAnswers: Record<string, any> = {};
     
-    questions.forEach(question => {
+    sortedQuestions.forEach(question => {
       const value = getNestedValue(currentState, question.methodName);
       if (value !== undefined) {
         existingAnswers[question.id] = value;
@@ -57,17 +77,17 @@ export default function QuestionRenderer({
     if (Object.keys(existingAnswers).length > 0) {
       setAnswers(existingAnswers);
     }
-  }, [questions, assessmentManager]);
+  }, [sortedQuestions, assessmentManager]);
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+  const currentQuestion = sortedQuestions[currentQuestionIndex];
+  const progress = ((currentQuestionIndex + 1) / sortedQuestions.length) * 100;
 
   const getNestedValue = (obj: any, path: string): any => {
     return path.split('.').reduce((current, key) => current?.[key], obj);
   };
 
   const validateAnswer = (questionId: string, value: any): boolean => {
-    const question = questions.find(q => q.id === questionId);
+    const question = sortedQuestions.find(q => q.id === questionId);
     if (!question) {return false;}
 
     if (question.type === 'yesNo') {
@@ -105,12 +125,12 @@ export default function QuestionRenderer({
       return;
     }
 
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < sortedQuestions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
       // All questions answered, save to AssessmentManager and complete
       Object.entries(answers).forEach(([questionId, answer]) => {
-        const question = questions.find(q => q.id === questionId);
+        const question = sortedQuestions.find(q => q.id === questionId);
         if (question && question.methodName) {
           // Call the AssessmentManager method directly
           const methodName = question.methodName as keyof AssessmentManager;
@@ -215,11 +235,11 @@ export default function QuestionRenderer({
   };
 
   const getAnswerSummary = () => {
-    const answeredCount = questions.filter(q => 
+    const answeredCount = sortedQuestions.filter(q => 
       answers[q.id] !== undefined && validateAnswer(q.id, answers[q.id])
     ).length;
     
-    return `${answeredCount}/${questions.length} questions answered`;
+    return `${answeredCount}/${sortedQuestions.length} questions answered`;
   };
 
   const isCurrentQuestionValid = () => {
@@ -237,7 +257,7 @@ export default function QuestionRenderer({
       {/* Progress */}
       <Group mb="lg" justify="space-between">
         <Text size="sm" c="dimmed">
-          Question {currentQuestionIndex + 1} of {questions.length}
+          Question {currentQuestion.order || currentQuestionIndex + 1} of {sortedQuestions.length}
         </Text>
         <Badge variant="light" color="blue">
           {getAnswerSummary()}
@@ -280,7 +300,7 @@ export default function QuestionRenderer({
           onClick={handleNext}
           disabled={!isCurrentQuestionValid()}
         >
-          {currentQuestionIndex === questions.length - 1 ? 'Complete Step' : 'Next'}
+          {currentQuestionIndex === sortedQuestions.length - 1 ? 'Complete Step' : 'Next'}
         </Button>
       </Group>
     </Box>
