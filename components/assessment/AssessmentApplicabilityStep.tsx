@@ -4,15 +4,17 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import type { StepNavProps } from "./AssessmentIntroStep";
 import { AssessmentManager } from "@/entities/AssessmentManager";
 import { AssessmentPhase } from "@/entities/enums";
-import QuestionRenderer, { Question } from "./QuestionRenderer";
+import QuestionRenderer from "@/components/assessment/QuestionRenderer";
+import { Question } from "@/entities/Question";
 import questionsData from "@/data/questions.json";
 
 interface AssessmentApplicabilityStepProps extends StepNavProps {
   previousStep?: () => void;
   assessmentManager: AssessmentManager;
+  onEarlyTermination?: () => void;
 }
 
-export default function AssessmentApplicabilityStep({ nextStep, previousStep, assessmentManager }: AssessmentApplicabilityStepProps) {
+export default function AssessmentApplicabilityStep({ nextStep, previousStep, assessmentManager, onEarlyTermination }: AssessmentApplicabilityStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,7 +37,10 @@ export default function AssessmentApplicabilityStep({ nextStep, previousStep, as
       const flattenedQuestions: Question[] = [];
       
       sortedGroups.forEach((group: any) => {
-        const typedQuestions = group.questions.map((q: any) => ({
+        // Sort questions within each group by their order property
+        const sortedQuestions = group.questions.sort((a: any, b: any) => a.order - b.order);
+        
+        const typedQuestions = sortedQuestions.map((q: any) => ({
           ...q,
           type: q.type as 'yesNo' | 'multipleChoice' | 'singleChoice'
         }));
@@ -109,6 +114,7 @@ export default function AssessmentApplicabilityStep({ nextStep, previousStep, as
         assessmentManager={assessmentManager}
         onComplete={handleQuestionsComplete}
         onBack={previousStep}
+        onEarlyTermination={onEarlyTermination}
       />
     </Box>
   );

@@ -13,17 +13,7 @@ import {
 import { IconAlertCircle } from "@tabler/icons-react";
 import ReactMarkdown from 'react-markdown';
 import { AssessmentManager } from "@/entities/AssessmentManager";
-
-export interface Question {
-  id: string;
-  text: string;
-  type: 'yesNo' | 'multipleChoice' | 'singleChoice';
-  order: number;
-  methodName: string;
-  options?: { value: string; label: string }[];
-  allowMultiple?: boolean;
-  dependencies?: string[];
-}
+import { Question } from "@/entities/Question";
 
 interface QuestionRendererProps {
   questions: Question[];
@@ -31,6 +21,7 @@ interface QuestionRendererProps {
   assessmentManager: AssessmentManager;
   onComplete: () => void;
   onBack?: () => void;
+  onEarlyTermination?: () => void;
 }
 
 export default function QuestionRenderer({ 
@@ -38,7 +29,8 @@ export default function QuestionRenderer({
   phaseTitle,
   assessmentManager, 
   onComplete, 
-  onBack 
+  onBack,
+  onEarlyTermination
 }: QuestionRendererProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
@@ -53,8 +45,7 @@ export default function QuestionRenderer({
       }
       
       // Check if any of the required dependencies are present in active tags
-      const currentState = assessmentManager.getState();
-      const activeTags = currentState.activeTags || [];
+      const activeTags = assessmentManager.getActiveTags();
       
       return question.dependencies.some(dependency => 
         activeTags.includes(dependency)
@@ -64,27 +55,12 @@ export default function QuestionRenderer({
 
   // Load existing answers from AssessmentManager
   useEffect(() => {
-    const currentState = assessmentManager.getState();
-    const existingAnswers: Record<string, any> = {};
-    
-    sortedQuestions.forEach(question => {
-      const value = getNestedValue(currentState, question.methodName);
-      if (value !== undefined) {
-        existingAnswers[question.id] = value;
-      }
-    });
-    
-    if (Object.keys(existingAnswers).length > 0) {
-      setAnswers(existingAnswers);
-    }
+    // For now, we don't load existing answers since we're using the tag-based approach
+    // This can be enhanced later if needed
   }, [sortedQuestions, assessmentManager]);
 
   const currentQuestion = sortedQuestions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / sortedQuestions.length) * 100;
-
-  const getNestedValue = (obj: any, path: string): any => {
-    return path.split('.').reduce((current, key) => current?.[key], obj);
-  };
 
   const validateAnswer = (questionId: string, value: any): boolean => {
     const question = sortedQuestions.find(q => q.id === questionId);
@@ -125,24 +101,36 @@ export default function QuestionRenderer({
       return;
     }
 
+    // Process the current answer using AssessmentManager's processQuestionAnswer
+    const question = sortedQuestions.find(q => q.id === currentQuestion.id);
+    if (question) {
+      // Convert boolean to string for yesNo questions
+      let processedAnswer = currentAnswer;
+      if (question.type === 'yesNo') {
+        processedAnswer = currentAnswer ? 'Yes' : 'No';
+      }
+      
+      // Process the answer and any associated tags
+      assessmentManager.processQuestionAnswer(
+        currentQuestion.id,
+        processedAnswer,
+        question.type,
+        question.tags 
+      );
+    }
+
+    // Check for early termination after processing the answer
+    if (assessmentManager.shouldTerminateEarly()) {
+      console.log('Early termination triggered - moving to results');
+      onEarlyTermination?.();
+      return;
+    }
+
     if (currentQuestionIndex < sortedQuestions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
-      // All questions answered, save to AssessmentManager and complete
-      Object.entries(answers).forEach(([questionId, answer]) => {
-        const question = sortedQuestions.find(q => q.id === questionId);
-        if (question && question.methodName) {
-          // Call the AssessmentManager method directly
-          const methodName = question.methodName as keyof AssessmentManager;
-          if (typeof assessmentManager[methodName] === 'function') {
-            (assessmentManager[methodName] as (value: any) => void)(answer);
-          } else {
-            console.warn(`Method ${methodName} not found in AssessmentManager`);
-          }
-        }
-      });
-
-      console.log('Answers saved to AssessmentManager:', answers);
+      // All questions answered, complete the phase
+      console.log('Answers processed and saved to AssessmentManager:', answers);
       console.log('Current assessment state:', assessmentManager.getState());
 
       // Complete the phase
@@ -228,6 +216,7 @@ export default function QuestionRenderer({
           </SimpleGrid>
         );
       }
+
         
       default:
         return <Text color="red">Unsupported question type</Text>;

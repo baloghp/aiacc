@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Group, Title, Text, Box, TextInput, Stack, Collapse, ActionIcon, Badge, Tooltip, Card } from "@mantine/core";
+import { Button, Group, Text, Box, TextInput, Stack, Collapse, ActionIcon, Badge, Tooltip, Card } from "@mantine/core";
 import { IconChevronDown, IconChevronRight, IconInfoCircle, IconBuilding } from "@tabler/icons-react";
 import type { StepNavProps } from "./AssessmentIntroStep";
 import { AssessmentManager } from "@/entities/AssessmentManager";

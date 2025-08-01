@@ -10,9 +10,10 @@ import questionsData from "@/data/questions.json";
 interface AssessmentRoleAssignmentStepProps extends StepNavProps {
   previousStep?: () => void;
   assessmentManager: AssessmentManager;
+  onEarlyTermination?: () => void;
 }
 
-export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, assessmentManager }: AssessmentRoleAssignmentStepProps) {
+export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, assessmentManager, onEarlyTermination }: AssessmentRoleAssignmentStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -109,6 +110,7 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
         assessmentManager={assessmentManager}
         onComplete={handleQuestionsComplete}
         onBack={previousStep}
+        onEarlyTermination={onEarlyTermination}
       />
     </Box>
   );

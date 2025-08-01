@@ -141,6 +141,11 @@ export default function AssessmentPage() {
                 setAssessmentState(getCurrentAssessmentState());
               }}
               assessmentManager={assessmentManagerRef.current}
+              onEarlyTermination={() => {
+                console.log('Early termination: skipping to Results step');
+                setActiveStep(7); // Skip directly to Results step
+                setAssessmentState(getCurrentAssessmentState());
+              }}
             />
           )}
           {activeStep === 4 && (
@@ -151,6 +156,11 @@ export default function AssessmentPage() {
                 setAssessmentState(getCurrentAssessmentState());
               }}
               assessmentManager={assessmentManagerRef.current}
+              onEarlyTermination={() => {
+                console.log('Early termination: skipping to Results step');
+                setActiveStep(7); // Skip directly to Results step
+                setAssessmentState(getCurrentAssessmentState());
+              }}
             />
           )}
           {activeStep === 5 && (
@@ -161,6 +171,11 @@ export default function AssessmentPage() {
                 setAssessmentState(getCurrentAssessmentState());
               }}
               assessmentManager={assessmentManagerRef.current}
+              onEarlyTermination={() => {
+                console.log('Early termination: skipping to Results step');
+                setActiveStep(7); // Skip directly to Results step
+                setAssessmentState(getCurrentAssessmentState());
+              }}
             />
           )}
           {activeStep === 6 && (
@@ -171,6 +186,11 @@ export default function AssessmentPage() {
                 setAssessmentState(getCurrentAssessmentState());
               }}
               assessmentManager={assessmentManagerRef.current}
+              onEarlyTermination={() => {
+                console.log('Early termination: skipping to Results step');
+                setActiveStep(7); // Skip directly to Results step
+                setAssessmentState(getCurrentAssessmentState());
+              }}
             />
           )}
           {activeStep === 7 && (

@@ -10,9 +10,10 @@ import questionsData from "@/data/questions.json";
 interface AssessmentRiskClassificationStepProps extends StepNavProps {
   previousStep?: () => void;
   assessmentManager: AssessmentManager;
+  onEarlyTermination?: () => void;
 }
 
-export default function AssessmentRiskClassificationStep({ nextStep, previousStep, assessmentManager }: AssessmentRiskClassificationStepProps) {
+export default function AssessmentRiskClassificationStep({ nextStep, previousStep, assessmentManager, onEarlyTermination }: AssessmentRiskClassificationStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -109,6 +110,7 @@ export default function AssessmentRiskClassificationStep({ nextStep, previousSte
         assessmentManager={assessmentManager}
         onComplete={handleQuestionsComplete}
         onBack={previousStep}
+        onEarlyTermination={onEarlyTermination}
       />
     </Box>
   );

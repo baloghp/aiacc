@@ -10,9 +10,10 @@ import questionsData from "@/data/questions.json";
 interface AssessmentGPAIStepProps extends StepNavProps {
   previousStep?: () => void;
   assessmentManager: AssessmentManager;
+  onEarlyTermination?: () => void;
 }
 
-export default function AssessmentGPAIStep({ nextStep, previousStep, assessmentManager }: AssessmentGPAIStepProps) {
+export default function AssessmentGPAIStep({ nextStep, previousStep, assessmentManager, onEarlyTermination }: AssessmentGPAIStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -109,6 +110,7 @@ export default function AssessmentGPAIStep({ nextStep, previousStep, assessmentM
         assessmentManager={assessmentManager}
         onComplete={handleQuestionsComplete}
         onBack={previousStep}
+        onEarlyTermination={onEarlyTermination}
       />
     </Box>
   );
