@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Button, Group, Title, Text, Box, TextInput, Stack, Collapse, ActionIcon, Badge, Tooltip, Alert } from "@mantine/core";
-import { IconChevronDown, IconChevronRight, IconInfoCircle, IconInfoCircleFilled } from "@tabler/icons-react";
+import { Button, Group, Title, Text, Box, TextInput, Stack, Collapse, ActionIcon, Badge, Tooltip, Card } from "@mantine/core";
+import { IconChevronDown, IconChevronRight, IconInfoCircle, IconBuilding } from "@tabler/icons-react";
 import type { StepNavProps } from "./AssessmentIntroStep";
 import { AssessmentManager } from "@/entities/AssessmentManager";
 
@@ -81,16 +81,17 @@ export default function AssessmentCompanyStep({ nextStep, previousStep, assessme
 
   return (
     <Box>
-      <Title order={3}>Company Details</Title>
+    
       
-      <Alert 
-        icon={<IconInfoCircleFilled size="1rem" />}
-        color="blue"
-        variant="light"
-        mb="md"
-      >
-        Enter your organization's essential information. This step helps tailor the compliance check to your business context. Only the company name is mandatory—the rest improve the precision and quality of your assessment.
-      </Alert>
+      <Card shadow="sm" padding="lg" radius="md" withBorder mb="md">
+        <Group mb="md">
+          <IconBuilding size="2rem" color="var(--mantine-color-blue-6)" />
+          <Text fw={600} size="lg">Company Information</Text>
+        </Group>
+        <Text size="sm" c="dimmed" lh={1.5}>
+          Enter your organization's essential information. This step helps tailor the compliance check to your business context. Only the company name is mandatory—the rest improve the precision and quality of your assessment.
+        </Text>
+      </Card>
       
       <Stack gap="md">
         <TextInput

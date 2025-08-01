@@ -1,0 +1,59 @@
+# Page snapshot
+
+```yaml
+- button:
+  - img
+- button:
+  - img
+- button:
+  - img
+- button "1 Welcome"
+- button "2 Company"
+- button "3 AI System"
+- button "4 Applicability"
+- button "5 Roles"
+- button "6 Risk"
+- button "7 GPAI"
+- button "8 Results"
+- img "ITTD Logo"
+- heading "AI Act Compliance Checker" [level=1]
+- img
+- paragraph: EU AI Act
+- paragraph: The EU AI Act is a landmark regulation guiding the responsible development and use of artificial intelligence across Europe and beyond. Understanding your compliance obligations from the outset protects your organization, your users, and our society as AI systems become increasingly powerful and pervasive.
+- img
+- paragraph: Step-by-Step
+- paragraph: This wizard will guide you step-by-step through a preliminary assessment. By answering a few targeted questions, you'll discover which obligations may apply to your AI system and receive actionable advisory notes—customized based on your responses so far.
+- img
+- paragraph: Open Source
+- paragraph: This platform is a free and open source initiative. Our mission is to democratize access to AI compliance expertise and support organizations of all sizes in their responsible AI journey. At the end of the wizard, you'll have the option to export your results for internal use or sharing with compliance stakeholders.
+- img
+- paragraph: 100% Private & Secure
+- paragraph: All data processed locally in your browser. Nothing stored on our servers.
+- img
+- paragraph: Legal Disclaimer
+- paragraph:
+  - text: General guidance only. Consult legal professionals or visit
+  - link "ittd.space":
+    - /url: https://ittd.space
+  - text: for specific advice.
+- button "Begin Assessment"
+- heading "Assessment Results" [level=3]
+- paragraph: Here are your currently applicable obligations and advisory notes based on your answers so far.
+- button "Export PDF":
+  - img
+  - text: Export PDF
+- separator
+- heading "Advisory Notes" [level=5]
+- paragraph: No advisory notes match your current assessment criteria.
+- separator
+- heading "Applicable Obligations" [level=5]
+- paragraph: No obligations match your current assessment criteria.
+- alert "Legal Disclaimer":
+  - img
+  - text: Legal Disclaimer
+  - paragraph: This assessment tool is provided for informational purposes only and does not constitute legal advice. The results and recommendations are based on the information provided and current understanding of the EU AI Act, but should not be relied upon as a substitute for professional legal counsel.
+  - paragraph: Organizations should consult with qualified legal professionals to ensure compliance with applicable laws and regulations. The developers of this tool are not responsible for any decisions made based on the information provided.
+- alert
+- button "Open Next.js Dev Tools":
+  - img
+```

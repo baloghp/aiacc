@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Button, Group, Title, Text, Box, TextInput, Textarea, Stack, Collapse, ActionIcon, Tooltip, Alert } from "@mantine/core";
-import { IconChevronDown, IconChevronRight, IconInfoCircle, IconInfoCircleFilled } from "@tabler/icons-react";
+import { Button, Group, Text, Box, TextInput, Textarea, Stack, Collapse, ActionIcon, Tooltip, Card } from "@mantine/core";
+import { IconChevronDown, IconChevronRight, IconInfoCircle, IconBrain } from "@tabler/icons-react";
 import type { StepNavProps } from "./AssessmentIntroStep";
 import { AssessmentManager } from "@/entities/AssessmentManager";
 
@@ -84,16 +84,16 @@ export default function AssessmentAISystemStep({ nextStep, previousStep, assessm
 
   return (
     <Box>
-      <Title order={3}>AI System Details</Title>
       
-      <Alert 
-        icon={<IconInfoCircleFilled size="1rem" />}
-        color="blue"
-        variant="light"
-        mb="md"
-      >
-        Provide information about the specific AI system you wish to assess for EU AI Act compliance. Detailed, accurate information ensures a tailored assessment and relevant obligations. Only the system name and intended purpose are required—the other fields refine the quality and applicability of the results.
-      </Alert>
+      <Card shadow="sm" padding="lg" radius="md" withBorder mb="md">
+        <Group mb="md">
+          <IconBrain size="2rem" color="var(--mantine-color-blue-6)" />
+          <Text fw={600} size="lg">AI System Information</Text>
+        </Group>
+        <Text size="sm" c="dimmed" lh={1.5}>
+          Provide information about the specific AI system you wish to assess for EU AI Act compliance. Detailed, accurate information ensures a tailored assessment and relevant obligations. Only the system name and intended purpose are required—the other fields refine the quality and applicability of the results.
+        </Text>
+      </Card>
       
       <Stack gap="md">
         <TextInput
