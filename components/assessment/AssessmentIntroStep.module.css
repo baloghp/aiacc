@@ -1,0 +1,21 @@
+.logo {
+  object-fit: contain;
+  object-position: center;
+  filter: brightness(0) invert(1);
+}
+
+/* Light theme - remove the filter to keep logo black */
+@media (prefers-color-scheme: light) {
+  .logo {
+    filter: none;
+  }
+}
+
+/* Mantine theme detection - for when user manually switches themes */
+[data-mantine-color-scheme="light"] .logo {
+  filter: none;
+}
+
+[data-mantine-color-scheme="dark"] .logo {
+  filter: brightness(0) invert(1);
+} 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Button, Group, Title, Text, Box, TextInput, Stack, Collapse, ActionIcon, Badge } from "@mantine/core";
-import { IconChevronDown, IconChevronRight } from "@tabler/icons-react";
+import { Button, Group, Title, Text, Box, TextInput, Stack, Collapse, ActionIcon, Badge, Tooltip, Alert } from "@mantine/core";
+import { IconChevronDown, IconChevronRight, IconInfoCircle, IconInfoCircleFilled } from "@tabler/icons-react";
 import type { StepNavProps } from "./AssessmentIntroStep";
 import { AssessmentManager } from "@/entities/AssessmentManager";
 
@@ -26,11 +26,6 @@ const initialForm: CompanyForm = {
   stakeholders: [],
   certifications: [],
 };
-
-interface AssessmentCompanyStepProps extends StepNavProps {
-  previousStep?: () => void;
-  assessmentManager: AssessmentManager;
-}
 
 export default function AssessmentCompanyStep({ nextStep, previousStep, assessmentManager }: AssessmentCompanyStepProps) {
   const [form, setForm] = useState<CompanyForm>(initialForm);
@@ -71,19 +66,39 @@ export default function AssessmentCompanyStep({ nextStep, previousStep, assessme
     }
   };
 
+  const renderFieldLabel = (label: string, tooltip: string, required: boolean = false) => (
+    <Group gap="xs" mb={4}>
+      <Text size="sm" fw={500}>
+        {label} {required && <span style={{ color: 'var(--mantine-color-red-6)' }}>*</span>}
+      </Text>
+      <Tooltip label={tooltip} position="top" multiline w={300}>
+        <ActionIcon size="xs" variant="subtle" color="gray">
+          <IconInfoCircle size={12} />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
+  );
+
   return (
     <Box>
       <Title order={3}>Company Details</Title>
-      <Text c="dimmed" mb="md">Enter your organization's basic information. Only the company name is required.</Text>
       
-      <Stack gap="sm">
+      <Alert 
+        icon={<IconInfoCircleFilled size="1rem" />}
+        color="blue"
+        variant="light"
+        mb="md"
+      >
+        Enter your organization's essential information. This step helps tailor the compliance check to your business context. Only the company name is mandatory—the rest improve the precision and quality of your assessment.
+      </Alert>
+      
+      <Stack gap="md">
         <TextInput
-          label="Company Name"
+          label={renderFieldLabel("Company Name", "The official or trading name of your organization. Required for record-keeping and for personalizing your compliance report. Ensures the assessment is unique to your company.", true)}
           placeholder="e.g. Acme Corp."
           value={form.name}
           onChange={(e) => handleChange("name", e.currentTarget.value)}
           error={errors.name}
-          required
         />
         
         <Group gap="xs" mt="md">
@@ -100,27 +115,27 @@ export default function AssessmentCompanyStep({ nextStep, previousStep, assessme
         </Group>
         
         <Collapse in={showOptionalFields}>
-          <Stack gap="sm" mt="sm">
+          <Stack gap="md" mt="sm">
             <TextInput
-              label="Legal Entity"
+              label={renderFieldLabel("Legal Entity", "The formal registered name (e.g., 'Acme Corporation Ltd.') used in business and legal transactions. Helps identify the precise legal party responsible for compliance obligations under the AI Act.")}
               placeholder="e.g. Acme Corporation Ltd."
               value={form.legalEntity}
               onChange={(e) => handleChange("legalEntity", e.currentTarget.value)}
             />
             <TextInput
-              label="Location"
+              label={renderFieldLabel("Location", "City and country where the company is headquartered or legally registered (e.g., 'Berlin, Germany'). Essential for determining geographical scope and which regulatory jurisdictions may apply.")}
               placeholder="e.g. Berlin, Germany"
               value={form.location}
               onChange={(e) => handleChange("location", e.currentTarget.value)}
             />
             <TextInput
-              label="Contact Person"
+              label={renderFieldLabel("Contact Person", "The main point of contact for compliance-related matters (e.g., 'Jane Doe'). So we can direct obligations, recommendations, or follow-ups to the responsible person within your company.")}
               placeholder="e.g. Jane Doe"
               value={form.contactPerson}
               onChange={(e) => handleChange("contactPerson", e.currentTarget.value)}
             />
             <Box>
-              <Text size="sm" fw={500} mb={8}>Stakeholders</Text>
+              {renderFieldLabel("Stakeholders", "Other individuals, roles, or teams who have an interest or responsibility in AI governance (add as many as needed). Ensures all relevant parties are included in the compliance journey, from developers to managers and board members.")}
               <Group gap="xs" mb={8}>
                 <TextInput
                   placeholder="Add stakeholder"
@@ -167,7 +182,7 @@ export default function AssessmentCompanyStep({ nextStep, previousStep, assessme
             </Box>
             
             <Box>
-              <Text size="sm" fw={500} mb={8}>Certifications</Text>
+              {renderFieldLabel("Certifications", "List any current certifications, such as ISO 27001, ISO/IEC 24028, or sector-specific accreditations. This helps identify where existing best practices or regulatory frameworks may overlap with or support AI Act compliance.")}
               <Group gap="xs" mb={8}>
                 <TextInput
                   placeholder="Add certification"
