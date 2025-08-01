@@ -2,10 +2,22 @@
 
 import { Group, useMantineColorScheme, useMantineTheme, ActionIcon, Tooltip } from '@mantine/core';
 import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-react';
+import { useEffect, useState } from 'react';
 
 export function ColorSchemeToggle() {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Only render after component mounts on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything during SSR
+  if (!mounted) {
+    return null;
+  }
 
   const getIconColor = (scheme: string) => {
     if (colorScheme === scheme) {

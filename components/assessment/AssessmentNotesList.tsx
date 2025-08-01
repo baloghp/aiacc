@@ -36,24 +36,24 @@ export default function AssessmentNotesList({ assessmentState }: AssessmentNotes
     }
 
     const filtered = notes.filter(note => {
-      // Check if any of the user's roles match the note's applicable roles
-      const hasMatchingRole = assessmentState.roleAssignment.roles.some(userRole => 
-        note.applicableRoles.includes(userRole)
-      );
-
-      // Check if the risk level matches
-      const hasMatchingRisk = note.riskCategory.includes(assessmentState.riskClassification.riskLevel);
-
-      // Check GPAI applicability
-      const gpaIMatches = !note.isGPAIApplicable || 
-        (note.isGPAIApplicable && assessmentState.riskClassification.isGPAI);
-
-      // Check systemic risk applicability
-      const systemicRiskMatches = !note.hasSystemicRiskApplicable || 
-        (note.hasSystemicRiskApplicable && assessmentState.riskClassification.hasSystemicRisk);
-
-      // Apply OR logic: note applies if ANY of the conditions match
-      return hasMatchingRole || hasMatchingRisk || gpaIMatches || systemicRiskMatches;
+      // Tag-based filtering: note applies if any of its required tags are present in active tags
+      if (note.requiredTags && note.requiredTags.length > 0) {
+        const hasMatchingTag = note.requiredTags.some(requiredTag => 
+          assessmentState.activeTags.includes(requiredTag)
+        );
+        
+        console.log(`Note ${note.id} tag filtering:`, {
+          requiredTags: note.requiredTags,
+          activeTags: assessmentState.activeTags,
+          hasMatchingTag
+        });
+        
+        return hasMatchingTag;
+      }
+      
+      // If no required tags are set, the note doesn't apply
+      console.log(`Note ${note.id} has no required tags, not applicable`);
+      return false;
     });
 
     setFilteredNotes(filtered);
@@ -78,26 +78,11 @@ export default function AssessmentNotesList({ assessmentState }: AssessmentNotes
               </Group>
               <Text size="sm" c="dimmed" mt={2}>{note.description}</Text>
               <Group gap="xs" mt={4}>
-                {note.applicableRoles.map(role => (
-                  <Badge key={role} size="xs" variant="light" color="blue">
-                    {role}
+                {note.requiredTags && note.requiredTags.map(tag => (
+                  <Badge key={tag} size="xs" variant="light" color="blue">
+                    {tag}
                   </Badge>
                 ))}
-                {note.riskCategory.map(risk => (
-                  <Badge key={risk} size="xs" variant="light" color="orange">
-                    {risk}
-                  </Badge>
-                ))}
-                {note.isGPAIApplicable && (
-                  <Badge size="xs" variant="light" color="purple">
-                    GPAI
-                  </Badge>
-                )}
-                {note.hasSystemicRiskApplicable && (
-                  <Badge size="xs" variant="light" color="red">
-                    Systemic Risk
-                  </Badge>
-                )}
               </Group>
             </List.Item>
           ))}

@@ -1,4 +1,4 @@
-import { Table, Button, Modal, TextInput, MultiSelect, Checkbox, Textarea } from '@mantine/core';
+import { Table, Button, Modal, TextInput, MultiSelect, Checkbox, Textarea, Group, Stack, Badge } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -27,6 +27,8 @@ export default function ObligationsCRUD() {
   const [addRisk, setAddRisk] = useState<string[]>([]);
   const [addGPAI, setAddGPAI] = useState(false);
   const [addSysRisk, setAddSysRisk] = useState(false);
+  const [addRequiredTags, setAddRequiredTags] = useState<string[]>([]);
+  const [addTagInput, setAddTagInput] = useState('');
   const [addError, setAddError] = useState('');
 
   // Edit modal state
@@ -39,6 +41,8 @@ export default function ObligationsCRUD() {
   const [editRisk, setEditRisk] = useState<string[]>([]);
   const [editGPAI, setEditGPAI] = useState(false);
   const [editSysRisk, setEditSysRisk] = useState(false);
+  const [editRequiredTags, setEditRequiredTags] = useState<string[]>([]);
+  const [editTagInput, setEditTagInput] = useState('');
   const [editError, setEditError] = useState('');
 
   // Delete modal state
@@ -53,6 +57,8 @@ export default function ObligationsCRUD() {
     setAddRisk([]);
     setAddGPAI(false);
     setAddSysRisk(false);
+    setAddRequiredTags([]);
+    setAddTagInput('');
     setAddError('');
     setAddOpen(true);
   };
@@ -85,6 +91,7 @@ export default function ObligationsCRUD() {
         riskCategory: addRisk,
         isGPAIApplicable: addGPAI,
         hasSystemicRiskApplicable: addSysRisk,
+        requiredTags: addRequiredTags.length > 0 ? addRequiredTags : undefined,
       },
     ]);
     setAddOpen(false);
@@ -100,6 +107,8 @@ export default function ObligationsCRUD() {
     setEditRisk(obl.riskCategory || []);
     setEditGPAI(obl.isGPAIApplicable || false);
     setEditSysRisk(obl.hasSystemicRiskApplicable || false);
+    setEditRequiredTags(obl.requiredTags || []);
+    setEditTagInput('');
     setEditError('');
     setEditOpen(true);
   };
@@ -134,6 +143,7 @@ export default function ObligationsCRUD() {
               riskCategory: editRisk,
               isGPAIApplicable: editGPAI,
               hasSystemicRiskApplicable: editSysRisk,
+              requiredTags: editRequiredTags.length > 0 ? editRequiredTags : undefined,
             }
           : o
       )
@@ -150,6 +160,29 @@ export default function ObligationsCRUD() {
     if (deleteIdx === null) {return;}
     setObligations(obls => obls.filter((_, i) => i !== deleteIdx));
     setDeleteOpen(false);
+  };
+
+  // Tag management functions
+  const handleAddTag = () => {
+    if (addTagInput.trim() && !addRequiredTags.includes(addTagInput.trim())) {
+      setAddRequiredTags([...addRequiredTags, addTagInput.trim()]);
+      setAddTagInput('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setAddRequiredTags(addRequiredTags.filter(tag => tag !== tagToRemove));
+  };
+
+  const handleEditAddTag = () => {
+    if (editTagInput.trim() && !editRequiredTags.includes(editTagInput.trim())) {
+      setEditRequiredTags([...editRequiredTags, editTagInput.trim()]);
+      setEditTagInput('');
+    }
+  };
+
+  const handleEditRemoveTag = (tagToRemove: string) => {
+    setEditRequiredTags(editRequiredTags.filter(tag => tag !== tagToRemove));
   };
 
   const handleSave = async () => {
@@ -241,6 +274,30 @@ export default function ObligationsCRUD() {
           onChange={e => setAddSysRisk(e.currentTarget.checked)}
           mb="sm"
         />
+        <Group mb="xs">
+          <TextInput
+            label="Required Tag"
+            value={addTagInput}
+            onChange={e => setAddTagInput(e.currentTarget.value)}
+            style={{ flex: 1 }}
+            placeholder="Enter tag and click Add"
+          />
+          <Button onClick={handleAddTag} variant="light" size="xs" mt={22}>
+            Add Tag
+          </Button>
+        </Group>
+        {addRequiredTags.length > 0 && (
+          <Stack mb="sm">
+            {addRequiredTags.map((tag, idx) => (
+              <Group key={tag} gap="xs">
+                <Badge size="sm">{tag}</Badge>
+                <Button size="xs" color="red" variant="subtle" onClick={() => handleRemoveTag(tag)}>
+                  Remove
+                </Button>
+              </Group>
+            ))}
+          </Stack>
+        )}
         {addError && <div style={{ color: 'red', marginBottom: 8 }}>{addError}</div>}
         <Button onClick={handleAddSubmit} fullWidth>Add Obligation</Button>
       </Modal>
@@ -297,6 +354,30 @@ export default function ObligationsCRUD() {
           onChange={e => setEditSysRisk(e.currentTarget.checked)}
           mb="sm"
         />
+        <Group mb="xs">
+          <TextInput
+            label="Required Tag"
+            value={editTagInput}
+            onChange={e => setEditTagInput(e.currentTarget.value)}
+            style={{ flex: 1 }}
+            placeholder="Enter tag and click Add"
+          />
+          <Button onClick={handleEditAddTag} variant="light" size="xs" mt={22}>
+            Add Tag
+          </Button>
+        </Group>
+        {editRequiredTags.length > 0 && (
+          <Stack mb="sm">
+            {editRequiredTags.map((tag, idx) => (
+              <Group key={tag} gap="xs">
+                <Badge size="sm">{tag}</Badge>
+                <Button size="xs" color="red" variant="subtle" onClick={() => handleEditRemoveTag(tag)}>
+                  Remove
+                </Button>
+              </Group>
+            ))}
+          </Stack>
+        )}
         {editError && <div style={{ color: 'red', marginBottom: 8 }}>{editError}</div>}
         <Button onClick={handleEditSubmit} fullWidth>Save Changes</Button>
       </Modal>
@@ -317,6 +398,7 @@ export default function ObligationsCRUD() {
             <Table.Th>Risk Categories</Table.Th>
             <Table.Th>GPAI?</Table.Th>
             <Table.Th>Systemic Risk?</Table.Th>
+            <Table.Th>Required Tags</Table.Th>
             <Table.Th>Actions</Table.Th>
           </Table.Tr>
         </Table.Thead>
@@ -328,12 +410,23 @@ export default function ObligationsCRUD() {
               <Table.Td>{obl.description}</Table.Td>
               <Table.Td>{obl.applicableRoles?.join(', ')}</Table.Td>
               <Table.Td>{obl.riskCategory?.join(', ')}</Table.Td>
-              <Table.Td>{obl.isGPAIApplicable ? 'Yes' : 'No'}</Table.Td>
-              <Table.Td>{obl.hasSystemicRiskApplicable ? 'Yes' : 'No'}</Table.Td>
-              <Table.Td>
-                <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(idx)}>Edit</Button>
-                <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(idx)}>Delete</Button>
-              </Table.Td>
+                          <Table.Td>{obl.isGPAIApplicable ? 'Yes' : 'No'}</Table.Td>
+            <Table.Td>{obl.hasSystemicRiskApplicable ? 'Yes' : 'No'}</Table.Td>
+            <Table.Td>
+              {obl.requiredTags && obl.requiredTags.length > 0 ? (
+                <Group gap={4}>
+                  {obl.requiredTags.map((tag: string) => (
+                    <Badge key={tag} size="xs" variant="light">
+                      {tag}
+                    </Badge>
+                  ))}
+                </Group>
+              ) : '-'}
+            </Table.Td>
+            <Table.Td>
+              <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(idx)}>Edit</Button>
+              <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(idx)}>Delete</Button>
+            </Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>

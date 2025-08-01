@@ -49,38 +49,24 @@ export default function AssessmentObligationsList({ assessmentState }: Assessmen
     }
 
     const filtered = obligations.filter(obligation => {
-      // Check if any of the user's roles match the obligation's applicable roles
-      const hasMatchingRole = assessmentState.roleAssignment.roles.some(userRole => 
-        obligation.applicableRoles.includes(userRole)
-      );
-
-      // Check if the risk level matches
-      const hasMatchingRisk = obligation.riskCategory.includes(assessmentState.riskClassification.riskLevel);
-
-      // Check GPAI applicability
-      const gpaIMatches = !obligation.isGPAIApplicable || 
-        (obligation.isGPAIApplicable && assessmentState.riskClassification.isGPAI);
-
-      // Check systemic risk applicability
-      const systemicRiskMatches = !obligation.hasSystemicRiskApplicable || 
-        (obligation.hasSystemicRiskApplicable && assessmentState.riskClassification.hasSystemicRisk);
-
-      const matches = hasMatchingRole || hasMatchingRisk || gpaIMatches || systemicRiskMatches;
+      // Tag-based filtering: obligation applies if any of its required tags are present in active tags
+      if (obligation.requiredTags && obligation.requiredTags.length > 0) {
+        const hasMatchingTag = obligation.requiredTags.some(requiredTag => 
+          assessmentState.activeTags.includes(requiredTag)
+        );
+        
+        console.log(`Obligation ${obligation.id} tag filtering:`, {
+          requiredTags: obligation.requiredTags,
+          activeTags: assessmentState.activeTags,
+          hasMatchingTag
+        });
+        
+        return hasMatchingTag;
+      }
       
-      console.log(`Obligation ${obligation.id} filtering:`, {
-        hasMatchingRole,
-        hasMatchingRisk,
-        gpaIMatches,
-        systemicRiskMatches,
-        matches,
-        userRoles: assessmentState.roleAssignment.roles,
-        obligationRoles: obligation.applicableRoles,
-        userRiskLevel: assessmentState.riskClassification.riskLevel,
-        obligationRiskCategories: obligation.riskCategory
-      });
-
-      // Apply OR logic: obligation applies if ANY of the conditions match
-      return matches;
+      // If no required tags are set, the obligation doesn't apply
+      console.log(`Obligation ${obligation.id} has no required tags, not applicable`);
+      return false;
     });
 
     setFilteredObligations(filtered);
@@ -105,26 +91,11 @@ export default function AssessmentObligationsList({ assessmentState }: Assessmen
                 <Text size="sm" style={{ flex: 1 }}>{obligation.description}</Text>
               </Group>
               <Group gap="xs" mt={4}>
-                {obligation.applicableRoles.map(role => (
-                  <Badge key={role} size="xs" variant="light" color="blue">
-                    {role}
+                {obligation.requiredTags && obligation.requiredTags.map(tag => (
+                  <Badge key={tag} size="xs" variant="light" color="blue">
+                    {tag}
                   </Badge>
                 ))}
-                {obligation.riskCategory.map(risk => (
-                  <Badge key={risk} size="xs" variant="light" color="orange">
-                    {risk}
-                  </Badge>
-                ))}
-                {obligation.isGPAIApplicable && (
-                  <Badge size="xs" variant="light" color="purple">
-                    GPAI
-                  </Badge>
-                )}
-                {obligation.hasSystemicRiskApplicable && (
-                  <Badge size="xs" variant="light" color="red">
-                    Systemic Risk
-                  </Badge>
-                )}
               </Group>
             </List.Item>
           ))}

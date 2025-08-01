@@ -29,15 +29,22 @@ const stepLabels = [
 export default function AssessmentPage() {
   const [activeStep, setActiveStep] = useState(0);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [assessmentState, setAssessmentState] = useState<AssessmentState | undefined>(undefined);
-  
   // Create AssessmentManager instance using useRef to persist across renders
   const assessmentManagerRef = useRef<AssessmentManager>(new AssessmentManager());
+  
+  const [assessmentState, setAssessmentState] = useState<AssessmentState | undefined>(() => {
+    // Initialize with the AssessmentManager's initial state
+    const initialState = assessmentManagerRef.current.getState();
+    console.log('AssessmentPage initializing with state:', initialState);
+    return initialState;
+  });
 
   // Update assessment state whenever it changes
   useEffect(() => {
     const updateState = () => {
-      setAssessmentState(assessmentManagerRef.current.getState());
+      const newState = assessmentManagerRef.current.getState();
+      console.log('AssessmentPage updating state:', newState);
+      setAssessmentState(newState);
     };
     
     // Initial state

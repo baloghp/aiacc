@@ -8,7 +8,6 @@ export interface Question {
   text: string;
   type: 'yesNo' | 'multipleChoice' | 'singleChoice' | 'text';
   options?: QuestionOption[];
-  allowMultiple?: boolean;
   dependencies?: string[];
-  targetAttribute: string;
+  tags?: string[]; // Tags to set when this question is answered
 } 

@@ -2,7 +2,6 @@ import { Card, Title, Text, Divider, Stack, Center, Box, Button, Group } from "@
 import { IconDownload } from "@tabler/icons-react";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { useEffect, useState } from "react";
 import AssessmentCompanySummary from "./AssessmentCompanySummary";
 import AssessmentAISystemSummary from "./AssessmentAISystemSummary";
 import AssessmentLegalDisclaimer from "./AssessmentLegalDisclaimer";
@@ -23,26 +22,7 @@ export default function AssessmentResultsPanel({
   company, 
   aiSystem 
 }: AssessmentResultsPanelProps) {
-  const [currentState, setCurrentState] = useState<AssessmentState | undefined>(undefined);
-  const [updateTrigger, setUpdateTrigger] = useState(0);
-
   console.log('AssessmentResultsPanel received state:', assessmentState);
-
-  // Update internal state when props change
-  useEffect(() => {
-    console.log('AssessmentResultsPanel useEffect triggered with assessmentState:', assessmentState);
-    if (assessmentState) {
-      console.log('AssessmentResultsPanel updating internal state:', assessmentState);
-      setCurrentState(assessmentState);
-      setUpdateTrigger(prev => {
-        const newTrigger = prev + 1;
-        console.log('Update trigger incremented to:', newTrigger);
-        return newTrigger;
-      });
-    } else {
-      console.log('AssessmentResultsPanel: assessmentState is undefined or null');
-    }
-  }, [assessmentState]);
 
   const showCompanySummary = company && company.name;
   const showAISystemSummary = aiSystem && aiSystem.name;
@@ -138,12 +118,12 @@ export default function AssessmentResultsPanel({
           )}
           
           {/* Notes Section */}
-          <AssessmentNotesList key={`notes-${updateTrigger}-${Date.now()}`} assessmentState={currentState} />
+          <AssessmentNotesList assessmentState={assessmentState} />
           
           <Divider my="sm" />
           
           {/* Obligations Section */}
-          <AssessmentObligationsList key={`obligations-${updateTrigger}-${Date.now()}`} assessmentState={currentState} />
+          <AssessmentObligationsList assessmentState={assessmentState} />
           
           {/* Legal Disclaimer */}
           <AssessmentLegalDisclaimer />

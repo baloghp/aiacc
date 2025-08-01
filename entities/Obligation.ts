@@ -6,4 +6,5 @@ export interface Obligation {
   riskCategory: string[];
   isGPAIApplicable: boolean;
   hasSystemicRiskApplicable: boolean;
+  requiredTags?: string[]; // Tags that must be present for this obligation to apply
 } 
