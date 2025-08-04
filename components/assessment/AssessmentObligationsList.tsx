@@ -48,16 +48,19 @@ export default function AssessmentObligationsList({ assessmentState }: Assessmen
       return;
     }
 
+    // Flatten activeTags from Record<string, string[]> to string[]
+    const flattenedActiveTags = Object.values(assessmentState.activeTags).flat();
+    
     const filtered = obligations.filter(obligation => {
       // Tag-based filtering: obligation applies if any of its required tags are present in active tags
       if (obligation.requiredTags && obligation.requiredTags.length > 0) {
         const hasMatchingTag = obligation.requiredTags.some(requiredTag => 
-          assessmentState.activeTags.includes(requiredTag)
+          flattenedActiveTags.includes(requiredTag)
         );
         
         console.log(`Obligation ${obligation.id} tag filtering:`, {
           requiredTags: obligation.requiredTags,
-          activeTags: assessmentState.activeTags,
+          activeTags: flattenedActiveTags,
           hasMatchingTag
         });
         

@@ -1,34 +1,26 @@
-import { Table, Button, Modal, TextInput, MultiSelect, Checkbox, Textarea, Group, Stack, Badge } from '@mantine/core';
+import { Table, Button, Modal, TextInput, Textarea, Group, Badge, MultiSelect } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
 import notesData from '../data/notes.json';
-
-const ROLES = [
-  'Provider',
-  'Deployer',
-  'ProductManufacturer',
-  'AuthorizedRepresentative',
-  'Importer',
-  'Distributor',
-];
-const RISK_CATEGORIES = ['No-risk', 'Limited', 'High'];
+import tagsData from '../data/tags.json';
 
 export default function NotesCRUD() {
   const [notes, setNotes] = useState<any[]>(notesData);
   const [saving, setSaving] = useState(false);
+  
+  // Tag options from catalog
+  const tagOptions = Array.isArray(tagsData) ? tagsData.map(tag => ({
+    value: tag.id,
+    label: `${tag.id} - ${tag.description}`
+  })).filter(option => option.value && option.label) : [];
 
   // Add modal state
   const [addOpen, setAddOpen] = useState(false);
   const [addId, setAddId] = useState('');
   const [addTitle, setAddTitle] = useState('');
   const [addDescription, setAddDescription] = useState('');
-  const [addRoles, setAddRoles] = useState<string[]>([]);
-  const [addRisk, setAddRisk] = useState<string[]>([]);
-  const [addGPAI, setAddGPAI] = useState(false);
-  const [addSysRisk, setAddSysRisk] = useState(false);
   const [addRequiredTags, setAddRequiredTags] = useState<string[]>([]);
-  const [addTagInput, setAddTagInput] = useState('');
   const [addError, setAddError] = useState('');
 
   // Edit modal state
@@ -37,12 +29,7 @@ export default function NotesCRUD() {
   const [editId, setEditId] = useState('');
   const [editTitle, setEditTitle] = useState('');
   const [editDescription, setEditDescription] = useState('');
-  const [editRoles, setEditRoles] = useState<string[]>([]);
-  const [editRisk, setEditRisk] = useState<string[]>([]);
-  const [editGPAI, setEditGPAI] = useState(false);
-  const [editSysRisk, setEditSysRisk] = useState(false);
   const [editRequiredTags, setEditRequiredTags] = useState<string[]>([]);
-  const [editTagInput, setEditTagInput] = useState('');
   const [editError, setEditError] = useState('');
 
   // Delete modal state
@@ -53,12 +40,7 @@ export default function NotesCRUD() {
     setAddId('');
     setAddTitle('');
     setAddDescription('');
-    setAddRoles([]);
-    setAddRisk([]);
-    setAddGPAI(false);
-    setAddSysRisk(false);
     setAddRequiredTags([]);
-    setAddTagInput('');
     setAddError('');
     setAddOpen(true);
   };
@@ -73,24 +55,12 @@ export default function NotesCRUD() {
       setAddError('ID must be unique');
       return;
     }
-    if (addRoles.length === 0) {
-      setAddError('At least one role is required');
-      return;
-    }
-    if (addRisk.length === 0) {
-      setAddError('At least one risk category is required');
-      return;
-    }
     setNotes([
       ...notes,
       {
         id: addId,
         title: addTitle,
         description: addDescription,
-        applicableRoles: addRoles,
-        riskCategory: addRisk,
-        isGPAIApplicable: addGPAI,
-        hasSystemicRiskApplicable: addSysRisk,
         requiredTags: addRequiredTags.length > 0 ? addRequiredTags : undefined,
       },
     ]);
@@ -103,12 +73,7 @@ export default function NotesCRUD() {
     setEditId(note.id);
     setEditTitle(note.title);
     setEditDescription(note.description);
-    setEditRoles(note.applicableRoles || []);
-    setEditRisk(note.riskCategory || []);
-    setEditGPAI(note.isGPAIApplicable || false);
-    setEditSysRisk(note.hasSystemicRiskApplicable || false);
     setEditRequiredTags(note.requiredTags || []);
-    setEditTagInput('');
     setEditError('');
     setEditOpen(true);
   };
@@ -124,14 +89,6 @@ export default function NotesCRUD() {
       setEditError('ID must be unique');
       return;
     }
-    if (editRoles.length === 0) {
-      setEditError('At least one role is required');
-      return;
-    }
-    if (editRisk.length === 0) {
-      setEditError('At least one risk category is required');
-      return;
-    }
     setNotes(ns =>
       ns.map((n, i) =>
         i === editIdx
@@ -139,10 +96,6 @@ export default function NotesCRUD() {
               id: editId,
               title: editTitle,
               description: editDescription,
-              applicableRoles: editRoles,
-              riskCategory: editRisk,
-              isGPAIApplicable: editGPAI,
-              hasSystemicRiskApplicable: editSysRisk,
               requiredTags: editRequiredTags.length > 0 ? editRequiredTags : undefined,
             }
           : n
@@ -162,28 +115,7 @@ export default function NotesCRUD() {
     setDeleteOpen(false);
   };
 
-  // Tag management functions
-  const handleAddTag = () => {
-    if (addTagInput.trim() && !addRequiredTags.includes(addTagInput.trim())) {
-      setAddRequiredTags([...addRequiredTags, addTagInput.trim()]);
-      setAddTagInput('');
-    }
-  };
 
-  const handleRemoveTag = (tagToRemove: string) => {
-    setAddRequiredTags(addRequiredTags.filter(tag => tag !== tagToRemove));
-  };
-
-  const handleEditAddTag = () => {
-    if (editTagInput.trim() && !editRequiredTags.includes(editTagInput.trim())) {
-      setEditRequiredTags([...editRequiredTags, editTagInput.trim()]);
-      setEditTagInput('');
-    }
-  };
-
-  const handleEditRemoveTag = (tagToRemove: string) => {
-    setEditRequiredTags(editRequiredTags.filter(tag => tag !== tagToRemove));
-  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -247,57 +179,14 @@ export default function NotesCRUD() {
           autosize
         />
         <MultiSelect
-          label="Applicable Roles"
-          data={ROLES}
-          value={addRoles}
-          onChange={setAddRoles}
-          required
+          label="Required Tags"
+          data={tagOptions || []}
+          value={addRequiredTags || []}
+          onChange={setAddRequiredTags}
+          searchable
           mb="sm"
+          placeholder="Select tags from catalog"
         />
-        <MultiSelect
-          label="Risk Categories"
-          data={RISK_CATEGORIES}
-          value={addRisk}
-          onChange={setAddRisk}
-          required
-          mb="sm"
-        />
-        <Checkbox
-          label="GPAI Applicable?"
-          checked={addGPAI}
-          onChange={e => setAddGPAI(e.currentTarget.checked)}
-          mb="sm"
-        />
-        <Checkbox
-          label="Systemic Risk Applicable?"
-          checked={addSysRisk}
-          onChange={e => setAddSysRisk(e.currentTarget.checked)}
-          mb="sm"
-        />
-        <Group mb="xs">
-          <TextInput
-            label="Required Tag"
-            value={addTagInput}
-            onChange={e => setAddTagInput(e.currentTarget.value)}
-            style={{ flex: 1 }}
-            placeholder="Enter tag and click Add"
-          />
-          <Button onClick={handleAddTag} variant="light" size="xs" mt={22}>
-            Add Tag
-          </Button>
-        </Group>
-        {addRequiredTags.length > 0 && (
-          <Stack mb="sm">
-            {addRequiredTags.map((tag, idx) => (
-              <Group key={tag} gap="xs">
-                <Badge size="sm">{tag}</Badge>
-                <Button size="xs" color="red" variant="subtle" onClick={() => handleRemoveTag(tag)}>
-                  Remove
-                </Button>
-              </Group>
-            ))}
-          </Stack>
-        )}
         {addError && <div style={{ color: 'red', marginBottom: 8 }}>{addError}</div>}
         <Button onClick={handleAddSubmit} fullWidth>Add Note</Button>
       </Modal>
@@ -327,57 +216,14 @@ export default function NotesCRUD() {
           autosize
         />
         <MultiSelect
-          label="Applicable Roles"
-          data={ROLES}
-          value={editRoles}
-          onChange={setEditRoles}
-          required
+          label="Required Tags"
+          data={tagOptions || []}
+          value={editRequiredTags || []}
+          onChange={setEditRequiredTags}
+          searchable
           mb="sm"
+          placeholder="Select tags from catalog"
         />
-        <MultiSelect
-          label="Risk Categories"
-          data={RISK_CATEGORIES}
-          value={editRisk}
-          onChange={setEditRisk}
-          required
-          mb="sm"
-        />
-        <Checkbox
-          label="GPAI Applicable?"
-          checked={editGPAI}
-          onChange={e => setEditGPAI(e.currentTarget.checked)}
-          mb="sm"
-        />
-        <Checkbox
-          label="Systemic Risk Applicable?"
-          checked={editSysRisk}
-          onChange={e => setEditSysRisk(e.currentTarget.checked)}
-          mb="sm"
-        />
-        <Group mb="xs">
-          <TextInput
-            label="Required Tag"
-            value={editTagInput}
-            onChange={e => setEditTagInput(e.currentTarget.value)}
-            style={{ flex: 1 }}
-            placeholder="Enter tag and click Add"
-          />
-          <Button onClick={handleEditAddTag} variant="light" size="xs" mt={22}>
-            Add Tag
-          </Button>
-        </Group>
-        {editRequiredTags.length > 0 && (
-          <Stack mb="sm">
-            {editRequiredTags.map((tag, idx) => (
-              <Group key={tag} gap="xs">
-                <Badge size="sm">{tag}</Badge>
-                <Button size="xs" color="red" variant="subtle" onClick={() => handleEditRemoveTag(tag)}>
-                  Remove
-                </Button>
-              </Group>
-            ))}
-          </Stack>
-        )}
         {editError && <div style={{ color: 'red', marginBottom: 8 }}>{editError}</div>}
         <Button onClick={handleEditSubmit} fullWidth>Save Changes</Button>
       </Modal>
@@ -394,39 +240,31 @@ export default function NotesCRUD() {
             <Table.Th>ID</Table.Th>
             <Table.Th>Title</Table.Th>
             <Table.Th>Description</Table.Th>
-            <Table.Th>Applicable Roles</Table.Th>
-            <Table.Th>Risk Categories</Table.Th>
-            <Table.Th>GPAI?</Table.Th>
-            <Table.Th>Systemic Risk?</Table.Th>
             <Table.Th>Required Tags</Table.Th>
             <Table.Th>Actions</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {notes.map((note, idx) => (
+          {notes.map((note, _idx) => (
             <Table.Tr key={note.id}>
               <Table.Td>{note.id}</Table.Td>
               <Table.Td>{note.title}</Table.Td>
               <Table.Td>{note.description}</Table.Td>
-              <Table.Td>{note.applicableRoles?.join(', ')}</Table.Td>
-              <Table.Td>{note.riskCategory?.join(', ')}</Table.Td>
-                          <Table.Td>{note.isGPAIApplicable ? 'Yes' : 'No'}</Table.Td>
-            <Table.Td>{note.hasSystemicRiskApplicable ? 'Yes' : 'No'}</Table.Td>
-            <Table.Td>
-              {note.requiredTags && note.requiredTags.length > 0 ? (
-                <Group gap={4}>
-                  {note.requiredTags.map((tag: string) => (
-                    <Badge key={tag} size="xs" variant="light">
-                      {tag}
-                    </Badge>
-                  ))}
-                </Group>
-              ) : '-'}
-            </Table.Td>
-            <Table.Td>
-              <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(idx)}>Edit</Button>
-              <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(idx)}>Delete</Button>
-            </Table.Td>
+              <Table.Td>
+                {note.requiredTags && note.requiredTags.length > 0 ? (
+                  <Group gap={4}>
+                    {note.requiredTags.map((tag: string) => (
+                      <Badge key={tag} size="xs" variant="light">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </Group>
+                ) : '-'}
+              </Table.Td>
+              <Table.Td>
+                <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(_idx)}>Edit</Button>
+                <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(_idx)}>Delete</Button>
+              </Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>

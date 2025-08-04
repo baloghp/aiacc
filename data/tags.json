@@ -1,0 +1,164 @@
+[
+  {
+    "id": "legal:eu-entity",
+    "category": "Legal Scope",
+    "description": "Organization established in the EU",
+    "examples": "Company registered in EU member state"
+  },
+  {
+    "id": "legal:places-on-eu",
+    "category": "Legal Scope", 
+    "description": "Places AI systems on EU market",
+    "examples": "Selling AI systems in EU market"
+  },
+  {
+    "id": "legal:output-in-eu",
+    "category": "Legal Scope",
+    "description": "Uses AI output in EU",
+    "examples": "AI system output used within EU"
+  },
+  {
+    "id": "legal:non-professional",
+    "category": "Legal Scope",
+    "description": "Natural person, non-professional use",
+    "examples": "Personal use of AI systems"
+  },
+  {
+    "id": "legal:applicable",
+    "category": "Legal Scope",
+    "description": "Overall legal applicability",
+    "examples": "AI Act applies to this entity"
+  },
+  {
+    "id": "ai-system:meets-definition",
+    "category": "AI System Scope",
+    "description": "Meets AI definition",
+    "examples": "System generates outputs influencing environments"
+  },
+  {
+    "id": "ai-system:exempt-military",
+    "category": "AI System Scope",
+    "description": "Military purpose exemption",
+    "examples": "Exclusively for military purposes"
+  },
+  {
+    "id": "ai-system:exempt-research",
+    "category": "AI System Scope",
+    "description": "Research purpose exemption",
+    "examples": "Exclusively for research purposes"
+  },
+  {
+    "id": "ai-system:exempt-security",
+    "category": "AI System Scope",
+    "description": "Security purpose exemption",
+    "examples": "Exclusively for security purposes"
+  },
+  {
+    "id": "ai-system:legacy-system",
+    "category": "AI System Scope",
+    "description": "Legacy system without changes",
+    "examples": "System in use before AI Act"
+  },
+  {
+    "id": "ai-system:exempt",
+    "category": "AI System Scope",
+    "description": "Overall system exemption",
+    "examples": "System is exempt from AI Act"
+  },
+  {
+    "id": "risk:prohibited",
+    "category": "Risk Classification",
+    "description": "Prohibited AI systems",
+    "examples": "Social scoring, real-time biometric ID"
+  },
+  {
+    "id": "risk:high",
+    "category": "Risk Classification",
+    "description": "High-risk AI systems",
+    "examples": "Critical infrastructure, employment, law enforcement"
+  },
+  {
+    "id": "risk:limited",
+    "category": "Risk Classification",
+    "description": "Limited-risk AI systems",
+    "examples": "Chatbots, deep fakes, emotion recognition"
+  },
+  {
+    "id": "risk:minimal",
+    "category": "Risk Classification",
+    "description": "Minimal-risk AI systems",
+    "examples": "Default classification for most systems"
+  },
+  {
+    "id": "risk:gpai",
+    "category": "Risk Classification",
+    "description": "General Purpose AI",
+    "examples": "General-purpose AI models"
+  },
+  {
+    "id": "risk:systemic-risk",
+    "category": "Risk Classification",
+    "description": "GPAI with systemic risk",
+    "examples": "Exceeds 10^25 FLOPs or poses systemic risks"
+  },
+  {
+    "id": "role:provider",
+    "category": "Role Assignment",
+    "description": "AI system provider",
+    "examples": "Develops and places AI on market"
+  },
+  {
+    "id": "role:deployer",
+    "category": "Role Assignment",
+    "description": "AI system deployer",
+    "examples": "Uses AI system under authority"
+  },
+  {
+    "id": "role:product-manufacturer",
+    "category": "Role Assignment",
+    "description": "Product manufacturer",
+    "examples": "Integrates AI into products"
+  },
+  {
+    "id": "role:authorized-representative",
+    "category": "Role Assignment",
+    "description": "Authorized representative",
+    "examples": "Represents non-EU provider"
+  },
+  {
+    "id": "role:importer",
+    "category": "Role Assignment",
+    "description": "Importer",
+    "examples": "Imports AI from third countries"
+  },
+  {
+    "id": "role:distributor",
+    "category": "Role Assignment",
+    "description": "Distributor",
+    "examples": "Distributes AI in EU supply chain"
+  },
+  {
+    "id": "assessment:applicable",
+    "category": "Assessment Status",
+    "description": "AI Act applies to this system",
+    "examples": "System is subject to AI Act obligations"
+  },
+  {
+    "id": "assessment:not-applicable",
+    "category": "Assessment Status",
+    "description": "AI Act does not apply",
+    "examples": "System is out of scope"
+  },
+  {
+    "id": "assessment:legacy-system",
+    "category": "Assessment Status",
+    "description": "Legacy system status",
+    "examples": "System in use before AI Act"
+  },
+  {
+    "id": "assessment:exempt",
+    "category": "Assessment Status",
+    "description": "System is exempt from AI Act",
+    "examples": "System qualifies for exemption"
+  }
+] 

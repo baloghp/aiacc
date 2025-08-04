@@ -35,16 +35,19 @@ export default function AssessmentNotesList({ assessmentState }: AssessmentNotes
       return;
     }
 
+    // Flatten activeTags from Record<string, string[]> to string[]
+    const flattenedActiveTags = Object.values(assessmentState.activeTags).flat();
+    
     const filtered = notes.filter(note => {
       // Tag-based filtering: note applies if any of its required tags are present in active tags
       if (note.requiredTags && note.requiredTags.length > 0) {
         const hasMatchingTag = note.requiredTags.some(requiredTag => 
-          assessmentState.activeTags.includes(requiredTag)
+          flattenedActiveTags.includes(requiredTag)
         );
         
         console.log(`Note ${note.id} tag filtering:`, {
           requiredTags: note.requiredTags,
-          activeTags: assessmentState.activeTags,
+          activeTags: flattenedActiveTags,
           hasMatchingTag
         });
         

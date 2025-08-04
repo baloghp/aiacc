@@ -4,7 +4,8 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import type { StepNavProps } from "./AssessmentIntroStep";
 import { AssessmentManager } from "@/entities/AssessmentManager";
 import { AssessmentPhase } from "@/entities/enums";
-import QuestionRenderer, { Question } from "./QuestionRenderer";
+import QuestionRenderer from "./QuestionRenderer";
+import { Question } from "@/entities/Question";
 import questionsData from "@/data/questions.json";
 
 interface AssessmentGPAIStepProps extends StepNavProps {

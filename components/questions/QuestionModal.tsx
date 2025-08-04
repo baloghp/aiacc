@@ -1,8 +1,8 @@
-import { TextInput, Textarea, Select, Group, Stack, Button, NumberInput } from '@mantine/core';
+import { TextInput, Textarea, Select, Group, Stack, Button, NumberInput, MultiSelect } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { ModalWrapper } from '../common/ModalWrapper';
-import { TagInput } from '../common/TagInput';
 import { useFormValidation } from '../../hooks/useFormValidation';
+import tagsData from '../../data/tags.json';
 
 interface QuestionOption {
   value: string;
@@ -22,11 +22,17 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
   const [order, setOrder] = useState(1);
   const [type, setType] = useState<'yesNo' | 'multipleChoice' | 'singleChoice'>('yesNo');
   const [options, setOptions] = useState<QuestionOption[]>([]);
-  const [optionValue, setOptionValue] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [optionLabel, setOptionLabel] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [dependencies, setDependencies] = useState<string[]>([]);
   const { errors, validate, clearErrors } = useFormValidation();
+
+  // Tag options from catalog
+  const tagOptions = Array.isArray(tagsData) ? tagsData.map(tag => ({
+    value: tag.id,
+    label: `${tag.id} - ${tag.description}`
+  })).filter(option => option.value && option.label) : [];
 
   useEffect(() => {
     if (question) {
@@ -49,6 +55,7 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
       setOrder(1);
       setType('yesNo');
       setOptions([]);
+      setSelectedTags([]);
       setTags([]);
       setDependencies([]);
     }
@@ -56,10 +63,13 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
   }, [question, clearErrors]);
 
   const addOption = () => {
-    if (optionValue.trim() && optionLabel.trim() && !options.some(opt => opt.value === optionValue.trim())) {
-      setOptions([...options, { value: optionValue.trim(), label: optionLabel.trim() }]);
-      setOptionValue('');
-      setOptionLabel('');
+    if (selectedTags.length > 0 && optionLabel.trim()) {
+      const optionValue = selectedTags.join(',');
+      if (!options.some(opt => opt.value === optionValue)) {
+        setOptions([...options, { value: optionValue, label: optionLabel.trim() }]);
+        setSelectedTags([]);
+        setOptionLabel('');
+      }
     }
   };
 
@@ -112,6 +122,7 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
       title={question ? 'Edit Question' : 'Add Question'}
       onSubmit={handleSubmit}
       submitText={question ? 'Save Changes' : 'Add Question'}
+      size="xl"
     >
       <TextInput
         label="ID"
@@ -154,11 +165,14 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
       {(type === 'multipleChoice' || type === 'singleChoice') && (
         <>
           <Group mb="xs">
-            <TextInput
-              label="Option Value"
-              value={optionValue}
-              onChange={(e) => setOptionValue(e.currentTarget.value)}
+            <MultiSelect
+              label="Option Tags"
+              data={tagOptions || []}
+              value={selectedTags}
+              onChange={setSelectedTags}
+              searchable
               style={{ flex: 1 }}
+              placeholder="Select tags for this option"
             />
             <TextInput
               label="Option Label"
@@ -170,10 +184,29 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
               Add Option
             </Button>
           </Group>
+          {selectedTags.length > 0 && (
+            <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '8px' }}>
+              <strong>Preview:</strong> {selectedTags.join(', ')}
+            </div>
+          )}
           <Stack mb="sm">
             {options.map((opt, idx) => (
               <Group key={opt.value} gap="xs">
-                <div style={{ flex: 1 }}>{opt.value}</div>
+                <MultiSelect
+                  data={tagOptions || []}
+                  value={opt.value.split(',').filter(tag => tag.trim())}
+                  onChange={(newTags) => {
+                    const updatedOptions = [...options];
+                    updatedOptions[idx] = {
+                      ...updatedOptions[idx],
+                      value: newTags.join(',')
+                    };
+                    setOptions(updatedOptions);
+                  }}
+                  searchable
+                  style={{ flex: 1 }}
+                  placeholder="Select tags"
+                />
                 <div style={{ flex: 2 }}>{opt.label}</div>
                 <Button size="xs" color="red" variant="subtle" onClick={() => removeOption(idx)}>
                   Remove
@@ -187,13 +220,16 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
       {type === 'yesNo' && (
         <>
           <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '8px' }}>
-            For Yes/No questions, manually enter tags that will be set when the answer is "Yes".
+            For Yes/No questions, select tags that will be set when the answer is "Yes".
           </div>
-          <TagInput
-            tags={tags}
-            onTagsChange={setTags}
+          <MultiSelect
             label="Tags"
-            placeholder="Enter tag and click Add"
+            data={tagOptions || []}
+            value={tags || []}
+            onChange={setTags}
+            searchable
+            mb="sm"
+            placeholder="Select tags from catalog"
           />
         </>
       )}
@@ -201,7 +237,7 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
       {/* Show info for choice questions */}
       {(type === 'multipleChoice' || type === 'singleChoice') && (
         <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '8px' }}>
-          For choice questions, the option values will automatically be used as tags.
+          For choice questions, select tags for each option. The selected tags will be set when this option is chosen.
         </div>
       )}
 
@@ -209,11 +245,14 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
       <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '8px' }}>
         Dependencies: Tags that must be present in the assessment state for this question to be shown.
       </div>
-      <TagInput
-        tags={dependencies}
-        onTagsChange={setDependencies}
+      <MultiSelect
         label="Dependencies"
-        placeholder="Enter dependency tag and click Add"
+        data={tagOptions || []}
+        value={dependencies || []}
+        onChange={setDependencies}
+        searchable
+        mb="sm"
+        placeholder="Select dependency tags from catalog"
       />
     </ModalWrapper>
   );

@@ -1,50 +1,11 @@
 [
   {
-    "id": "note-1",
-    "title": "Consider regular staff training",
-    "description": "Regularly update staff on AI Act requirements and best practices.",
-    "applicableRoles": [
-      "Provider",
-      "Deployer"
-    ],
-    "riskCategory": [
-      "Minimal",
-      "Low",
-      "Limited"
-    ],
-    "isGPAIApplicable": false,
-    "hasSystemicRiskApplicable": false
-  },
-  {
-    "id": "note-2",
-    "title": "Document transparency measures",
-    "description": "Keep clear records of how transparency obligations are met for each AI system.",
-    "applicableRoles": [
-      "Provider",
-      "Deployer",
-      "ProductManufacturer"
-    ],
-    "riskCategory": [
-      "Limited",
-      "High"
-    ],
-    "isGPAIApplicable": false,
-    "hasSystemicRiskApplicable": false
-  },
-  {
-    "id": "asd",
-    "title": "asdasd",
-    "description": "asdasdasd",
-    "applicableRoles": [
-      "Deployer",
-      "ProductManufacturer",
-      "AuthorizedRepresentative"
-    ],
-    "riskCategory": [
-      "No-risk",
-      "Limited"
-    ],
-    "isGPAIApplicable": true,
-    "hasSystemicRiskApplicable": false
+    "id": "n1",
+    "title": "Personal Use: Out of Scope",
+    "description": "You are using this AI system for purely personal, non-professional activities, which are out of the AI Act scope (Article 2). You have no obligations",
+    "requiredTags": [
+      "legal:non-professional",
+      "assessment:not-applicable"
+    ]
   }
 ]

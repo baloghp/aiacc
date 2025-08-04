@@ -11,6 +11,7 @@ interface ModalWrapperProps {
   submitDisabled?: boolean;
   showCancel?: boolean;
   cancelText?: string;
+  size?: string;
 }
 
 export function ModalWrapper({ 
@@ -22,10 +23,11 @@ export function ModalWrapper({
   submitText = 'Submit',
   submitDisabled = false,
   showCancel = true,
-  cancelText = 'Cancel'
+  cancelText = 'Cancel',
+  size = 'md'
 }: ModalWrapperProps) {
   return (
-    <Modal opened={isOpen} onClose={onClose} title={title} centered>
+    <Modal opened={isOpen} onClose={onClose} title={title} centered size={size}>
       {children}
       {(onSubmit || showCancel) && (
         <Group justify="flex-end" mt="md">

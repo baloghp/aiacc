@@ -1,184 +1,50 @@
 [
   {
-    "id": "qg-legal-scope",
+    "id": "qg-legalscope",
     "order": 1,
     "phase": "Applicability",
     "questions": [
       {
         "id": "q1",
-        "text": "**Is your organization established in the EU?**\n\nThis includes:\n- Companies registered in EU member states\n- Subsidiaries of non-EU companies operating in the EU\n- Organizations with a physical presence in the EU\n- Companies providing services to EU customers\n\n*Note: This determines whether your organization falls under EU jurisdiction for AI Act compliance.*",
+        "text": "Are you a natural person using AI for non-professional activities?",
+        "order": 1,
         "type": "yesNo",
-        "methodName": "setLegalScopeIsEUEntity"
+        "tags": [
+          "legal:non-professional",
+          "assessment:not-applicable",
+          "disqualify:non-professional"
+        ]
       },
       {
         "id": "q2",
-        "text": "**Do you place AI systems on the EU market or use their output in the EU?**\n\nThis includes:\n- **Placing on market**: Selling, distributing, or making AI systems available in the EU\n- **Using output**: Processing AI system outputs that affect EU residents\n- **Remote services**: AI systems accessible from the EU, even if hosted elsewhere\n- **Data processing**: Using EU personal data in AI systems\n\n*Examples: Chatbots, recommendation systems, automated decision-making tools*",
-        "type": "yesNo",
-        "methodName": "setLegalScopePlacesOnEU"
-      },
-      {
-        "id": "q3",
-        "text": "**Are you a natural person using AI for non-professional activities?**\n\nThis refers to:\n- Individual consumers using AI for personal purposes\n- Non-commercial use of AI systems\n- Personal projects or hobbies involving AI\n- Academic research for personal interest\n\n*If yes, the AI Act may not apply to your activities.*",
-        "type": "yesNo",
-        "methodName": "setLegalScopeIsNonProfessional"
-      }
-    ],
-    "isComplete": false
-  },
-  {
-    "id": "qg-ai-system-scope",
-    "order": 2,
-    "phase": "Applicability",
-    "questions": [
-      {
-        "id": "q4",
-        "text": "**Does the system meet the AI definition?**\n\nAI systems are defined as software that:\n- **Generates content**: Text, images, audio, video, code\n- **Makes predictions**: Forecasting, recommendations, classifications\n- **Learns patterns**: Machine learning, neural networks, statistical models\n- **Adapts behavior**: Systems that improve performance over time\n- **Uses data**: Processes information to produce outputs\n\n*Examples: Chatbots, image generators, recommendation engines, automated decision systems*",
-        "type": "yesNo",
-        "methodName": "setAISystemScopeMeetsAIDef"
-      },
-      {
-        "id": "q5",
-        "text": "**Is it exclusively for military, research, or security purposes?**\n\nThis includes:\n- **Military**: Defense systems, weapons, military intelligence\n- **Research**: Academic research, scientific studies, experimental systems\n- **Security**: Law enforcement, border control, surveillance systems\n- **National security**: Systems protecting critical national interests\n\n*Note: These systems may be exempt from certain AI Act requirements.*",
-        "type": "yesNo",
-        "methodName": "setAISystemScopeIsExempt"
-      },
-      {
-        "id": "q6",
-        "text": "**Is it a legacy system without significant changes?**\n\nLegacy systems are:\n- **Pre-existing**: Developed before AI Act implementation\n- **Unchanged**: No major modifications or updates\n- **Stable**: Same functionality and performance\n- **Transition period**: May have extended compliance timelines\n\n*Check if your system has been substantially modified since its original deployment.*",
-        "type": "yesNo",
-        "methodName": "setAISystemScopeIsLegacy"
-      }
-    ],
-    "isComplete": false
-  },
-  {
-    "id": "qg-role-assignment",
-    "order": 3,
-    "phase": "Roles",
-    "questions": [
-      {
-        "id": "q7",
-        "text": "**Which roles apply to your organization?**\n\n**Provider**: Develops, creates, or significantly modifies AI systems\n- Develops AI models or algorithms\n- Creates AI software or applications\n- Modifies existing AI systems substantially\n\n**Deployer**: Uses AI systems in real-world applications\n- Implements AI systems in production\n- Uses AI for business operations\n- Integrates AI into existing processes\n\n**Importer**: Brings AI systems into the EU from outside\n- Imports AI software or hardware\n- Distributes foreign AI systems in EU\n- Places non-EU AI systems on EU market\n\n**Distributor**: Sells or distributes AI systems\n- Resells AI systems to end users\n- Distributes AI products or services\n- Makes AI systems available to customers\n\n**Product Manufacturer**: Creates products containing AI\n- Embeds AI in physical products\n- Creates AI-enabled devices\n- Integrates AI into hardware\n\n**Authorized Representative**: Represents non-EU providers\n- Acts on behalf of foreign AI providers\n- Represents non-EU companies in EU\n- Handles compliance for external providers",
-        "type": "multipleChoice",
-        "options": [
-          {
-            "value": "Provider",
-            "label": "Provider"
-          },
-          {
-            "value": "Deployer",
-            "label": "Deployer"
-          },
-          {
-            "value": "Importer",
-            "label": "Importer"
-          },
-          {
-            "value": "Distributor",
-            "label": "Distributor"
-          },
-          {
-            "value": "ProductManufacturer",
-            "label": "Product Manufacturer"
-          },
-          {
-            "value": "AuthorizedRepresentative",
-            "label": "Authorized Representative"
-          }
-        ],
-        "allowMultiple": true,
-        "methodName": "setRoleAssignmentRoles"
-      },
-      {
-        "id": "q8",
-        "text": "**Select your primary role.**\n\nChoose the role that best describes your **main activity** with AI systems:\n\n- **Provider**: If you primarily develop or create AI systems\n- **Deployer**: If you primarily use AI systems in your operations\n- **Importer**: If you primarily bring AI systems into the EU\n- **Distributor**: If you primarily sell or distribute AI systems\n- **Product Manufacturer**: If you primarily create products with embedded AI\n- **Authorized Representative**: If you primarily represent non-EU AI providers\n\n*This determines your primary compliance responsibilities under the AI Act.*",
+        "text": "Is your organization established in the EU?",
+        "order": 2,
         "type": "singleChoice",
+        "dependencies": [
+          "legal:applicable",
+          "legal:output-in-eu",
+          "legal:places-on-eu"
+        ],
         "options": [
           {
-            "value": "Provider",
-            "label": "Provider"
+            "value": "legal:eu-entity",
+            "label": "Yes"
           },
           {
-            "value": "Deployer",
-            "label": "Deployer"
+            "value": "legal:non-eu-entity",
+            "label": "No"
           },
           {
-            "value": "Importer",
-            "label": "Importer"
-          },
-          {
-            "value": "Distributor",
-            "label": "Distributor"
-          },
-          {
-            "value": "ProductManufacturer",
-            "label": "Product Manufacturer"
-          },
-          {
-            "value": "AuthorizedRepresentative",
-            "label": "Authorized Representative"
+            "value": "legal:places-on-eu,legal:applicable,legal:output-in-eu",
+            "label": "11"
           }
         ],
         "allowMultiple": false,
-        "methodName": "setRoleAssignmentPrimaryRole"
-      }
-    ],
-    "isComplete": false
-  },
-  {
-    "id": "qg-risk-classification",
-    "order": 4,
-    "phase": "Risk",
-    "questions": [
-      {
-        "id": "q13",
-        "text": "**Is the system prohibited (e.g., social scoring, real-time biometric ID in public)?**\n\n**Prohibited AI systems include:**\n- **Social scoring**: Systems that evaluate individuals' social behavior or trustworthiness\n- **Real-time biometric identification**: Facial recognition in public spaces for law enforcement\n- **Emotion recognition**: Systems that infer emotions in workplace or educational settings\n- **Predictive policing**: Systems that predict criminal behavior based on profiling\n- **Manipulative AI**: Systems designed to manipulate human behavior or decisions\n\n*These systems are banned under the AI Act and cannot be placed on the EU market.*",
-        "type": "yesNo",
-        "methodName": "setRiskClassificationIsProhibited"
-      },
-      {
-        "id": "q14",
-        "text": "**Does it qualify as high-risk (e.g., in critical infrastructure, employment, law enforcement)?**\n\n**High-risk AI systems include:**\n- **Critical infrastructure**: Energy, transport, water, healthcare systems\n- **Employment**: Recruitment, performance evaluation, termination decisions\n- **Law enforcement**: Criminal risk assessment, evidence evaluation\n- **Migration/Asylum**: Border control, visa applications, asylum decisions\n- **Education**: Student evaluation, admission decisions, grading systems\n- **Financial services**: Credit scoring, insurance underwriting, fraud detection\n- **Healthcare**: Medical diagnosis, treatment recommendations, patient monitoring\n\n*These systems require strict compliance measures including risk management, data governance, and human oversight.*",
-        "type": "yesNo",
-        "methodName": "setRiskClassificationIsHighRisk"
-      },
-      {
-        "id": "q15",
-        "text": "**Does it involve limited risk (e.g., chatbots, deep fakes)?**\n\n**Limited-risk AI systems include:**\n- **Chatbots**: Customer service, information provision\n- **Deep fakes**: AI-generated content that could be mistaken for real\n- **Emotion recognition**: Systems that detect human emotions\n- **Biometric categorization**: Systems that categorize people by biometric characteristics\n- **AI-generated content**: Text, images, audio, video generation\n\n*These systems require transparency obligations such as informing users they are interacting with AI.*",
-        "type": "yesNo",
-        "methodName": "setRiskClassificationIsLimitedRisk"
-      },
-      {
-        "id": "q16",
-        "text": "**Is it a general-purpose AI model?**\n\n**General Purpose AI (GPAI) models are:**\n- **Versatile**: Can perform multiple tasks across different domains\n- **Foundation models**: Large language models, multimodal models\n- **Reusable**: Can be adapted for various applications\n- **Scalable**: Can be used by many different users and applications\n- **Training-intensive**: Require significant computational resources to train\n\n*Examples: GPT models, Claude, Gemini, open-source foundation models*",
-        "type": "yesNo",
-        "methodName": "setRiskClassificationIsGPAI"
-      },
-      {
-        "id": "q17",
-        "text": "**If Yes: Does it exceed 10^25 FLOPs or pose systemic risks?**\n\n**Systemic risk criteria:**\n- **Computational threshold**: Models trained with >10^25 floating point operations\n- **Systemic impact**: Potential to affect society, economy, or democracy\n- **Wide deployment**: Used across many sectors and applications\n- **Harm potential**: Risk of significant negative consequences\n- **Market concentration**: Dominant position in AI market\n\n*These models face additional obligations including systemic risk assessments and incident reporting.*",
-        "type": "yesNo",
-        "methodName": "setRiskClassificationHasSystemicRisk"
-      }
-    ],
-    "isComplete": false
-  },
-  {
-    "id": "qg-gpai-systemic-risk",
-    "order": 5,
-    "phase": "GPAI",
-    "questions": [
-      {
-        "id": "q18",
-        "text": "**Does your AI system qualify as a General Purpose AI model?**\n\n**GPAI characteristics:**\n- **Multi-purpose**: Can perform various tasks without retraining\n- **Foundation model**: Serves as base for many applications\n- **Large scale**: Significant computational resources required\n- **Broad capabilities**: Text, image, audio, video processing\n- **Wide adoption**: Used across multiple industries and use cases\n\n*Examples: Large language models, multimodal AI, foundation models used by many developers*",
-        "type": "yesNo",
-        "methodName": "setRiskClassificationIsGPAI"
-      },
-      {
-        "id": "q19",
-        "text": "**Does your GPAI model exceed 10^25 FLOPs or pose systemic risks?**\n\n**Systemic risk indicators:**\n- **Computational scale**: Training with >10^25 floating point operations\n- **Market dominance**: Significant market share in AI sector\n- **Economic impact**: Potential to disrupt multiple industries\n- **Social influence**: Ability to affect public opinion or behavior\n- **Security concerns**: Potential for misuse or malicious applications\n- **Regulatory attention**: Subject to specific oversight requirements\n\n*These models require enhanced transparency, risk management, and incident reporting.*",
-        "type": "yesNo",
-        "methodName": "setRiskClassificationHasSystemicRisk"
+        "tags": [
+          "legal:eu-entity",
+          "legal:non-eu-entity",
+          "legal:places-on-eu,legal:applicable,legal:output-in-eu"
+        ]
       }
     ],
     "isComplete": false
