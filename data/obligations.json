@@ -1,12 +1,10 @@
 [
   {
     "id": "o1",
-    "article": "11121",
-    "description": "232323",
+    "article": "[Article 2: Scope, EU Artificial Intelligence Act](https://artificialintelligenceact.eu/article/2/)",
+    "description": "**Personal/Non-Professional Use Is Out of Scope (AI Act Article 2)**\n\n**Explanation:**  \nAccording to Article 2(10) of the EU AI Act, the regulation does **not** apply to “obligations of deployers who are natural persons using AI systems in the course of a purely personal non-professional activity.”  \n\nThis means if you are a natural person using an AI system solely for personal, non-professional purposes, you are **not subject to the requirements** or obligations under the EU AI Act. This exemption reflects a conscious policy decision to exclude personal/private usage from regulatory coverage, focusing the law on professional and commercial activities.",
     "requiredTags": [
-      "legal:non-professional",
-      "legal:places-on-eu",
-      "legal:eu-entity"
+      "legal:non-professional"
     ],
     "order": 1
   }

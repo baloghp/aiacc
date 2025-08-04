@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { 
   Button, 
   Group, 
-  Title, 
   Text, 
   Box, 
   Progress,
@@ -17,7 +16,6 @@ import { Question } from "@/entities/Question";
 
 interface QuestionRendererProps {
   questions: Question[];
-  phaseTitle: string;
   assessmentManager: AssessmentManager;
   onComplete: () => void;
   onBack?: () => void;
@@ -27,7 +25,6 @@ interface QuestionRendererProps {
 
 export default function QuestionRenderer({ 
   questions, 
-  phaseTitle,
   assessmentManager, 
   onComplete, 
   onBack,
@@ -68,7 +65,6 @@ export default function QuestionRenderer({
   if (sortedQuestions.length === 0) {
     return (
       <Box>
-        <Title order={3}>{phaseTitle} Assessment</Title>
         <Text mt="md" c="dimmed">
           Based on your previous answers, there are no applicable questions for this phase at this time.
         </Text>
@@ -277,11 +273,7 @@ export default function QuestionRenderer({
 
   return (
     <Box>
-      <Title order={3}>{phaseTitle} Assessment</Title>
-      <Text c="dimmed" mb="md">
-        Answer the following questions to assess your {phaseTitle.toLowerCase()} status.
-      </Text>
-
+    
       {/* Progress */}
       <Group mb="lg" justify="space-between">
         <Text size="sm" c="dimmed">

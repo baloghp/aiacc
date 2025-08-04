@@ -37,7 +37,6 @@ export default function AssessmentPage() {
   const [assessmentState, setAssessmentState] = useState<AssessmentState | undefined>(() => {
     // Initialize with the AssessmentManager's initial state
     const initialState = assessmentManagerRef.current.getState();
-    console.log('AssessmentPage initializing with state:', initialState);
     return initialState;
   });
 
@@ -49,7 +48,6 @@ export default function AssessmentPage() {
   useEffect(() => {
     const updateState = () => {
       const newState = assessmentManagerRef.current.getState();
-      console.log('AssessmentPage updating state:', newState);
       setAssessmentState(newState);
       
       // Update applicable lists
@@ -69,7 +67,6 @@ export default function AssessmentPage() {
   // Method to get current assessment state
   const getCurrentAssessmentState = () => {
     const newState = assessmentManagerRef.current.getState();
-    console.log('Getting current assessment state:', newState);
     return newState;
   };
 

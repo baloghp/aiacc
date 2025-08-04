@@ -13,10 +13,10 @@ export async function POST(request: NextRequest) {
 
     // Validate each tag has required fields
     for (const tag of tags) {
-      if (!tag.id || !tag.category || !tag.description || !tag.examples) {
+      if (!tag.id || !tag.category) {
         return NextResponse.json({ 
           success: false, 
-          error: 'Each tag must have id, category, description, and examples fields' 
+          error: 'Each tag must have id and category fields' 
         }, { status: 400 });
       }
     }

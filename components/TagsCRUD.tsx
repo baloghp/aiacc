@@ -15,7 +15,6 @@ export default function TagsCRUD() {
   const [addId, setAddId] = useState('');
   const [addCategory, setAddCategory] = useState('');
   const [addDescription, setAddDescription] = useState('');
-  const [addExamples, setAddExamples] = useState('');
   const [addError, setAddError] = useState('');
 
   // Edit modal state
@@ -24,7 +23,6 @@ export default function TagsCRUD() {
   const [editId, setEditId] = useState('');
   const [editCategory, setEditCategory] = useState('');
   const [editDescription, setEditDescription] = useState('');
-  const [editExamples, setEditExamples] = useState('');
   const [editError, setEditError] = useState('');
 
   // Delete modal state
@@ -35,15 +33,14 @@ export default function TagsCRUD() {
     setAddId('');
     setAddCategory('');
     setAddDescription('');
-    setAddExamples('');
     setAddError('');
     setAddOpen(true);
   };
 
   const handleAddSubmit = () => {
     setAddError('');
-    if (!addId.trim() || !addCategory.trim() || !addDescription.trim() || !addExamples.trim()) {
-      setAddError('ID, Category, Description, and Examples are required');
+    if (!addId.trim() || !addCategory.trim()) {
+      setAddError('ID and Category are required');
       return;
     }
     if (tags.some(t => t.id === addId)) {
@@ -55,8 +52,7 @@ export default function TagsCRUD() {
       {
         id: addId,
         category: addCategory,
-        description: addDescription,
-        examples: addExamples,
+        description: addDescription.trim() || undefined,
       },
     ]);
     setAddOpen(false);
@@ -67,16 +63,15 @@ export default function TagsCRUD() {
     setEditIdx(idx);
     setEditId(tag.id);
     setEditCategory(tag.category);
-    setEditDescription(tag.description);
-    setEditExamples(tag.examples);
+    setEditDescription(tag.description || '');
     setEditError('');
     setEditOpen(true);
   };
 
   const handleEditSubmit = () => {
     setEditError('');
-    if (!editId.trim() || !editCategory.trim() || !editDescription.trim() || !editExamples.trim()) {
-      setEditError('ID, Category, Description, and Examples are required');
+    if (!editId.trim() || !editCategory.trim()) {
+      setEditError('ID and Category are required');
       return;
     }
     if (editIdx === null) {return;}
@@ -90,8 +85,7 @@ export default function TagsCRUD() {
           ? {
               id: editId,
               category: editCategory,
-              description: editDescription,
-              examples: editExamples,
+              description: editDescription.trim() || undefined,
             }
           : t
       )
@@ -194,24 +188,13 @@ export default function TagsCRUD() {
           placeholder="e.g., Legal Scope"
         />
         <Textarea
-          label="Description"
+          label="Description (Optional)"
           value={addDescription}
           onChange={e => setAddDescription(e.currentTarget.value)}
-          required
           mb="sm"
           minRows={3}
           autosize
-          placeholder="Brief description of what this tag represents"
-        />
-        <Textarea
-          label="Examples"
-          value={addExamples}
-          onChange={e => setAddExamples(e.currentTarget.value)}
-          required
-          mb="sm"
-          minRows={3}
-          autosize
-          placeholder="Examples of when this tag would be applied"
+          placeholder="Brief description of what this tag represents (optional)"
         />
         {addError && <div style={{ color: 'red', marginBottom: 8 }}>{addError}</div>}
         <Button onClick={handleAddSubmit} fullWidth>Add Tag</Button>
@@ -235,24 +218,13 @@ export default function TagsCRUD() {
           placeholder="e.g., Legal Scope"
         />
         <Textarea
-          label="Description"
+          label="Description (Optional)"
           value={editDescription}
           onChange={e => setEditDescription(e.currentTarget.value)}
-          required
           mb="sm"
           minRows={3}
           autosize
-          placeholder="Brief description of what this tag represents"
-        />
-        <Textarea
-          label="Examples"
-          value={editExamples}
-          onChange={e => setEditExamples(e.currentTarget.value)}
-          required
-          mb="sm"
-          minRows={3}
-          autosize
-          placeholder="Examples of when this tag would be applied"
+          placeholder="Brief description of what this tag represents (optional)"
         />
         {editError && <div style={{ color: 'red', marginBottom: 8 }}>{editError}</div>}
         <Button onClick={handleEditSubmit} fullWidth>Save Changes</Button>
@@ -294,7 +266,6 @@ export default function TagsCRUD() {
               </Group>
             </Table.Th>
             <Table.Th>Description</Table.Th>
-            <Table.Th>Examples</Table.Th>
             <Table.Th>Actions</Table.Th>
           </Table.Tr>
         </Table.Thead>
@@ -310,8 +281,7 @@ export default function TagsCRUD() {
                   </Badge>
                 </Table.Td>
                 <Table.Td>{tag.category}</Table.Td>
-                <Table.Td>{tag.description}</Table.Td>
-                <Table.Td>{tag.examples}</Table.Td>
+                <Table.Td>{tag.description || '-'}</Table.Td>
                 <Table.Td>
                   <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(originalIdx)}>Edit</Button>
                   <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(originalIdx)}>Delete</Button>

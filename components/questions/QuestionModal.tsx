@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import tagsData from '../../data/tags.json';
+import { Tag } from '../../entities/Tag';
 
 interface QuestionOption {
   value: string;
@@ -29,10 +30,10 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
   const { errors, validate, clearErrors } = useFormValidation();
 
   // Tag options from catalog
-  const tagOptions = Array.isArray(tagsData) ? tagsData.map(tag => ({
+  const tagOptions = (tagsData as Tag[]).map(tag => ({
     value: tag.id,
     label: `${tag.id} - ${tag.description}`
-  })).filter(option => option.value && option.label) : [];
+  })).filter(option => option.value && option.label);
 
   useEffect(() => {
     if (question) {

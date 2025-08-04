@@ -1,4 +1,5 @@
 import { Box, Title, List, Text, Badge, Group } from "@mantine/core";
+import ReactMarkdown from 'react-markdown';
 import { Note } from "@/entities/Note";
 
 interface AssessmentNotesListProps {
@@ -6,7 +7,6 @@ interface AssessmentNotesListProps {
 }
 
 export default function AssessmentNotesList({ notes }: AssessmentNotesListProps) {
-  console.log('AssessmentNotesList component rendered with notes:', notes);
 
   return (
     <Box>
@@ -25,7 +25,9 @@ export default function AssessmentNotesList({ notes }: AssessmentNotesListProps)
               <Group gap="xs" align="flex-start">
                 <Text fw={500} size="sm">{note.title}</Text>
               </Group>
-              <Text size="sm" c="dimmed" mt={2}>{note.description}</Text>
+              <Box mt={2}>
+                <ReactMarkdown>{note.description}</ReactMarkdown>
+              </Box>
               <Group gap="xs" mt={4}>
                 {note.requiredTags && note.requiredTags.map((tag: string) => (
                   <Badge key={tag} size="xs" variant="light" color="blue">

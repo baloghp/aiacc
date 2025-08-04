@@ -1,6 +1,5 @@
 export interface Tag {
   id: string;
   category: string;
-  description: string;
-  examples: string;
+  description?: string; // Optional description
 } 

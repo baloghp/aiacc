@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Button, Group, Title, Text, Box, Alert } from "@mantine/core";
-import { IconAlertCircle } from "@tabler/icons-react";
+import { Button, Group, Title, Text, Box, Alert, Card } from "@mantine/core";
+import { IconAlertCircle, IconBrain } from "@tabler/icons-react";
 import type { StepNavProps } from "./AssessmentIntroStep";
 import { AssessmentManager } from "@/entities/AssessmentManager";
 import { AssessmentPhase } from "@/entities/enums";
@@ -81,9 +81,18 @@ export default function AssessmentGPAIStep({ nextStep, previousStep, assessmentM
 
   return (
     <Box>
+      <Card shadow="sm" padding="lg" radius="md" withBorder mb="md">
+        <Group mb="md">
+          <IconBrain size="2rem" color="var(--mantine-color-blue-6)" />
+          <Text fw={600} size="lg">GPAI & Systemic Risk Assessment</Text>
+        </Group>
+        <Text size="sm" c="dimmed" lh={1.5}>
+          Evaluate whether your AI system qualifies as a General Purpose AI system or poses systemic risks. This assessment determines additional compliance requirements under the EU AI Act.
+        </Text>
+      </Card>
+      
       <QuestionRenderer
         questions={questions}
-        phaseTitle="GPAI/Systemic Risk"
         assessmentManager={assessmentManager}
         onComplete={handleQuestionsComplete}
         onBack={previousStep}

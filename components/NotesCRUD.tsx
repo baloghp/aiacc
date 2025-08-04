@@ -4,16 +4,17 @@ import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
 import notesData from '../data/notes.json';
 import tagsData from '../data/tags.json';
+import { Tag } from '../entities/Tag';
 
 export default function NotesCRUD() {
   const [notes, setNotes] = useState<any[]>(notesData);
   const [saving, setSaving] = useState(false);
   
   // Tag options from catalog
-  const tagOptions = Array.isArray(tagsData) ? tagsData.map(tag => ({
+  const tagOptions = (tagsData as Tag[]).map(tag => ({
     value: tag.id,
     label: `${tag.id} - ${tag.description}`
-  })).filter(option => option.value && option.label) : [];
+  })).filter(option => option.value && option.label);
 
   // Add modal state
   const [addOpen, setAddOpen] = useState(false);

@@ -28,7 +28,6 @@ export default function AssessmentResultsPanel({
   applicableNotes,
   applicableObligations
 }: AssessmentResultsPanelProps) {
-  console.log('AssessmentResultsPanel received state:', assessmentState);
 
   const showCompanySummary = company && company.name;
   const showAISystemSummary = aiSystem && aiSystem.name;

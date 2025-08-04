@@ -10,9 +10,8 @@
         "order": 1,
         "type": "yesNo",
         "tags": [
-          "legal:non-professional",
-          "assessment:not-applicable",
-          "disqualify:non-professional"
+          "abort:got-to-results",
+          "legal:non-professional"
         ]
       },
       {

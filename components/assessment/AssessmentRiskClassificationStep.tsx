@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Button, Group, Title, Text, Box, Alert } from "@mantine/core";
-import { IconAlertCircle } from "@tabler/icons-react";
+import { Button, Group, Title, Text, Box, Alert, Card } from "@mantine/core";
+import { IconAlertCircle, IconShieldExclamation } from "@tabler/icons-react";
 import type { StepNavProps } from "./AssessmentIntroStep";
 import { AssessmentManager } from "@/entities/AssessmentManager";
 import { AssessmentPhase } from "@/entities/enums";
@@ -83,9 +83,18 @@ export default function AssessmentRiskClassificationStep({ nextStep, previousSte
 
   return (
     <Box>
+      <Card shadow="sm" padding="lg" radius="md" withBorder mb="md">
+        <Group mb="md">
+          <IconShieldExclamation size="2rem" color="var(--mantine-color-blue-6)" />
+          <Text fw={600} size="lg">Risk Classification</Text>
+        </Group>
+        <Text size="sm" c="dimmed" lh={1.5}>
+          Classify your AI system's risk level according to the EU AI Act. This determines the specific compliance requirements and obligations that apply to your system.
+        </Text>
+      </Card>
+      
       <QuestionRenderer
         questions={questions}
-        phaseTitle="Risk Classification"
         assessmentManager={assessmentManager}
         onComplete={handleQuestionsComplete}
         onBack={previousStep}

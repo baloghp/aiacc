@@ -8,5 +8,13 @@
       "assessment:not-applicable"
     ],
     "order": 1
+  },
+  {
+    "id": "n2",
+    "title": "Organization is established in the EU",
+    "description": "Organizations registered or headquartered in an EU Member State are directly subject to the EU Artificial Intelligence Act (AI Act). This includes all legal entities (companies, organizations, associations) established anywhere within the territory of the European Union.",
+    "requiredTags": [
+      "legal:eu-entity"
+    ]
   }
 ]

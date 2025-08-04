@@ -154,10 +154,7 @@ export class AssessmentManager {
     // Mock: terminate if we have any disqualification tags
     const activeTags = this.getActiveTags();
     const disqualificationTags = [
-      'disqualify:non-eu-entity',
-      'disqualify:non-professional', 
-      'disqualify:non-ai-system',
-      'disqualify:no-eu-placement'
+      'abort:got-to-results',
     ];
     
     return disqualificationTags.some(tag => activeTags.includes(tag));

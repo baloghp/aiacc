@@ -1,4 +1,5 @@
 import { Box, Title, List, Text, Badge, Group } from "@mantine/core";
+import ReactMarkdown from 'react-markdown';
 import { Obligation } from "@/entities/Obligation";
 
 interface AssessmentObligationsListProps {
@@ -6,7 +7,6 @@ interface AssessmentObligationsListProps {
 }
 
 export default function AssessmentObligationsList({ obligations }: AssessmentObligationsListProps) {
-  console.log('AssessmentObligationsList component rendered with obligations:', obligations);
 
   return (
     <Box>
@@ -22,10 +22,14 @@ export default function AssessmentObligationsList({ obligations }: AssessmentObl
         <List spacing="xs" size="sm">
           {obligations.map((obligation) => (
             <List.Item key={obligation.id}>
-              <Group gap="xs" align="flex-start">
-                <Text fw={500} size="sm">{obligation.article}:</Text>
-                <Text size="sm" style={{ flex: 1 }}>{obligation.description}</Text>
-              </Group>
+              <Box>
+                <Box mb="xs">
+                  <ReactMarkdown>{`${obligation.article}:`}</ReactMarkdown>
+                </Box>
+                <Box>
+                  <ReactMarkdown>{obligation.description}</ReactMarkdown>
+                </Box>
+              </Box>
               <Group gap="xs" mt={4}>
                 {obligation.requiredTags && obligation.requiredTags.map((tag: string) => (
                   <Badge key={tag} size="xs" variant="light" color="blue">
