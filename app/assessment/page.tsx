@@ -210,19 +210,29 @@ export default function AssessmentPage() {
             />
           )}
           {activeStep === 7 && (
-            <AssessmentResultsStep previousStep={() => setActiveStep((s) => s - 1)} />
+            <AssessmentResultsStep 
+              previousStep={() => setActiveStep((s) => s - 1)}
+              assessmentState={assessmentState}
+              company={assessmentState?.company}
+              aiSystem={assessmentState?.aiSystem}
+              applicableNotes={applicableNotes}
+              applicableObligations={applicableObligations}
+            />
           )}
         </Paper>
       </Flex>
       {/* Results panel below the wizard, same width as content */}
       
-      <AssessmentResultsPanel 
-        assessmentState={assessmentState}
-        company={assessmentState?.company}
-        aiSystem={assessmentState?.aiSystem}
-        applicableNotes={applicableNotes}
-        applicableObligations={applicableObligations}
-      />
+      {/* Only show results panel when not on the Results step */}
+      {activeStep !== 7 && (
+        <AssessmentResultsPanel 
+          assessmentState={assessmentState}
+          company={assessmentState?.company}
+          aiSystem={assessmentState?.aiSystem}
+          applicableNotes={applicableNotes}
+          applicableObligations={applicableObligations}
+        />
+      )}
     </Box>
   );
 } 
