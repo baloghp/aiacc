@@ -175,17 +175,19 @@ export class AssessmentManager {
       return [];
     }
 
-    return notesData.filter(note => {
-      // Tag-based filtering: note applies if any of its required tags are present in active tags
-      if (note.requiredTags && note.requiredTags.length > 0) {
+    return notesData
+      .filter(note => {
+        // If no required tags are set, the note applies to everyone
+        if (!note.requiredTags || note.requiredTags.length === 0) {
+          return true;
+        }
+        
+        // Tag-based filtering: note applies if any of its required tags are present in active tags
         return note.requiredTags.some(requiredTag => 
           activeTags.includes(requiredTag)
         );
-      }
-      
-      // If no required tags are set, the note doesn't apply
-      return false;
-    });
+      })
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
   }
 
   getApplicableObligations(): Obligation[] {
@@ -200,16 +202,18 @@ export class AssessmentManager {
       return [];
     }
 
-    return obligationsData.filter(obligation => {
-      // Tag-based filtering: obligation applies if any of its required tags are present in active tags
-      if (obligation.requiredTags && obligation.requiredTags.length > 0) {
+    return obligationsData
+      .filter(obligation => {
+        // If no required tags are set, the obligation applies to everyone
+        if (!obligation.requiredTags || obligation.requiredTags.length === 0) {
+          return true;
+        }
+        
+        // Tag-based filtering: obligation applies if any of its required tags are present in active tags
         return obligation.requiredTags.some(requiredTag => 
           activeTags.includes(requiredTag)
         );
-      }
-      
-      // If no required tags are set, the obligation doesn't apply
-      return false;
-    });
+      })
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
   }
 } 

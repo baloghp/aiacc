@@ -1,4 +1,4 @@
-import { Table, Button, Modal, TextInput, Textarea, Group, Badge, MultiSelect } from '@mantine/core';
+import { Table, Button, Modal, TextInput, Textarea, Group, Badge, MultiSelect, NumberInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -21,6 +21,7 @@ export default function ObligationsCRUD() {
   const [addArticle, setAddArticle] = useState('');
   const [addDescription, setAddDescription] = useState('');
   const [addRequiredTags, setAddRequiredTags] = useState<string[]>([]);
+  const [addOrder, setAddOrder] = useState<number | ''>('');
   const [addError, setAddError] = useState('');
 
   // Edit modal state
@@ -30,6 +31,7 @@ export default function ObligationsCRUD() {
   const [editArticle, setEditArticle] = useState('');
   const [editDescription, setEditDescription] = useState('');
   const [editRequiredTags, setEditRequiredTags] = useState<string[]>([]);
+  const [editOrder, setEditOrder] = useState<number | ''>('');
   const [editError, setEditError] = useState('');
 
   // Delete modal state
@@ -41,6 +43,7 @@ export default function ObligationsCRUD() {
     setAddArticle('');
     setAddDescription('');
     setAddRequiredTags([]);
+    setAddOrder('');
     setAddError('');
     setAddOpen(true);
   };
@@ -62,6 +65,7 @@ export default function ObligationsCRUD() {
         article: addArticle,
         description: addDescription,
         requiredTags: addRequiredTags.length > 0 ? addRequiredTags : undefined,
+        order: addOrder !== '' ? addOrder : undefined,
       },
     ]);
     setAddOpen(false);
@@ -74,6 +78,7 @@ export default function ObligationsCRUD() {
     setEditArticle(obl.article);
     setEditDescription(obl.description);
     setEditRequiredTags(obl.requiredTags || []);
+    setEditOrder(obl.order || '');
     setEditError('');
     setEditOpen(true);
   };
@@ -97,6 +102,7 @@ export default function ObligationsCRUD() {
               article: editArticle,
               description: editDescription,
               requiredTags: editRequiredTags.length > 0 ? editRequiredTags : undefined,
+              order: editOrder !== '' ? editOrder : undefined,
             }
           : o
       )
@@ -187,6 +193,14 @@ export default function ObligationsCRUD() {
           mb="sm"
           placeholder="Select tags from catalog"
         />
+        <NumberInput
+          label="Order"
+          value={addOrder}
+          onChange={(value) => setAddOrder(value as number | '')}
+          placeholder="Optional order for sorting"
+          mb="sm"
+          min={0}
+        />
         {addError && <div style={{ color: 'red', marginBottom: 8 }}>{addError}</div>}
         <Button onClick={handleAddSubmit} fullWidth>Add Obligation</Button>
       </Modal>
@@ -224,6 +238,14 @@ export default function ObligationsCRUD() {
           mb="sm"
           placeholder="Select tags from catalog"
         />
+        <NumberInput
+          label="Order"
+          value={editOrder}
+          onChange={(value) => setEditOrder(value as number | '')}
+          placeholder="Optional order for sorting"
+          mb="sm"
+          min={0}
+        />
         {editError && <div style={{ color: 'red', marginBottom: 8 }}>{editError}</div>}
         <Button onClick={handleEditSubmit} fullWidth>Save Changes</Button>
       </Modal>
@@ -240,6 +262,7 @@ export default function ObligationsCRUD() {
             <Table.Th>ID</Table.Th>
             <Table.Th>Article</Table.Th>
             <Table.Th>Description</Table.Th>
+            <Table.Th>Order</Table.Th>
             <Table.Th>Required Tags</Table.Th>
             <Table.Th>Actions</Table.Th>
           </Table.Tr>
@@ -250,6 +273,7 @@ export default function ObligationsCRUD() {
               <Table.Td>{obl.id}</Table.Td>
               <Table.Td>{obl.article}</Table.Td>
               <Table.Td>{obl.description}</Table.Td>
+              <Table.Td>{obl.order || '-'}</Table.Td>
               <Table.Td>
                 {obl.requiredTags && obl.requiredTags.length > 0 ? (
                   <Group gap={4}>

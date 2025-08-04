@@ -20,11 +20,6 @@
         "text": "Is your organization established in the EU?",
         "order": 2,
         "type": "singleChoice",
-        "dependencies": [
-          "legal:applicable",
-          "legal:output-in-eu",
-          "legal:places-on-eu"
-        ],
         "options": [
           {
             "value": "legal:eu-entity",
@@ -33,17 +28,12 @@
           {
             "value": "legal:non-eu-entity",
             "label": "No"
-          },
-          {
-            "value": "legal:places-on-eu,legal:applicable,legal:output-in-eu",
-            "label": "11"
           }
         ],
         "allowMultiple": false,
         "tags": [
           "legal:eu-entity",
-          "legal:non-eu-entity",
-          "legal:places-on-eu,legal:applicable,legal:output-in-eu"
+          "legal:non-eu-entity"
         ]
       }
     ],

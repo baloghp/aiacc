@@ -6,6 +6,7 @@
     "requiredTags": [
       "legal:non-professional",
       "assessment:not-applicable"
-    ]
+    ],
+    "order": 1
   }
 ]
