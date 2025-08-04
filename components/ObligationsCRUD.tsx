@@ -10,12 +10,10 @@ export default function ObligationsCRUD() {
   const [saving, setSaving] = useState(false);
   
   // Tag options from catalog
-  console.log('tagsData:', tagsData); // Debug log
   const tagOptions = Array.isArray(tagsData) ? tagsData.map(tag => ({
     value: tag.id,
     label: `${tag.id} - ${tag.description}`
   })).filter(option => option.value && option.label) : [];
-  console.log('tagOptions:', tagOptions); // Debug log
 
   // Add modal state
   const [addOpen, setAddOpen] = useState(false);

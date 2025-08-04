@@ -10,17 +10,23 @@ import AssessmentNotesList from "./AssessmentNotesList";
 import { Company } from "@/entities/Company";
 import { AISystem } from "@/entities/AISystem";
 import { AssessmentState } from "@/entities/AssessmentManager";
+import { Note } from "@/entities/Note";
+import { Obligation } from "@/entities/Obligation";
 
 interface AssessmentResultsPanelProps {
   assessmentState?: AssessmentState;
   company?: Company;
   aiSystem?: AISystem;
+  applicableNotes: Note[];
+  applicableObligations: Obligation[];
 }
 
 export default function AssessmentResultsPanel({ 
   assessmentState, 
   company, 
-  aiSystem 
+  aiSystem,
+  applicableNotes,
+  applicableObligations
 }: AssessmentResultsPanelProps) {
   console.log('AssessmentResultsPanel received state:', assessmentState);
 
@@ -118,12 +124,12 @@ export default function AssessmentResultsPanel({
           )}
           
           {/* Notes Section */}
-          <AssessmentNotesList assessmentState={assessmentState} />
+          <AssessmentNotesList notes={applicableNotes} />
           
           <Divider my="sm" />
           
           {/* Obligations Section */}
-          <AssessmentObligationsList assessmentState={assessmentState} />
+          <AssessmentObligationsList obligations={applicableObligations} />
           
           {/* Legal Disclaimer */}
           <AssessmentLegalDisclaimer />

@@ -13,6 +13,8 @@ import AssessmentResultsStep from "@/components/assessment/AssessmentResultsStep
 import AssessmentResultsPanel from "@/components/assessment/AssessmentResultsPanel";
 import { AssessmentManager, AssessmentState } from "@/entities/AssessmentManager";
 import { ColorSchemeToggle } from "@/components/ColorSchemeToggle/ColorSchemeToggle";
+import { Note } from "@/entities/Note";
+import { Obligation } from "@/entities/Obligation";
 
 
 const stepLabels = [
@@ -39,17 +41,30 @@ export default function AssessmentPage() {
     return initialState;
   });
 
-  // Update assessment state whenever it changes
+  const [applicableNotes, setApplicableNotes] = useState<Note[]>([]);
+  const [applicableObligations, setApplicableObligations] = useState<Obligation[]>([]);
+  const [stateUpdateTrigger, setStateUpdateTrigger] = useState(0);
+
+  // Update assessment state and applicable lists whenever it changes
   useEffect(() => {
     const updateState = () => {
       const newState = assessmentManagerRef.current.getState();
       console.log('AssessmentPage updating state:', newState);
       setAssessmentState(newState);
+      
+      // Update applicable lists
+      setApplicableNotes(assessmentManagerRef.current.getApplicableNotes());
+      setApplicableObligations(assessmentManagerRef.current.getApplicableObligations());
     };
     
     // Initial state
     updateState();
-  }, [activeStep]);
+  }, [activeStep, stateUpdateTrigger]);
+
+  // Method to trigger state updates
+  const triggerStateUpdate = () => {
+    setStateUpdateTrigger(prev => prev + 1);
+  };
 
   // Method to get current assessment state
   const getCurrentAssessmentState = () => {
@@ -141,6 +156,7 @@ export default function AssessmentPage() {
                 setAssessmentState(getCurrentAssessmentState());
               }}
               assessmentManager={assessmentManagerRef.current}
+              onStateChange={triggerStateUpdate}
               onEarlyTermination={() => {
                 console.log('Early termination: skipping to Results step');
                 setActiveStep(7); // Skip directly to Results step
@@ -204,6 +220,8 @@ export default function AssessmentPage() {
         assessmentState={assessmentState}
         company={assessmentState?.company}
         aiSystem={assessmentState?.aiSystem}
+        applicableNotes={applicableNotes}
+        applicableObligations={applicableObligations}
       />
     </Box>
   );

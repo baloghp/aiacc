@@ -21,6 +21,7 @@ interface QuestionRendererProps {
   assessmentManager: AssessmentManager;
   onComplete: () => void;
   onBack?: () => void;
+  onStateChange?: () => void;
   onEarlyTermination?: () => void;
 }
 
@@ -30,6 +31,7 @@ export default function QuestionRenderer({
   assessmentManager, 
   onComplete, 
   onBack,
+  onStateChange,
   onEarlyTermination
 }: QuestionRendererProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -117,6 +119,9 @@ export default function QuestionRenderer({
         question.type,
         question.tags 
       );
+      
+      // Trigger state update
+      onStateChange?.();
     }
 
     // Check for early termination after processing the answer

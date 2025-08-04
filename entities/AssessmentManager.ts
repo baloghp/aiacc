@@ -1,5 +1,9 @@
 import { Company } from './Company';
 import { AISystem } from './AISystem';
+import notesData from '../data/notes.json';
+import obligationsData from '../data/obligations.json';
+import { Note } from './Note';
+import { Obligation } from './Obligation';
 
 export interface AssessmentState {
   company: Company;
@@ -133,5 +137,55 @@ export class AssessmentManager {
     ];
     
     return disqualificationTags.some(tag => activeTags.includes(tag));
+  }
+
+  getApplicableNotes(): Note[] {
+    const activeTags = this.getActiveTags();
+    
+    // Check if assessment has started (company and AI system have basic info)
+    const hasAssessmentStarted = this.state.company.name.trim() !== "" && 
+                               this.state.aiSystem.name.trim() !== "" && 
+                               this.state.aiSystem.intendedPurpose.trim() !== "";
+
+    if (!hasAssessmentStarted) {
+      return [];
+    }
+
+    return notesData.filter(note => {
+      // Tag-based filtering: note applies if any of its required tags are present in active tags
+      if (note.requiredTags && note.requiredTags.length > 0) {
+        return note.requiredTags.some(requiredTag => 
+          activeTags.includes(requiredTag)
+        );
+      }
+      
+      // If no required tags are set, the note doesn't apply
+      return false;
+    });
+  }
+
+  getApplicableObligations(): Obligation[] {
+    const activeTags = this.getActiveTags();
+    
+    // Check if assessment has started (company and AI system have basic info)
+    const hasAssessmentStarted = this.state.company.name.trim() !== "" && 
+                               this.state.aiSystem.name.trim() !== "" && 
+                               this.state.aiSystem.intendedPurpose.trim() !== "";
+
+    if (!hasAssessmentStarted) {
+      return [];
+    }
+
+    return obligationsData.filter(obligation => {
+      // Tag-based filtering: obligation applies if any of its required tags are present in active tags
+      if (obligation.requiredTags && obligation.requiredTags.length > 0) {
+        return obligation.requiredTags.some(requiredTag => 
+          activeTags.includes(requiredTag)
+        );
+      }
+      
+      // If no required tags are set, the obligation doesn't apply
+      return false;
+    });
   }
 } 

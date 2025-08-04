@@ -11,10 +11,11 @@ import questionsData from "@/data/questions.json";
 interface AssessmentApplicabilityStepProps extends StepNavProps {
   previousStep?: () => void;
   assessmentManager: AssessmentManager;
+  onStateChange?: () => void;
   onEarlyTermination?: () => void;
 }
 
-export default function AssessmentApplicabilityStep({ nextStep, previousStep, assessmentManager, onEarlyTermination }: AssessmentApplicabilityStepProps) {
+export default function AssessmentApplicabilityStep({ nextStep, previousStep, assessmentManager, onStateChange, onEarlyTermination }: AssessmentApplicabilityStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -114,6 +115,7 @@ export default function AssessmentApplicabilityStep({ nextStep, previousStep, as
         assessmentManager={assessmentManager}
         onComplete={handleQuestionsComplete}
         onBack={previousStep}
+        onStateChange={onStateChange}
         onEarlyTermination={onEarlyTermination}
       />
     </Box>
