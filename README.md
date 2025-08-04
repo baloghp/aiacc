@@ -85,6 +85,18 @@ This app helps organizations:
 3. **Results Phase**: Review applicable obligations and notes based on assessment
 4. **Export Phase**: Download assessment data as JSON for external use
 
+## Environment Variables
+
+### Setup Page Access Control
+The `/setup` page is protected by an environment variable to prevent unauthorized access in production environments.
+
+```bash
+# Enable setup page access (development only)
+NEXT_PUBLIC_SETUP_ENABLED=true
+```
+
+**Note**: Set this to `true` only in development environments. In production, this should be `false` or not set at all.
+
 ## Quick Start
 
 ```sh

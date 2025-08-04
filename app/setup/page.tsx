@@ -1,11 +1,33 @@
 "use client";
-import { Tabs } from '@mantine/core';
+import { Tabs, Alert, Center, Text } from '@mantine/core';
+import { IconLock } from '@tabler/icons-react';
 import QuestionsCRUD from '../../components/QuestionsCRUD';
 import ObligationsCRUD from '../../components/ObligationsCRUD';
 import NotesCRUD from '../../components/NotesCRUD';
 import TagsCRUD from '../../components/TagsCRUD';
 
 export default function SetupPage() {
+  // Check if the setup access is enabled via environment variable
+  const isSetupEnabled = process.env.NEXT_PUBLIC_SETUP_ENABLED === 'true';
+
+  if (!isSetupEnabled) {
+    return (
+      <Center style={{ minHeight: '50vh' }}>
+        <Alert 
+          icon={<IconLock size={16} />} 
+          title="Access Denied" 
+          color="red"
+          style={{ maxWidth: 500 }}
+        >
+          <Text size="sm" mb="md">
+            The setup page is not available in this environment.
+          </Text>
+
+        </Alert>
+      </Center>
+    );
+  }
+
   return (
     <Tabs defaultValue="questions">
       <Tabs.List>
