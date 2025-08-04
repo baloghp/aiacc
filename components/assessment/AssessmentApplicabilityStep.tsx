@@ -50,6 +50,7 @@ export default function AssessmentApplicabilityStep({ nextStep, previousStep, as
       
       if (flattenedQuestions.length === 0) {
         setError("No questions found for the Applicability phase.");
+        setIsLoading(false);
         return;
       }
 
@@ -92,20 +93,7 @@ export default function AssessmentApplicabilityStep({ nextStep, previousStep, as
     );
   }
 
-  if (questions.length === 0) {
-    return (
-      <Box>
-        <Title order={3}>No Questions Available</Title>
-        <Text c="dimmed" mb="md">
-          No questions are configured for the Applicability phase.
-        </Text>
-        <Group mt="xl">
-          <Button variant="default" onClick={previousStep}>Back</Button>
-          <Button onClick={nextStep}>Skip to Next Step</Button>
-        </Group>
-      </Box>
-    );
-  }
+
 
   return (
     <Box>

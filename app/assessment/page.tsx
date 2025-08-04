@@ -172,6 +172,7 @@ export default function AssessmentPage() {
                 setAssessmentState(getCurrentAssessmentState());
               }}
               assessmentManager={assessmentManagerRef.current}
+              onStateChange={triggerStateUpdate}
               onEarlyTermination={() => {
                 console.log('Early termination: skipping to Results step');
                 setActiveStep(7); // Skip directly to Results step
@@ -187,6 +188,7 @@ export default function AssessmentPage() {
                 setAssessmentState(getCurrentAssessmentState());
               }}
               assessmentManager={assessmentManagerRef.current}
+              onStateChange={triggerStateUpdate}
               onEarlyTermination={() => {
                 console.log('Early termination: skipping to Results step');
                 setActiveStep(7); // Skip directly to Results step
@@ -202,6 +204,7 @@ export default function AssessmentPage() {
                 setAssessmentState(getCurrentAssessmentState());
               }}
               assessmentManager={assessmentManagerRef.current}
+              onStateChange={triggerStateUpdate}
               onEarlyTermination={() => {
                 console.log('Early termination: skipping to Results step');
                 setActiveStep(7); // Skip directly to Results step

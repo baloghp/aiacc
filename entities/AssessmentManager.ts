@@ -13,35 +13,59 @@ export interface AssessmentState {
 
 export class AssessmentManager {
   private state: AssessmentState;
-
-  constructor() {
-    this.state = {
-      company: {
-        name: "",
-        legalEntity: "",
-        location: "",
-        contactPerson: "",
-        stakeholders: [],
-        certifications: [],
-      },
-      aiSystem: {
-        name: "",
-        intendedPurpose: "",
-        description: "",
-        functionality: "",
-        deploymentContext: "",
-        version: "",
-        assessmentDate: "",
-      },
-      activeTags: {}, // Initialize with empty tags object
-    };
+  private isDevelopment() {
+    return process.env.NODE_ENV === 'development';
   }
-
+  constructor() {
+    if(!this.isDevelopment()) {
+                  this.state = {
+                    company: {
+                      name: "",
+                      legalEntity: "",
+                      location: "",
+                      contactPerson: "",
+                      stakeholders: [],
+                      certifications: [],
+                    },
+                    aiSystem: {
+                      name: "",
+                      intendedPurpose: "",
+                      description: "",
+                      functionality: "",
+                      deploymentContext: "",
+                      version: "",
+                      assessmentDate: "",
+                    },
+                    activeTags: {}, // Initialize with empty tags object
+                  };
+      } else {
+                this.state = {
+                  company: {
+                    name: "Test Company",
+                    legalEntity: "Test Legal Entity",
+                    location: "Test Location",
+                    contactPerson: "Test Contact Person",
+                    stakeholders: ["Test Stakeholder 1", "Test Stakeholder 2"],
+                    certifications: ["Test Certification 1", "Test Certification 2"],
+                  },
+                  aiSystem: {
+                    name: "Test AI System",
+                    intendedPurpose: "Test Intended Purpose",
+                    description: "Test Description",
+                    functionality: "Test Functionality",
+                    deploymentContext: "Test Deployment Context",
+                    version: "Test Version",
+                    assessmentDate: "Test Assessment Date",
+                  },
+                  activeTags: {},
+                };
+  }
+  }
   // Reset the assessment state
   reset() {
     this.constructor();
   }
-
+  
   // Tag management methods
   addTag(questionId: string, tag: string) {
     if (!this.state.activeTags[questionId]) {

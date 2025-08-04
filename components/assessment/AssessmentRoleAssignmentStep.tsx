@@ -11,10 +11,11 @@ import questionsData from "@/data/questions.json";
 interface AssessmentRoleAssignmentStepProps extends StepNavProps {
   previousStep?: () => void;
   assessmentManager: AssessmentManager;
+  onStateChange?: () => void;
   onEarlyTermination?: () => void;
 }
 
-export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, assessmentManager, onEarlyTermination }: AssessmentRoleAssignmentStepProps) {
+export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, assessmentManager, onStateChange, onEarlyTermination }: AssessmentRoleAssignmentStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,11 +27,7 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
         (group: any) => group.phase === AssessmentPhase.Roles
       );
       
-      if (phaseQuestionGroups.length === 0) {
-        setError("No questions found for the Roles phase.");
-        return;
-      }
-
+  
       // Sort groups by order, then flatten all questions into a single array
       const sortedGroups = phaseQuestionGroups.sort((a: any, b: any) => a.order - b.order);
       
@@ -44,11 +41,7 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
         flattenedQuestions.push(...typedQuestions);
       });
       
-      if (flattenedQuestions.length === 0) {
-        setError("No questions found for the Roles phase.");
-        return;
-      }
-
+ 
       setQuestions(flattenedQuestions);
       setIsLoading(false);
     } catch (err) {
@@ -59,8 +52,6 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
 
   const handleQuestionsComplete = () => {
     // QuestionRenderer has already saved the answers to AssessmentManager
-    console.log('Roles phase completed');
-    console.log('Current assessment state:', assessmentManager.getState());
 
     // Complete the step
     nextStep?.();
@@ -88,20 +79,7 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
     );
   }
 
-  if (questions.length === 0) {
-    return (
-      <Box>
-        <Title order={3}>No Questions Available</Title>
-        <Text c="dimmed" mb="md">
-          No questions are configured for the Roles phase.
-        </Text>
-        <Group mt="xl">
-          <Button variant="default" onClick={previousStep}>Back</Button>
-          <Button onClick={nextStep}>Skip to Next Step</Button>
-        </Group>
-      </Box>
-    );
-  }
+
 
   return (
     <Box>
@@ -111,6 +89,7 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
         assessmentManager={assessmentManager}
         onComplete={handleQuestionsComplete}
         onBack={previousStep}
+        onStateChange={onStateChange}
         onEarlyTermination={onEarlyTermination}
       />
     </Box>

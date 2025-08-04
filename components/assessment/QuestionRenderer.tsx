@@ -64,6 +64,40 @@ export default function QuestionRenderer({
   const currentQuestion = sortedQuestions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / sortedQuestions.length) * 100;
 
+  // If no questions are applicable after filtering, show a message and allow navigation
+  if (sortedQuestions.length === 0) {
+    return (
+      <Box>
+        <Title order={3}>{phaseTitle} Assessment</Title>
+        <Text mt="md" c="dimmed">
+          Based on your previous answers, there are no applicable questions for this phase at this time.
+        </Text>
+        <Text mt="sm" size="sm" c="dimmed">
+          This could be because:
+        </Text>
+        <Text size="sm" c="dimmed" mt="xs">
+          • Your previous answers indicate this phase doesn't apply to your situation
+        </Text>
+        <Text size="sm" c="dimmed">
+          • Required conditions for questions in this phase are not met
+        </Text>
+        <Text size="sm" c="dimmed">
+          • You may need to complete earlier phases first
+        </Text>
+        <Group mt="xl">
+          {onBack && (
+            <Button variant="default" onClick={onBack}>
+              Back
+            </Button>
+          )}
+          <Button onClick={onComplete}>
+            Continue to Next Step
+          </Button>
+        </Group>
+      </Box>
+    );
+  }
+
   const validateAnswer = (questionId: string, value: any): boolean => {
     const question = sortedQuestions.find(q => q.id === questionId);
     if (!question) {return false;}
