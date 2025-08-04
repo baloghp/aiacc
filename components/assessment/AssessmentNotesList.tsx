@@ -34,6 +34,11 @@ export default function AssessmentNotesList({ notes }: AssessmentNotesListProps)
                     {tag}
                   </Badge>
                 ))}
+                {(note as any).requiredAllTags && (note as any).requiredAllTags.map((tag: string) => (
+                  <Badge key={tag} size="xs" variant="light" color="green">
+                    {tag} 
+                  </Badge>
+                ))}
               </Group>
             </List.Item>
           ))}

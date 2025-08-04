@@ -211,7 +211,14 @@ export default function QuestionRenderer({
         
       case 'singleChoice':
         return (
-          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+          <SimpleGrid 
+            cols={{ 
+              base: 1, 
+              sm: question.options?.length === 2 ? 2 : 2, 
+              md: question.options?.length === 2 ? 2 : 3 
+            }} 
+            spacing="md"
+          >
             {question.options?.map((option) => (
               <Button
                 key={option.value}
@@ -230,7 +237,14 @@ export default function QuestionRenderer({
       case 'multipleChoice': {
         const selectedValues = Array.isArray(currentAnswer) ? currentAnswer : [];
         return (
-          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+          <SimpleGrid 
+            cols={{ 
+              base: 1, 
+              sm: question.options?.length === 2 ? 2 : 2, 
+              md: question.options?.length === 2 ? 2 : 3 
+            }} 
+            spacing="md"
+          >
             {question.options?.map((option) => (
               <Button
                 key={option.value}

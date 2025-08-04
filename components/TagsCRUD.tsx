@@ -37,7 +37,7 @@ export default function TagsCRUD() {
     setAddOpen(true);
   };
 
-  const handleAddSubmit = () => {
+  const handleAddSubmit = async () => {
     setAddError('');
     if (!addId.trim() || !addCategory.trim()) {
       setAddError('ID and Category are required');
@@ -47,77 +47,33 @@ export default function TagsCRUD() {
       setAddError('ID must be unique');
       return;
     }
-    setTags([
+    
+    const newTags = [
       ...tags,
       {
         id: addId,
         category: addCategory,
         description: addDescription.trim() || undefined,
       },
-    ]);
+    ];
+    
+    setTags(newTags);
     setAddOpen(false);
-  };
-
-  const openEditModal = (idx: number) => {
-    const tag = tags[idx];
-    setEditIdx(idx);
-    setEditId(tag.id);
-    setEditCategory(tag.category);
-    setEditDescription(tag.description || '');
-    setEditError('');
-    setEditOpen(true);
-  };
-
-  const handleEditSubmit = () => {
-    setEditError('');
-    if (!editId.trim() || !editCategory.trim()) {
-      setEditError('ID and Category are required');
-      return;
-    }
-    if (editIdx === null) {return;}
-    if (tags.some((t, i) => t.id === editId && i !== editIdx)) {
-      setEditError('ID must be unique');
-      return;
-    }
-    setTags(ts =>
-      ts.map((t, i) =>
-        i === editIdx
-          ? {
-              id: editId,
-              category: editCategory,
-              description: editDescription.trim() || undefined,
-            }
-          : t
-      )
-    );
-    setEditOpen(false);
-  };
-
-  const openDeleteModal = (idx: number) => {
-    setDeleteIdx(idx);
-    setDeleteOpen(true);
-  };
-
-  const handleDelete = () => {
-    if (deleteIdx === null) {return;}
-    setTags(ts => ts.filter((_, i) => i !== deleteIdx));
-    setDeleteOpen(false);
-  };
-
-  const handleSave = async () => {
+    
+    // Auto-save
     setSaving(true);
     try {
       const res = await fetch('/api/save-tags', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(tags),
+        body: JSON.stringify(newTags),
       });
       const result = await res.json();
       if (result.success) {
         notifications.show({
           color: 'green',
           title: 'Saved',
-          message: 'Tags saved successfully.',
+          message: 'Tag added and saved successfully.',
           icon: <IconDeviceFloppy size={18} />,
           autoClose: 2000,
           withCloseButton: true,
@@ -131,6 +87,111 @@ export default function TagsCRUD() {
       setSaving(false);
     }
   };
+
+  const openEditModal = (idx: number) => {
+    const tag = tags[idx];
+    setEditIdx(idx);
+    setEditId(tag.id);
+    setEditCategory(tag.category);
+    setEditDescription(tag.description || '');
+    setEditError('');
+    setEditOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    setEditError('');
+    if (!editId.trim() || !editCategory.trim()) {
+      setEditError('ID and Category are required');
+      return;
+    }
+    if (editIdx === null) {return;}
+    if (tags.some((t, i) => t.id === editId && i !== editIdx)) {
+      setEditError('ID must be unique');
+      return;
+    }
+    
+    const updatedTags = tags.map((t, i) =>
+      i === editIdx
+        ? {
+            id: editId,
+            category: editCategory,
+            description: editDescription.trim() || undefined,
+          }
+        : t
+    );
+    
+    setTags(updatedTags);
+    setEditOpen(false);
+    
+    // Auto-save
+    setSaving(true);
+    try {
+      const res = await fetch('/api/save-tags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTags),
+      });
+      const result = await res.json();
+      if (result.success) {
+        notifications.show({
+          color: 'green',
+          title: 'Saved',
+          message: 'Tag updated and saved successfully.',
+          icon: <IconDeviceFloppy size={18} />,
+          autoClose: 2000,
+          withCloseButton: true,
+        });
+      } else {
+        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+      }
+    } catch (error: any) {
+      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const openDeleteModal = (idx: number) => {
+    setDeleteIdx(idx);
+    setDeleteOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (deleteIdx === null) {return;}
+    
+    const updatedTags = tags.filter((_, i) => i !== deleteIdx);
+    setTags(updatedTags);
+    setDeleteOpen(false);
+    
+    // Auto-save
+    setSaving(true);
+    try {
+      const res = await fetch('/api/save-tags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTags),
+      });
+      const result = await res.json();
+      if (result.success) {
+        notifications.show({
+          color: 'green',
+          title: 'Saved',
+          message: 'Tag deleted and saved successfully.',
+          icon: <IconDeviceFloppy size={18} />,
+          autoClose: 2000,
+          withCloseButton: true,
+        });
+      } else {
+        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+      }
+    } catch (error: any) {
+      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+
 
   const handleSort = (field: 'id' | 'category') => {
     if (sortField === field) {
@@ -165,9 +226,6 @@ export default function TagsCRUD() {
     <div>
       <Button leftSection={<IconPlus size={16} />} mb="md" onClick={handleAdd}>
         Add Tag
-      </Button>
-      <Button leftSection={<IconDeviceFloppy size={16} />} mb="md" ml="sm" color="teal" onClick={handleSave} loading={saving}>
-        Save
       </Button>
       {/* Add Modal */}
       <Modal opened={addOpen} onClose={() => setAddOpen(false)} title="Add Tag" centered>

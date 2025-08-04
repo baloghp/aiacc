@@ -32,7 +32,7 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
   // Tag options from catalog
   const tagOptions = (tagsData as Tag[]).map(tag => ({
     value: tag.id,
-    label: `${tag.id} - ${tag.description}`
+    label: tag.id
   })).filter(option => option.value && option.label);
 
   useEffect(() => {

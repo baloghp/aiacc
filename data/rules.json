@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "name": "AI system Not in EU and  Result is not in EU",
+    "inputTags": [
+      "legal:not-places-on-eu",
+      "legal:not-output-in-eu"
+    ],
+    "outputTags": [
+      "abort:go-to-results"
+    ],
+    "order": 1
+  }
+]

@@ -5,6 +5,7 @@ import QuestionsCRUD from '../../components/QuestionsCRUD';
 import ObligationsCRUD from '../../components/ObligationsCRUD';
 import NotesCRUD from '../../components/NotesCRUD';
 import TagsCRUD from '../../components/TagsCRUD';
+import RulesCRUD from '../../components/RulesCRUD';
 
 export default function SetupPage() {
   // Check if the setup access is enabled via environment variable
@@ -35,6 +36,7 @@ export default function SetupPage() {
         <Tabs.Tab value="obligations">Obligations</Tabs.Tab>
         <Tabs.Tab value="notes">Notes</Tabs.Tab>
         <Tabs.Tab value="tags">Tags</Tabs.Tab>
+        <Tabs.Tab value="rules">Rules</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="questions">
         
@@ -49,6 +51,9 @@ export default function SetupPage() {
       </Tabs.Panel>
       <Tabs.Panel value="tags">
          <TagsCRUD /> 
+      </Tabs.Panel>
+      <Tabs.Panel value="rules">
+         <RulesCRUD /> 
       </Tabs.Panel>
     </Tabs>
   );

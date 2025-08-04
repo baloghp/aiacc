@@ -13,7 +13,7 @@ export default function ObligationsCRUD() {
   // Tag options from catalog
   const tagOptions = (tagsData as Tag[]).map(tag => ({
     value: tag.id,
-    label: `${tag.id} - ${tag.description}`
+    label: tag.id
   })).filter(option => option.value && option.label);
 
   // Add modal state
@@ -22,6 +22,7 @@ export default function ObligationsCRUD() {
   const [addArticle, setAddArticle] = useState('');
   const [addDescription, setAddDescription] = useState('');
   const [addRequiredTags, setAddRequiredTags] = useState<string[]>([]);
+  const [addRequiredAllTags, setAddRequiredAllTags] = useState<string[]>([]);
   const [addOrder, setAddOrder] = useState<number | ''>('');
   const [addError, setAddError] = useState('');
 
@@ -32,6 +33,7 @@ export default function ObligationsCRUD() {
   const [editArticle, setEditArticle] = useState('');
   const [editDescription, setEditDescription] = useState('');
   const [editRequiredTags, setEditRequiredTags] = useState<string[]>([]);
+  const [editRequiredAllTags, setEditRequiredAllTags] = useState<string[]>([]);
   const [editOrder, setEditOrder] = useState<number | ''>('');
   const [editError, setEditError] = useState('');
 
@@ -44,12 +46,13 @@ export default function ObligationsCRUD() {
     setAddArticle('');
     setAddDescription('');
     setAddRequiredTags([]);
+    setAddRequiredAllTags([]);
     setAddOrder('');
     setAddError('');
     setAddOpen(true);
   };
 
-  const handleAddSubmit = () => {
+  const handleAddSubmit = async () => {
     setAddError('');
     if (!addId.trim() || !addArticle.trim() || !addDescription.trim()) {
       setAddError('ID, Article, and Description are required');
@@ -59,85 +62,36 @@ export default function ObligationsCRUD() {
       setAddError('ID must be unique');
       return;
     }
-    setObligations([
+    
+    const newObligations = [
       ...obligations,
       {
         id: addId,
         article: addArticle,
         description: addDescription,
         requiredTags: addRequiredTags.length > 0 ? addRequiredTags : undefined,
+        requiredAllTags: addRequiredAllTags.length > 0 ? addRequiredAllTags : undefined,
         order: addOrder !== '' ? addOrder : undefined,
       },
-    ]);
+    ];
+    
+    setObligations(newObligations);
     setAddOpen(false);
-  };
-
-  const openEditModal = (idx: number) => {
-    const obl = obligations[idx];
-    setEditIdx(idx);
-    setEditId(obl.id);
-    setEditArticle(obl.article);
-    setEditDescription(obl.description);
-    setEditRequiredTags(obl.requiredTags || []);
-    setEditOrder(obl.order || '');
-    setEditError('');
-    setEditOpen(true);
-  };
-
-  const handleEditSubmit = () => {
-    setEditError('');
-    if (!editId.trim() || !editArticle.trim() || !editDescription.trim()) {
-      setEditError('ID, Article, and Description are required');
-      return;
-    }
-    if (editIdx === null) {return;}
-    if (obligations.some((o, i) => o.id === editId && i !== editIdx)) {
-      setEditError('ID must be unique');
-      return;
-    }
-    setObligations(obls =>
-      obls.map((o, i) =>
-        i === editIdx
-          ? {
-              id: editId,
-              article: editArticle,
-              description: editDescription,
-              requiredTags: editRequiredTags.length > 0 ? editRequiredTags : undefined,
-              order: editOrder !== '' ? editOrder : undefined,
-            }
-          : o
-      )
-    );
-    setEditOpen(false);
-  };
-
-  const openDeleteModal = (idx: number) => {
-    setDeleteIdx(idx);
-    setDeleteOpen(true);
-  };
-
-  const handleDelete = () => {
-    if (deleteIdx === null) {return;}
-    setObligations(obls => obls.filter((_, i) => i !== deleteIdx));
-    setDeleteOpen(false);
-  };
-
-
-
-  const handleSave = async () => {
+    
+    // Auto-save
     setSaving(true);
     try {
       const res = await fetch('/api/save-obligations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(obligations),
+        body: JSON.stringify(newObligations),
       });
       const result = await res.json();
       if (result.success) {
         notifications.show({
           color: 'green',
           title: 'Saved',
-          message: 'Obligations saved successfully.',
+          message: 'Obligation added and saved successfully.',
           icon: <IconDeviceFloppy size={18} />,
           autoClose: 2000,
           withCloseButton: true,
@@ -152,13 +106,123 @@ export default function ObligationsCRUD() {
     }
   };
 
+  const openEditModal = (idx: number) => {
+    const obl = obligations[idx];
+    setEditIdx(idx);
+    setEditId(obl.id);
+    setEditArticle(obl.article);
+    setEditDescription(obl.description);
+    setEditRequiredTags(obl.requiredTags || []);
+    setEditRequiredAllTags(obl.requiredAllTags || []);
+    setEditOrder(obl.order || '');
+    setEditError('');
+    setEditOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    setEditError('');
+    if (!editId.trim() || !editArticle.trim() || !editDescription.trim()) {
+      setEditError('ID, Article, and Description are required');
+      return;
+    }
+    if (editIdx === null) {return;}
+    if (obligations.some((o, i) => o.id === editId && i !== editIdx)) {
+      setEditError('ID must be unique');
+      return;
+    }
+    
+    const updatedObligations = obligations.map((o, i) =>
+      i === editIdx
+        ? {
+            id: editId,
+            article: editArticle,
+            description: editDescription,
+            requiredTags: editRequiredTags.length > 0 ? editRequiredTags : undefined,
+            requiredAllTags: editRequiredAllTags.length > 0 ? editRequiredAllTags : undefined,
+            order: editOrder !== '' ? editOrder : undefined,
+          }
+        : o
+    );
+    
+    setObligations(updatedObligations);
+    setEditOpen(false);
+    
+    // Auto-save
+    setSaving(true);
+    try {
+      const res = await fetch('/api/save-obligations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedObligations),
+      });
+      const result = await res.json();
+      if (result.success) {
+        notifications.show({
+          color: 'green',
+          title: 'Saved',
+          message: 'Obligation updated and saved successfully.',
+          icon: <IconDeviceFloppy size={18} />,
+          autoClose: 2000,
+          withCloseButton: true,
+        });
+      } else {
+        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+      }
+    } catch (error: any) {
+      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const openDeleteModal = (idx: number) => {
+    setDeleteIdx(idx);
+    setDeleteOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (deleteIdx === null) {return;}
+    
+    const updatedObligations = obligations.filter((_, i) => i !== deleteIdx);
+    setObligations(updatedObligations);
+    setDeleteOpen(false);
+    
+    // Auto-save
+    setSaving(true);
+    try {
+      const res = await fetch('/api/save-obligations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedObligations),
+      });
+      const result = await res.json();
+      if (result.success) {
+        notifications.show({
+          color: 'green',
+          title: 'Saved',
+          message: 'Obligation deleted and saved successfully.',
+          icon: <IconDeviceFloppy size={18} />,
+          autoClose: 2000,
+          withCloseButton: true,
+        });
+      } else {
+        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+      }
+    } catch (error: any) {
+      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+
+
+
+
   return (
     <div>
       <Button leftSection={<IconPlus size={16} />} mb="md" onClick={handleAdd}>
         Add Obligation
-      </Button>
-      <Button leftSection={<IconDeviceFloppy size={16} />} mb="md" ml="sm" color="teal" onClick={handleSave} loading={saving}>
-        Save
       </Button>
       {/* Add Modal */}
       <Modal opened={addOpen} onClose={() => setAddOpen(false)} title="Add Obligation" centered>
@@ -186,13 +250,22 @@ export default function ObligationsCRUD() {
           autosize
         />
         <MultiSelect
-          label="Required Tags"
+          label="Required Tags (Any)"
           data={tagOptions || []}
           value={addRequiredTags || []}
           onChange={setAddRequiredTags}
           searchable
           mb="sm"
           placeholder="Select tags from catalog"
+        />
+        <MultiSelect
+          label="Required All Tags (All must be present)"
+          data={tagOptions || []}
+          value={addRequiredAllTags || []}
+          onChange={setAddRequiredAllTags}
+          searchable
+          mb="sm"
+          placeholder="Select tags that must ALL be present"
         />
         <NumberInput
           label="Order"
@@ -231,13 +304,22 @@ export default function ObligationsCRUD() {
           autosize
         />
         <MultiSelect
-          label="Required Tags"
+          label="Required Tags (Any)"
           data={tagOptions || []}
           value={editRequiredTags || []}
           onChange={setEditRequiredTags}
           searchable
           mb="sm"
           placeholder="Select tags from catalog"
+        />
+        <MultiSelect
+          label="Required All Tags (All must be present)"
+          data={tagOptions || []}
+          value={editRequiredAllTags || []}
+          onChange={setEditRequiredAllTags}
+          searchable
+          mb="sm"
+          placeholder="Select tags that must ALL be present"
         />
         <NumberInput
           label="Order"
@@ -265,6 +347,7 @@ export default function ObligationsCRUD() {
             <Table.Th>Description</Table.Th>
             <Table.Th>Order</Table.Th>
             <Table.Th>Required Tags</Table.Th>
+            <Table.Th>Required All Tags</Table.Th>
             <Table.Th>Actions</Table.Th>
           </Table.Tr>
         </Table.Thead>
@@ -280,6 +363,17 @@ export default function ObligationsCRUD() {
                   <Group gap={4}>
                     {obl.requiredTags.map((tag: string) => (
                       <Badge key={tag} size="xs" variant="light">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </Group>
+                ) : '-'}
+              </Table.Td>
+              <Table.Td>
+                {obl.requiredAllTags && obl.requiredAllTags.length > 0 ? (
+                  <Group gap={4}>
+                    {obl.requiredAllTags.map((tag: string) => (
+                      <Badge key={tag} size="xs" variant="light" color="blue">
                         {tag}
                       </Badge>
                     ))}

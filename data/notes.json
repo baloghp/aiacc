@@ -4,8 +4,7 @@
     "title": "Personal Use: Out of Scope",
     "description": "You are using this AI system for purely personal, non-professional activities, which are out of the AI Act scope (Article 2). You have no obligations",
     "requiredTags": [
-      "legal:non-professional",
-      "assessment:not-applicable"
+      "legal:non-professional"
     ],
     "order": 1
   },
@@ -15,6 +14,31 @@
     "description": "Organizations registered or headquartered in an EU Member State are directly subject to the EU Artificial Intelligence Act (AI Act). This includes all legal entities (companies, organizations, associations) established anywhere within the territory of the European Union.",
     "requiredTags": [
       "legal:eu-entity"
+    ]
+  },
+  {
+    "id": "n3",
+    "title": "AI System does not meet defintion",
+    "description": "Your system does not meet the AI definition under the EU AI Act.\n\nAccording to Article 3 of the EU AI Act, an AI system is defined as a “machine-based system designed to operate with varying levels of autonomy and that may exhibit adaptiveness after deployment, which, for explicit or implicit objectives, infers from the input it receives how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments.”\n\nSince your system does not fit this definition, the EU AI Act does not apply. You do not have legal obligations under this regulation for this system.\n\nTip: If your system changes in the future to include machine-based inference, adaptability, or autonomous decision-making, you should reassess its status under the Act at that time.",
+    "requiredTags": [
+      "ai-system:not-meets-definition"
+    ]
+  },
+  {
+    "id": "n4",
+    "title": "Your system meets the EU AI Act definition of an AI system.",
+    "description": "According to Article 3 of the EU AI Act, an AI system is “a machine-based system designed to operate with varying levels of autonomy and that may exhibit adaptiveness after deployment, which, for explicit or implicit objectives, infers from the input it receives how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments.”\n\nBecause your system fits this definition, it may be subject to obligations under the EU AI Act depending on other factors, such as its use, risk level, and market placement.",
+    "requiredTags": [
+      "ai-system:meets-definition"
+    ]
+  },
+  {
+    "id": "n5",
+    "title": "Your AI system is out of scope of the EU AI Act.",
+    "description": "Because you do not place this AI system on the EU market and its outputs are not used within the EU, the EU AI Act does not apply in your case.\n\nYou are not required to meet compliance obligations under this regulation for this system.\nIf, at any point in the future, you intend to make the system available in the EU or its outputs are used by EU-based individuals or organizations, you should reassess your obligations under the EU AI Act.",
+    "requiredAllTags": [
+      "legal:not-places-on-eu",
+      "legal:not-output-in-eu"
     ]
   }
 ]

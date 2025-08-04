@@ -34,6 +34,100 @@
           "legal:eu-entity",
           "legal:non-eu-entity"
         ]
+      },
+      {
+        "id": "q3",
+        "text": "Does the system meet the definition of AI systems under the EU AI Act?",
+        "order": 3,
+        "type": "singleChoice",
+        "tags": [
+          "ai-system:meets-definition",
+          "ai-system:not-meets-definition,abort:got-to-results"
+        ],
+        "options": [
+          {
+            "value": "ai-system:meets-definition",
+            "label": "Yes"
+          },
+          {
+            "value": "ai-system:not-meets-definition,abort:go-to-results",
+            "label": "No"
+          }
+        ],
+        "allowMultiple": false
+      },
+      {
+        "id": "q4",
+        "text": "**Do you place this AI system on the EU market?**\n\n**Explanation:**  \n“Placing on the market” means making the AI system available for the first time in the EU, whether for payment or free of charge, regardless of where your organization is established.  \n_If you develop, sell, or otherwise supply this AI system directly or through intermediaries to customers or users in EU member states, select “Yes.”_",
+        "order": 4,
+        "type": "singleChoice",
+        "tags": [
+          "legal:places-on-eu",
+          "legal:not-places-on-eu"
+        ],
+        "options": [
+          {
+            "value": "legal:places-on-eu",
+            "label": "Yes"
+          },
+          {
+            "value": "legal:not-places-on-eu",
+            "label": "No"
+          }
+        ],
+        "allowMultiple": false
+      },
+      {
+        "id": "q5",
+        "text": "**Is the output of this AI system used in the EU?**\n\n**Explanation:**  \nEven if your organization is not located in the EU and you do not place the AI system directly on the EU market, the EU AI Act may still apply if the system’s results, predictions, or outputs are used by individuals or organizations within the EU.  \n_If any output from this AI system reaches users, customers, or systems in the EU, select “Yes.”_",
+        "order": 5,
+        "type": "singleChoice",
+        "options": [
+          {
+            "value": "legal:output-in-eu",
+            "label": "Yes"
+          },
+          {
+            "value": "legal:not-output-in-eu",
+            "label": "No"
+          }
+        ],
+        "allowMultiple": false,
+        "tags": [
+          "legal:output-in-eu",
+          "legal:not-output-in-eu"
+        ]
+      },
+      {
+        "id": "6",
+        "text": "## **Is this AI system used exclusively for any of the following purposes?**\n\n**Explanation:**  \nCertain AI systems are exempt from the EU AI Act if they are used exclusively for specific purposes. Please indicate if this system is used only for one (or more) of the following:\n\n- **Military purposes:** Used solely in defense, armed forces, or national military applications.\n    \n- **Scientific research:** Used solely for scientific research and development activities, not deployed in commercial or operational settings.\n    \n- **National security or law enforcement by non-EU public authorities:** Used solely for national security, defense, or public safety by non-EU governmental organizations.\n    \n- **No:** The system is not used exclusively for any of the above purposes.\n    \n\n_Select all that apply. If you choose \"No,\" it means your system is not limited to these purposes and will proceed through the standard assessment._",
+        "order": 6,
+        "type": "singleChoice",
+        "options": [
+          {
+            "value": "ai-system:exempt-military,abort:go-to-results",
+            "label": "Military purposes"
+          },
+          {
+            "value": "ai-system:exempt-research,abort:go-to-results",
+            "label": "Scientific research"
+          },
+          {
+            "value": "ai-system:exempt-security ,abort:go-to-results",
+            "label": "Security/national security purposes"
+          },
+          {
+            "value": "ai-system:not-exempt",
+            "label": "None of these apply"
+          }
+        ],
+        "allowMultiple": false,
+        "tags": [
+          "ai-system:exempt-military,abort:go-to-results",
+          "ai-system:exempt-research,abort:go-to-results",
+          "ai-system:exempt-security ,abort:go-to-results",
+          "ai-system:not-exempt"
+        ]
       }
     ],
     "isComplete": false

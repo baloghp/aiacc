@@ -36,6 +36,11 @@ export default function AssessmentObligationsList({ obligations }: AssessmentObl
                     {tag}
                   </Badge>
                 ))}
+                {(obligation as any).requiredAllTags && (obligation as any).requiredAllTags.map((tag: string) => (
+                  <Badge key={tag} size="xs" variant="light" color="green">
+                    {tag} 
+                  </Badge>
+                ))}
               </Group>
             </List.Item>
           ))}

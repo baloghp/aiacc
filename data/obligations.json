@@ -7,5 +7,16 @@
       "legal:non-professional"
     ],
     "order": 1
+  },
+  {
+    "id": "o2",
+    "article": "Article 22 (for High-Risk AI Systems)  Article 54 (for GPAI models)",
+    "description": "For organizations not established in the EU but wishing to place a high-risk AI system or a general-purpose AI model (GPAI) on the EU market, the AI Act **requires the appointment of an Authorised Representative** established in the EU.\n\nKey Requirements:\n\n- Mandatory for non-EU providers of high-risk AI systems (e.g., under Annex I or III) and general-purpose AI models (unless open-source and without systemic risks).\n\n- The Authorised Representative must be empowered by written mandate before any product/model is made available in the EU.\n\n- Failure to appoint can result in market restriction, prohibition, and administrative fines up to EUR 15 million or 3% of global annual turnover.",
+    "requiredAllTags": [
+      "legal:non-eu-entity",
+      "risk:gpai",
+      "risk:high"
+    ],
+    "order": 1
   }
 ]

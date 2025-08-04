@@ -2,6 +2,7 @@ import { Company } from './Company';
 import { AISystem } from './AISystem';
 import notesData from '../data/notes.json';
 import obligationsData from '../data/obligations.json';
+import rulesData from '../data/rules.json';
 import { Note } from './Note';
 import { Obligation } from './Obligation';
 
@@ -126,6 +127,34 @@ export class AssessmentManager {
         });
       }
     }
+
+    // Process rules after adding new tags
+    this.processRules();
+  }
+
+  // Process rules to add output tags based on input tags
+  processRules() {
+    const activeTags = this.getActiveTags();
+    
+    // Sort rules by order for consistent processing
+    const sortedRules = [...rulesData].sort((a, b) => (a.order || 0) - (b.order || 0));
+    
+    for (const rule of sortedRules) {
+      // Check if all input tags are present
+      const allInputTagsPresent = rule.inputTags.every(inputTag => 
+        activeTags.includes(inputTag)
+      );
+      
+      if (allInputTagsPresent) {
+        // Add output tags if they're not already present
+        rule.outputTags.forEach(outputTag => {
+          if (!activeTags.includes(outputTag)) {
+            // Add the output tag to a special "rules" question ID
+            this.addTag('rules', outputTag);
+          }
+        });
+      }
+    }
   }
 
 
@@ -154,7 +183,7 @@ export class AssessmentManager {
     // Mock: terminate if we have any disqualification tags
     const activeTags = this.getActiveTags();
     const disqualificationTags = [
-      'abort:got-to-results',
+      'abort:go-to-results',
     ];
     
     return disqualificationTags.some(tag => activeTags.includes(tag));
@@ -174,15 +203,40 @@ export class AssessmentManager {
 
     return notesData
       .filter(note => {
-        // If no required tags are set, the note applies to everyone
-        if (!note.requiredTags || note.requiredTags.length === 0) {
+        const hasRequiredTags = note.requiredTags && note.requiredTags.length > 0;
+        const hasRequiredAllTags = (note as any).requiredAllTags && (note as any).requiredAllTags.length > 0;
+        
+        // If both requiredTags and requiredAllTags are empty, the note applies to everyone
+        if (!hasRequiredTags && !hasRequiredAllTags) {
           return true;
         }
         
-        // Tag-based filtering: note applies if any of its required tags are present in active tags
-        return note.requiredTags.some(requiredTag => 
-          activeTags.includes(requiredTag)
-        );
+        // If requiredAllTags is set, ALL of those tags must be present
+        if (hasRequiredAllTags) {
+          const allTagsPresent = (note as any).requiredAllTags.every((requiredTag: string) => 
+            activeTags.includes(requiredTag)
+          );
+          
+          // If requiredTags is also set, we need both conditions
+          if (hasRequiredTags) {
+            const anyTagsPresent = note.requiredTags.some(requiredTag => 
+              activeTags.includes(requiredTag)
+            );
+            return allTagsPresent && anyTagsPresent;
+          }
+          
+          // Only requiredAllTags is set
+          return allTagsPresent;
+        }
+        
+        // Only requiredTags is set
+        if (hasRequiredTags) {
+          return note.requiredTags.some(requiredTag => 
+            activeTags.includes(requiredTag)
+          );
+        }
+        
+        return false;
       })
       .sort((a, b) => (a.order || 0) - (b.order || 0));
   }
@@ -201,15 +255,40 @@ export class AssessmentManager {
 
     return obligationsData
       .filter(obligation => {
-        // If no required tags are set, the obligation applies to everyone
-        if (!obligation.requiredTags || obligation.requiredTags.length === 0) {
+        const hasRequiredTags = obligation.requiredTags && obligation.requiredTags.length > 0;
+        const hasRequiredAllTags = (obligation as any).requiredAllTags && (obligation as any).requiredAllTags.length > 0;
+        
+        // If both requiredTags and requiredAllTags are empty, the obligation applies to everyone
+        if (!hasRequiredTags && !hasRequiredAllTags) {
           return true;
         }
         
-        // Tag-based filtering: obligation applies if any of its required tags are present in active tags
-        return obligation.requiredTags.some(requiredTag => 
-          activeTags.includes(requiredTag)
-        );
+        // If requiredAllTags is set, ALL of those tags must be present
+        if (hasRequiredAllTags) {
+          const allTagsPresent = (obligation as any).requiredAllTags.every((requiredTag: string) => 
+            activeTags.includes(requiredTag)
+          );
+          
+          // If requiredTags is also set, we need both conditions
+          if (hasRequiredTags) {
+            const anyTagsPresent = obligation.requiredTags.some(requiredTag => 
+              activeTags.includes(requiredTag)
+            );
+            return allTagsPresent && anyTagsPresent;
+          }
+          
+          // Only requiredAllTags is set
+          return allTagsPresent;
+        }
+        
+        // Only requiredTags is set
+        if (hasRequiredTags) {
+          return obligation.requiredTags.some(requiredTag => 
+            activeTags.includes(requiredTag)
+          );
+        }
+        
+        return false;
       })
       .sort((a, b) => (a.order || 0) - (b.order || 0));
   }

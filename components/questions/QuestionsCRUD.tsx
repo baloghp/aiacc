@@ -52,17 +52,82 @@ export default function QuestionsCRUD() {
     deleteGroupModal.openModal();
   };
 
-  const handleGroupSubmit = (group: any) => {
+  const handleGroupSubmit = async (group: any) => {
+    let updatedQuestionGroups;
+    
     if (editingGroup) {
+      // Update existing group
+      updatedQuestionGroups = questionGroups.map(g => 
+        g.id === editingGroup.id ? { ...g, ...group } : g
+      );
       updateGroup(editingGroup.id, group);
     } else {
+      // Add new group
+      updatedQuestionGroups = [...questionGroups, group];
       addGroup(group);
+    }
+    
+    // Auto-save with updated data
+    setSaving(true);
+    try {
+      const res = await fetch('/api/save-questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedQuestionGroups),
+      });
+      const result = await res.json();
+      if (result.success) {
+        notifications.show({
+          color: 'green',
+          title: 'Saved',
+          message: editingGroup ? 'QuestionGroup updated and saved successfully.' : 'QuestionGroup added and saved successfully.',
+          icon: <IconDeviceFloppy size={18} />,
+          autoClose: 2000,
+          withCloseButton: true,
+        });
+      } else {
+        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+      }
+    } catch (error: any) {
+      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleConfirmDeleteGroup = () => {
+  const handleConfirmDeleteGroup = async () => {
+    // Create updated data without the deleted group
+    const updatedQuestionGroups = questionGroups.filter(g => g.id !== deletingGroupId);
+    
     deleteGroup(deletingGroupId);
     deleteGroupModal.closeModal();
+    
+    // Auto-save with updated data
+    setSaving(true);
+    try {
+      const res = await fetch('/api/save-questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedQuestionGroups),
+      });
+      const result = await res.json();
+      if (result.success) {
+        notifications.show({
+          color: 'green',
+          title: 'Saved',
+          message: 'QuestionGroup deleted and saved successfully.',
+          icon: <IconDeviceFloppy size={18} />,
+          autoClose: 2000,
+          withCloseButton: true,
+        });
+      } else {
+        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+      }
+    } catch (error: any) {
+      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+    } finally {
+      setSaving(false);
+    }
   };
 
   // Question handlers
@@ -82,39 +147,45 @@ export default function QuestionsCRUD() {
     deleteQuestionModal.openModal();
   };
 
-  const handleQuestionSubmit = (question: any) => {
+  const handleQuestionSubmit = async (question: any) => {
+    let updatedQuestionGroups;
+    
     if (editingQuestion) {
+      // Update existing question
+      updatedQuestionGroups = questionGroups.map(g => 
+        g.id === editingQuestion.groupId 
+          ? { ...g, questions: g.questions.map(q => q.id === editingQuestion.id ? { ...q, ...question } : q) }
+          : g
+      );
       updateQuestionInGroup(editingQuestion.groupId, editingQuestion.id, question);
     } else {
       // Add new question to the tracked group
       if (addingToGroupId) {
+        updatedQuestionGroups = questionGroups.map(g => 
+          g.id === addingToGroupId 
+            ? { ...g, questions: [...g.questions, question] }
+            : g
+        );
         addQuestionToGroup(addingToGroupId, question);
+      } else {
+        updatedQuestionGroups = questionGroups;
       }
     }
-  };
-
-  const handleConfirmDeleteQuestion = () => {
-    if (deletingQuestion) {
-      deleteQuestionFromGroup(deletingQuestion.groupId, deletingQuestion.questionId);
-      deleteQuestionModal.closeModal();
-    }
-  };
-
-  // Save functionality
-  const handleSave = async () => {
+    
+    // Auto-save with updated data
     setSaving(true);
     try {
       const res = await fetch('/api/save-questions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(questionGroups),
+        body: JSON.stringify(updatedQuestionGroups),
       });
       const result = await res.json();
       if (result.success) {
         notifications.show({
           color: 'green',
           title: 'Saved',
-          message: 'Questions saved successfully.',
+          message: editingQuestion ? 'Question updated and saved successfully.' : 'Question added and saved successfully.',
           icon: <IconDeviceFloppy size={18} />,
           autoClose: 2000,
           withCloseButton: true,
@@ -129,20 +200,53 @@ export default function QuestionsCRUD() {
     }
   };
 
+  const handleConfirmDeleteQuestion = async () => {
+    if (deletingQuestion) {
+      // Create updated data without the deleted question
+      const updatedQuestionGroups = questionGroups.map(g => 
+        g.id === deletingQuestion.groupId 
+          ? { ...g, questions: g.questions.filter(q => q.id !== deletingQuestion.questionId) }
+          : g
+      );
+      
+      deleteQuestionFromGroup(deletingQuestion.groupId, deletingQuestion.questionId);
+      deleteQuestionModal.closeModal();
+      
+      // Auto-save with updated data
+      setSaving(true);
+      try {
+        const res = await fetch('/api/save-questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedQuestionGroups),
+        });
+        const result = await res.json();
+        if (result.success) {
+          notifications.show({
+            color: 'green',
+            title: 'Saved',
+            message: 'Question deleted and saved successfully.',
+            icon: <IconDeviceFloppy size={18} />,
+            autoClose: 2000,
+            withCloseButton: true,
+          });
+        } else {
+          notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        }
+      } catch (error: any) {
+        notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      } finally {
+        setSaving(false);
+      }
+    }
+  };
+
+
+
   return (
     <div>
       <Button leftSection={<IconPlus size={16} />} mb="md" onClick={handleAddGroup}>
         Add QuestionGroup
-      </Button>
-      <Button 
-        leftSection={<IconDeviceFloppy size={16} />} 
-        mb="md" 
-        ml="sm" 
-        color="teal" 
-        onClick={handleSave} 
-        loading={saving}
-      >
-        Save
       </Button>
 
       <QuestionGroupsTable

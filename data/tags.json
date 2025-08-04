@@ -10,13 +10,93 @@
     "description": "Company not registered ore headquartered in an EU Member State."
   },
   {
-    "id": "abort:got-to-results",
+    "id": "abort:go-to-results",
     "category": "abort",
-    "description": "Use this tag to abort the current question flow and go straight to the results page."
+    "description": "Go straight to the results page."
   },
   {
     "id": "legal:non-professional",
     "category": "Legal Scope",
     "description": "The user is using the AI system in a non professional manner."
+  },
+  {
+    "id": "risk:high",
+    "category": "Risk",
+    "description": "AI System has high risk"
+  },
+  {
+    "id": "risk:prohibited",
+    "category": "Risk",
+    "description": "AI system is prohibited."
+  },
+  {
+    "id": "risk:limited",
+    "category": "Risk",
+    "description": "AI System is limited risk."
+  },
+  {
+    "id": "risk:minimal",
+    "category": "Risk",
+    "description": "AI Risk is minimal"
+  },
+  {
+    "id": "risk:gpai",
+    "category": "Risk",
+    "description": "AI System is GPAI"
+  },
+  {
+    "id": "ai-system:meets-definition",
+    "category": "AI System",
+    "description": "AI system meets the definition."
+  },
+  {
+    "id": "ai-system:not-meets-definition",
+    "category": "AI System",
+    "description": "AI System does not meet definition."
+  },
+  {
+    "id": "legal:places-on-eu",
+    "category": "Legal Scope",
+    "description": "AI is placed on EU"
+  },
+  {
+    "id": "legal:not-places-on-eu",
+    "category": "Legal Scope",
+    "description": "AI is not placed in the EU."
+  },
+  {
+    "id": "legal:output-in-eu",
+    "category": "Legal Scope",
+    "description": "AI System output is in EU"
+  },
+  {
+    "id": "legal:not-output-in-eu",
+    "category": "Legal Scope",
+    "description": "AI system output is not in EU"
+  },
+  {
+    "id": "ai-system:exempt-military",
+    "category": "AI System",
+    "description": "Military purpose exemption"
+  },
+  {
+    "id": "ai-system:exempt-research",
+    "category": "AI System",
+    "description": "Research purpose exemption"
+  },
+  {
+    "id": "ai-system:exempt-security ",
+    "category": "AI System",
+    "description": "Security purpose exemption"
+  },
+  {
+    "id": "ai-system:legacy-system  ",
+    "category": "AI System",
+    "description": "Legacy system without changes"
+  },
+  {
+    "id": "ai-system:not-exempt",
+    "category": "AI System",
+    "description": "Not exempt for military, research or security usage."
   }
 ]

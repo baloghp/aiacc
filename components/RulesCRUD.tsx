@@ -2,12 +2,12 @@ import { Table, Button, Modal, TextInput, Textarea, Group, Badge, MultiSelect, N
 import { notifications } from '@mantine/notifications';
 import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
-import notesData from '../data/notes.json';
+import rulesData from '../data/rules.json';
 import tagsData from '../data/tags.json';
 import { Tag } from '../entities/Tag';
 
-export default function NotesCRUD() {
-  const [notes, setNotes] = useState<any[]>(notesData);
+export default function RulesCRUD() {
+  const [rules, setRules] = useState<any[]>(rulesData);
   const [saving, setSaving] = useState(false);
   
   // Tag options from catalog
@@ -19,10 +19,9 @@ export default function NotesCRUD() {
   // Add modal state
   const [addOpen, setAddOpen] = useState(false);
   const [addId, setAddId] = useState('');
-  const [addTitle, setAddTitle] = useState('');
-  const [addDescription, setAddDescription] = useState('');
-  const [addRequiredTags, setAddRequiredTags] = useState<string[]>([]);
-  const [addRequiredAllTags, setAddRequiredAllTags] = useState<string[]>([]);
+  const [addName, setAddName] = useState('');
+  const [addInputTags, setAddInputTags] = useState<string[]>([]);
+  const [addOutputTags, setAddOutputTags] = useState<string[]>([]);
   const [addOrder, setAddOrder] = useState<number | ''>('');
   const [addError, setAddError] = useState('');
 
@@ -30,10 +29,9 @@ export default function NotesCRUD() {
   const [editOpen, setEditOpen] = useState(false);
   const [editIdx, setEditIdx] = useState<number | null>(null);
   const [editId, setEditId] = useState('');
-  const [editTitle, setEditTitle] = useState('');
-  const [editDescription, setEditDescription] = useState('');
-  const [editRequiredTags, setEditRequiredTags] = useState<string[]>([]);
-  const [editRequiredAllTags, setEditRequiredAllTags] = useState<string[]>([]);
+  const [editName, setEditName] = useState('');
+  const [editInputTags, setEditInputTags] = useState<string[]>([]);
+  const [editOutputTags, setEditOutputTags] = useState<string[]>([]);
   const [editOrder, setEditOrder] = useState<number | ''>('');
   const [editError, setEditError] = useState('');
 
@@ -43,10 +41,9 @@ export default function NotesCRUD() {
 
   const handleAdd = () => {
     setAddId('');
-    setAddTitle('');
-    setAddDescription('');
-    setAddRequiredTags([]);
-    setAddRequiredAllTags([]);
+    setAddName('');
+    setAddInputTags([]);
+    setAddOutputTags([]);
     setAddOrder('');
     setAddError('');
     setAddOpen(true);
@@ -54,44 +51,43 @@ export default function NotesCRUD() {
 
   const handleAddSubmit = async () => {
     setAddError('');
-    if (!addId.trim() || !addTitle.trim() || !addDescription.trim()) {
-      setAddError('ID, Title, and Description are required');
+    if (!addId.trim() || !addName.trim()) {
+      setAddError('ID and Name are required');
       return;
     }
-    if (notes.some(o => o.id === addId)) {
+    if (rules.some(r => r.id === addId)) {
       setAddError('ID must be unique');
       return;
     }
     
-    const newNotes = [
-      ...notes,
+    const newRules = [
+      ...rules,
       {
         id: addId,
-        title: addTitle,
-        description: addDescription,
-        requiredTags: addRequiredTags.length > 0 ? addRequiredTags : undefined,
-        requiredAllTags: addRequiredAllTags.length > 0 ? addRequiredAllTags : undefined,
+        name: addName,
+        inputTags: addInputTags.length > 0 ? addInputTags : [],
+        outputTags: addOutputTags.length > 0 ? addOutputTags : [],
         order: addOrder !== '' ? addOrder : undefined,
       },
     ];
     
-    setNotes(newNotes);
+    setRules(newRules);
     setAddOpen(false);
     
     // Auto-save
     setSaving(true);
     try {
-      const res = await fetch('/api/save-notes', {
+      const res = await fetch('/api/save-rules', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newNotes),
+        body: JSON.stringify(newRules),
       });
       const result = await res.json();
       if (result.success) {
         notifications.show({
           color: 'green',
           title: 'Saved',
-          message: 'Note added and saved successfully.',
+          message: 'Rule added and saved successfully.',
           icon: <IconDeviceFloppy size={18} />,
           autoClose: 2000,
           withCloseButton: true,
@@ -107,60 +103,58 @@ export default function NotesCRUD() {
   };
 
   const openEditModal = (idx: number) => {
-    const note = notes[idx];
+    const rule = rules[idx];
     setEditIdx(idx);
-    setEditId(note.id);
-    setEditTitle(note.title);
-    setEditDescription(note.description);
-    setEditRequiredTags(note.requiredTags || []);
-    setEditRequiredAllTags(note.requiredAllTags || []);
-    setEditOrder(note.order || '');
+    setEditId(rule.id);
+    setEditName(rule.name);
+    setEditInputTags(rule.inputTags || []);
+    setEditOutputTags(rule.outputTags || []);
+    setEditOrder(rule.order || '');
     setEditError('');
     setEditOpen(true);
   };
 
   const handleEditSubmit = async () => {
     setEditError('');
-    if (!editId.trim() || !editTitle.trim() || !editDescription.trim()) {
-      setEditError('ID, Title, and Description are required');
+    if (!editId.trim() || !editName.trim()) {
+      setEditError('ID and Name are required');
       return;
     }
     if (editIdx === null) {return;}
-    if (notes.some((o, i) => o.id === editId && i !== editIdx)) {
+    if (rules.some((r, i) => r.id === editId && i !== editIdx)) {
       setEditError('ID must be unique');
       return;
     }
     
-    const updatedNotes = notes.map((n, i) =>
+    const updatedRules = rules.map((r, i) =>
       i === editIdx
         ? {
             id: editId,
-            title: editTitle,
-            description: editDescription,
-            requiredTags: editRequiredTags.length > 0 ? editRequiredTags : undefined,
-            requiredAllTags: editRequiredAllTags.length > 0 ? editRequiredAllTags : undefined,
+            name: editName,
+            inputTags: editInputTags.length > 0 ? editInputTags : [],
+            outputTags: editOutputTags.length > 0 ? editOutputTags : [],
             order: editOrder !== '' ? editOrder : undefined,
           }
-        : n
+        : r
     );
     
-    setNotes(updatedNotes);
+    setRules(updatedRules);
     setEditOpen(false);
     
     // Auto-save
     setSaving(true);
     try {
-      const res = await fetch('/api/save-notes', {
+      const res = await fetch('/api/save-rules', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedNotes),
+        body: JSON.stringify(updatedRules),
       });
       const result = await res.json();
       if (result.success) {
         notifications.show({
           color: 'green',
           title: 'Saved',
-          message: 'Note updated and saved successfully.',
+          message: 'Rule updated and saved successfully.',
           icon: <IconDeviceFloppy size={18} />,
           autoClose: 2000,
           withCloseButton: true,
@@ -183,24 +177,24 @@ export default function NotesCRUD() {
   const handleDelete = async () => {
     if (deleteIdx === null) {return;}
     
-    const updatedNotes = notes.filter((_, i) => i !== deleteIdx);
-    setNotes(updatedNotes);
+    const updatedRules = rules.filter((_, i) => i !== deleteIdx);
+    setRules(updatedRules);
     setDeleteOpen(false);
     
     // Auto-save
     setSaving(true);
     try {
-      const res = await fetch('/api/save-notes', {
+      const res = await fetch('/api/save-rules', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedNotes),
+        body: JSON.stringify(updatedRules),
       });
       const result = await res.json();
       if (result.success) {
         notifications.show({
           color: 'green',
           title: 'Saved',
-          message: 'Note deleted and saved successfully.',
+          message: 'Rule deleted and saved successfully.',
           icon: <IconDeviceFloppy size={18} />,
           autoClose: 2000,
           withCloseButton: true,
@@ -215,117 +209,99 @@ export default function NotesCRUD() {
     }
   };
 
-
-
-
-
   return (
     <div>
       <Button leftSection={<IconPlus size={16} />} mb="md" onClick={handleAdd}>
-        Add Note
+        Add Rule
       </Button>
       {/* Add Modal */}
-      <Modal opened={addOpen} onClose={() => setAddOpen(false)} title="Add Note" centered>
+      <Modal opened={addOpen} onClose={() => setAddOpen(false)} title="Add Rule" centered>
         <TextInput
           label="ID"
           value={addId}
           onChange={e => setAddId(e.currentTarget.value)}
           required
           mb="sm"
+          placeholder="e.g., rule1"
         />
         <TextInput
-          label="Title"
-          value={addTitle}
-          onChange={e => setAddTitle(e.currentTarget.value)}
+          label="Name"
+          value={addName}
+          onChange={e => setAddName(e.currentTarget.value)}
           required
           mb="sm"
-        />
-        <Textarea
-          label="Description (Markdown supported)"
-          value={addDescription}
-          onChange={e => setAddDescription(e.currentTarget.value)}
-          required
-          mb="sm"
-          minRows={6}
-          autosize
+          placeholder="e.g., Non-EU Entity Rule"
         />
         <MultiSelect
-          label="Required Tags (Any)"
+          label="Input Tags (When these tags are present)"
           data={tagOptions || []}
-          value={addRequiredTags || []}
-          onChange={setAddRequiredTags}
+          value={addInputTags || []}
+          onChange={setAddInputTags}
           searchable
           mb="sm"
-          placeholder="Select tags from catalog"
+          placeholder="Select input tags from catalog"
         />
         <MultiSelect
-          label="Required All Tags (All must be present)"
+          label="Output Tags (Add these tags when rule triggers)"
           data={tagOptions || []}
-          value={addRequiredAllTags || []}
-          onChange={setAddRequiredAllTags}
+          value={addOutputTags || []}
+          onChange={setAddOutputTags}
           searchable
           mb="sm"
-          placeholder="Select tags that must ALL be present"
+          placeholder="Select output tags from catalog"
         />
         <NumberInput
           label="Order"
           value={addOrder}
           onChange={(value) => setAddOrder(value as number | '')}
-          placeholder="Optional order for sorting"
+          placeholder="Optional order for processing"
           mb="sm"
           min={0}
         />
         {addError && <div style={{ color: 'red', marginBottom: 8 }}>{addError}</div>}
-        <Button onClick={handleAddSubmit} fullWidth>Add Note</Button>
+        <Button onClick={handleAddSubmit} fullWidth>Add Rule</Button>
       </Modal>
       {/* Edit Modal */}
-      <Modal opened={editOpen} onClose={() => setEditOpen(false)} title="Edit Note" centered>
+      <Modal opened={editOpen} onClose={() => setEditOpen(false)} title="Edit Rule" centered>
         <TextInput
           label="ID"
           value={editId}
           onChange={e => setEditId(e.currentTarget.value)}
           required
           mb="sm"
+          placeholder="e.g., rule1"
         />
         <TextInput
-          label="Title"
-          value={editTitle}
-          onChange={e => setEditTitle(e.currentTarget.value)}
+          label="Name"
+          value={editName}
+          onChange={e => setEditName(e.currentTarget.value)}
           required
           mb="sm"
-        />
-        <Textarea
-          label="Description (Markdown supported)"
-          value={editDescription}
-          onChange={e => setEditDescription(e.currentTarget.value)}
-          required
-          mb="sm"
-          minRows={6}
-          autosize
+          placeholder="e.g., Non-EU Entity Rule"
         />
         <MultiSelect
-          label="Required Tags (Any)"
+          label="Input Tags (When these tags are present)"
           data={tagOptions || []}
-          value={editRequiredTags || []}
-          onChange={setEditRequiredTags}
+          value={editInputTags || []}
+          onChange={setEditInputTags}
           searchable
           mb="sm"
-          placeholder="Select tags from catalog"
+          placeholder="Select input tags from catalog"
         />
         <MultiSelect
-          label="Required All Tags (All must be present)"
+          label="Output Tags (Add these tags when rule triggers)"
           data={tagOptions || []}
-          value={editRequiredAllTags || []}
-          onChange={setEditRequiredAllTags}
+          value={editOutputTags || []}
+          onChange={setEditOutputTags}
           searchable
           mb="sm"
-          placeholder="Select tags that must ALL be present"
+          placeholder="Select output tags from catalog"
         />
         <NumberInput
           label="Order"
           value={editOrder}
           onChange={(value) => setEditOrder(value as number | '')}
-          placeholder="Optional order for sorting"
+          placeholder="Optional order for processing"
           mb="sm"
           min={0}
         />
@@ -333,9 +309,9 @@ export default function NotesCRUD() {
         <Button onClick={handleEditSubmit} fullWidth>Save Changes</Button>
       </Modal>
       {/* Delete Modal */}
-      <Modal opened={deleteOpen} onClose={() => setDeleteOpen(false)} title="Delete Note" centered>
+      <Modal opened={deleteOpen} onClose={() => setDeleteOpen(false)} title="Delete Rule" centered>
         <div style={{ marginBottom: 16 }}>
-          Are you sure you want to delete this note?
+          Are you sure you want to delete this rule?
         </div>
         <Button color="red" onClick={handleDelete} fullWidth>Delete</Button>
       </Modal>
@@ -343,26 +319,24 @@ export default function NotesCRUD() {
         <Table.Thead>
           <Table.Tr>
             <Table.Th>ID</Table.Th>
-            <Table.Th>Title</Table.Th>
-            <Table.Th>Description</Table.Th>
+            <Table.Th>Name</Table.Th>
             <Table.Th>Order</Table.Th>
-            <Table.Th>Required Tags</Table.Th>
-            <Table.Th>Required All Tags</Table.Th>
+            <Table.Th>Input Tags</Table.Th>
+            <Table.Th>Output Tags</Table.Th>
             <Table.Th>Actions</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {notes.map((note, _idx) => (
-            <Table.Tr key={note.id}>
-              <Table.Td>{note.id}</Table.Td>
-              <Table.Td>{note.title}</Table.Td>
-              <Table.Td>{note.description}</Table.Td>
-              <Table.Td>{note.order || '-'}</Table.Td>
+          {rules.map((rule, _idx) => (
+            <Table.Tr key={rule.id}>
+              <Table.Td>{rule.id}</Table.Td>
+              <Table.Td>{rule.name}</Table.Td>
+              <Table.Td>{rule.order || '-'}</Table.Td>
               <Table.Td>
-                {note.requiredTags && note.requiredTags.length > 0 ? (
+                {rule.inputTags && rule.inputTags.length > 0 ? (
                   <Group gap={4}>
-                    {note.requiredTags.map((tag: string) => (
-                      <Badge key={tag} size="xs" variant="light">
+                    {rule.inputTags.map((tag: string) => (
+                      <Badge key={tag} size="xs" variant="light" color="green">
                         {tag}
                       </Badge>
                     ))}
@@ -370,9 +344,9 @@ export default function NotesCRUD() {
                 ) : '-'}
               </Table.Td>
               <Table.Td>
-                {note.requiredAllTags && note.requiredAllTags.length > 0 ? (
+                {rule.outputTags && rule.outputTags.length > 0 ? (
                   <Group gap={4}>
-                    {note.requiredAllTags.map((tag: string) => (
+                    {rule.outputTags.map((tag: string) => (
                       <Badge key={tag} size="xs" variant="light" color="blue">
                         {tag}
                       </Badge>
