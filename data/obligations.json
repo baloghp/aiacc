@@ -28,5 +28,42 @@
       "ai-system:exempt-research",
       "ai-system:exempt-security"
     ]
+  },
+  {
+    "id": "o4",
+    "article": "Article 4",
+    "description": "AI literacy measures for staff.",
+    "requiredTags": [
+      "role:provider",
+      "role:deployer"
+    ]
+  },
+  {
+    "id": "o5",
+    "article": "Article 50",
+    "description": "Transparency for AI interactions.",
+    "requiredTags": [
+      "role:provider",
+      "role:deployer"
+    ]
+  },
+  {
+    "id": "o6",
+    "article": "Article 49",
+    "description": "Registration in EU database (if applicable).",
+    "requiredTags": [
+      "role:provider",
+      "role:authorized-representative"
+    ]
+  },
+  {
+    "id": "o7",
+    "article": "Article 71",
+    "description": "Data entry into EU database.",
+    "requiredTags": [
+      "role:provider",
+      "role:deployer",
+      "role:authorized-representative"
+    ]
   }
 ]

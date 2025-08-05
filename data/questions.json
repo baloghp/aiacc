@@ -176,5 +176,220 @@
       }
     ],
     "isComplete": false
+  },
+  {
+    "id": "qg-Roles",
+    "order": 2,
+    "phase": "Roles",
+    "questions": [
+      {
+        "id": "q9",
+        "text": "**Do you develop or commission the development of this AI system, and place it on the market or put it into service under your name or trademark, either for your own use or for others (including via a third party)?**  \n  \n*Explanation:*  \nYou are considered a “provider” if you create, design, or have significant control over the development of the AI system and are responsible for placing it on the EU market or putting it into use. This role applies regardless of whether your company markets the system under its own name, or if another company does so on your behalf. Providers have primary responsibility for legal compliance, technical documentation, and ongoing monitoring.",
+        "order": 1,
+        "type": "yesNo",
+        "tags": [
+          "role:provider"
+        ]
+      },
+      {
+        "id": "q10",
+        "text": "**Are you using or operating this AI system within your organization, or under your authority, other than for personal, non-professional use?**\n  \n*Explanation:*  \nA “deployer” is anyone—including companies, government bodies, or institutions—who deploys or manages the AI system as part of their operational processes, such as a bank using an AI-powered loan assessment tool, or an employer using AI for recruitment. If you are using the system in your business, school, or public organization, you are a deployer and have distinct transparency and oversight duties.",
+        "order": 2,
+        "type": "yesNo",
+        "tags": [
+          "role:deployer"
+        ]
+      },
+      {
+        "id": "q11",
+        "text": "**Do you import or intend to import this AI system (or products containing it) into the EU from a supplier established outside the EU?**\n  \n*Explanation:*  \nYou are considered an “importer” if you are the first entity to make the AI system available in the EU, when it has been manufactured by a third party located outside the EU. Importers must ensure the provider outside the EU has complied with all EU AI Act requirements before placing the system on the EU market.",
+        "order": 3,
+        "type": "yesNo",
+        "tags": [
+          "role:importer"
+        ]
+      },
+      {
+        "id": "q12",
+        "text": "**Will you be distributing or making this AI system available in the EU supply chain, but not as its provider or importer, and without modifying its intended purpose?**  \n\n*Explanation:*  \nA “distributor” is any company or organization, other than the provider or importer, that makes the AI system available on the market (such as a reseller or retailer). Distributors are required to verify that the system bears the correct documentation, CE marking, and is accompanied by instructions and information as required by the EU AI Act.",
+        "order": 3,
+        "type": "yesNo",
+        "tags": [
+          "role:distributor"
+        ]
+      },
+      {
+        "id": "q13",
+        "text": "**Are you a manufacturer who incorporates or integrates this AI system into your own products—such as machinery, vehicles, or other equipment—before placing them on the EU market under your name or trademark?**\n  \n*Explanation:*  \nIf you build products that include AI components and market the finished product under your brand, you are regarded as a “product manufacturer” for the purposes of the AI Act. This role means you must ensure not only that your product meets product safety regulations, but also that integrated AI complies with the AI Act.",
+        "order": 4,
+        "type": "yesNo",
+        "tags": [
+          "role:product-manufacturer"
+        ]
+      },
+      {
+        "id": "q14",
+        "text": "**If the provider of the AI system is established outside the EU, have you been officially appointed in writing by that provider to act as their legal authorized representative in the EU?**\n>\n*Explanation:*  \nAn “authorized representative” is a personal or legal entity established in the EU, appointed by a non-EU provider to perform certain compliance tasks and to serve as the main point of contact with EU authorities. If you’ve been assigned this responsibility, your obligations include holding technical documentation and ensuring cooperation with regulators.",
+        "order": 4,
+        "type": "yesNo",
+        "tags": [
+          "role:authorized-representative"
+        ]
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-Risk-Prohibition-Social_Scoring",
+    "order": 3,
+    "phase": "Risk",
+    "questions": [
+      {
+        "id": "q15",
+        "text": "**Can your AI system generate a score, ranking, or classification about an individual based on their social behavior, personal characteristics, or economic status (for example: reliability, trustworthiness, or social worth)?**  \n\n*Explanation:*  \nSocial scoring means using AI to rate people based on traits or behaviors—like tracking their financial habits, social media use, or lifestyle—to assign a number or label.",
+        "order": 1,
+        "type": "yesNo",
+        "tags": [
+          "risk:social_scoring"
+        ]
+      },
+      {
+        "id": "q16",
+        "text": "**Is your system intended for use, or could it realistically be made available for use, by a public authority (such as a government department, police, municipal agency), or someone acting on a public authority's behalf?**  \n\n*Explanation:*  \nThe EU AI Act prohibits social scoring by public bodies or on their behalf—especially where it could lead to denial of services or unfair disadvantages. If you build this capability, you must actively prevent public sector entities from using your AI for this purpose, through legal, technical, and organizational controls.",
+        "order": 2,
+        "type": "yesNo",
+        "dependencies": [
+          "risk:social_scoring"
+        ],
+        "tags": [
+          "risk:social_scoring-public_sector",
+          "abort:go-to-results",
+          "risk:prohibited"
+        ]
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-Risk-Prohibition-Real_Time_Biometric-ID",
+    "order": 5,
+    "phase": "Risk",
+    "questions": [
+      {
+        "id": "q17",
+        "text": "**Can your AI system automatically identify people in real-time, using biometric data (such as facial recognition, fingerprints, voice), in publicly accessible locations such as streets, parks, or transport hubs?**  \n\n*Explanation:*  \nReal-time biometric identification means your AI can pick people out of a crowd by their face or other biological features instantly, as they walk through public spaces.",
+        "order": 1,
+        "type": "yesNo",
+        "tags": [
+          "risk:realtime_biometric_id"
+        ]
+      },
+      {
+        "id": "q18",
+        "text": "**Is your system intended for use by, or could it be made available to, public law enforcement authorities (such as police or security agencies) for identifying individuals in public spaces?**  \n\n*Explanation:*  \nThe EU AI Act bans law enforcement and public authorities from using real-time biometric identification technologies in public places—except under strict legal exceptions (like searching for missing persons with court/judicial authorization). If your system could be used this way, you must prevent such deployment by design.",
+        "order": 2,
+        "type": "yesNo",
+        "tags": [
+          "risk:realtime_biometric_id_in_lawenforcement",
+          "abort:go-to-results",
+          "risk:prohibited"
+        ]
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-Risk-Prohibition-Emotion_Recognition",
+    "order": 6,
+    "phase": "Risk",
+    "questions": [
+      {
+        "id": "q19",
+        "text": "**Can your AI system detect, analyze, or infer people’s emotions, moods, or mental states using biometric data—such as facial expressions, voice recordings, body language, heart rate, or other physical attributes?**  \n\n*Explanation:*  \nBiometric-based emotion recognition means using sensors, cameras, microphones, or wearables to read physical signals or behaviors (like facial expressions, tone of voice, body movement, pulse) to judge if someone is, for example, happy, angry, sad, tired, or engaged.\n\n**This does NOT apply to analyzing sentiment or emotions solely from written text, such as emails or chat messages, where no biometric data is used.**",
+        "order": 1,
+        "type": "yesNo",
+        "tags": [
+          "risk:emotion-recognition"
+        ]
+      },
+      {
+        "id": "q20",
+        "text": "**Is your system intended to be used, or could it reasonably be made available for use, in workplaces for employment-related decisions (such as hiring, performance monitoring, or staff evaluation), or in schools/educational settings for managing or assessing students or staff?**  \n\n*Explanation:*  \nAI systems that use biometric data to analyze emotions in hiring, employee monitoring, student assessment, or classroom management are banned. If your AI is built for these purposes, you must take active steps to prevent its use in these contexts.",
+        "order": 2,
+        "type": "yesNo",
+        "dependencies": [
+          "risk:emotion-recognition"
+        ],
+        "tags": [
+          "risk:emotion-recognition-in-workplace-education",
+          "abort:go-to-results",
+          "risk:prohibited"
+        ]
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-Risk-Prohibition-Rest",
+    "order": 7,
+    "phase": "Risk",
+    "questions": [
+      {
+        "id": "q21",
+        "text": "**Does your AI system exploit weaknesses of people due to age, disability, or socio-economic status to manipulate them and cause harm?**\n\n*Explanation:*  \nSuch exploitation is banned as it can severely harm vulnerable individuals or groups. Targeting or manipulating people because they are children, elderly, disabled, or in difficult life situations—to influence their actions or decisions for your benefit—is not allowed.",
+        "order": 1,
+        "type": "yesNo",
+        "tags": [
+          "risk:exploiting_vulnaribilites",
+          "risk:prohibited",
+          "abort:go-to-results"
+        ]
+      },
+      {
+        "id": "q22",
+        "text": "**Does your AI system gather facial images from the internet or CCTV indiscriminately to create databases without individuals' consent?**\n\n*Explanation:*  \nCreating such databases without consent is illegal and violates privacy rights. Collecting faces from social media, websites, or public cameras without permission to build identification systems is strictly forbidden.",
+        "order": 2,
+        "type": "yesNo",
+        "tags": [
+          "risk:prohibited",
+          "abort:go-to-results",
+          "risk:facial_recognition_db"
+        ]
+      },
+      {
+        "id": "q23",
+        "text": "**Does your AI system categorize people based on sensitive attributes (race, religion, political beliefs, sexual orientation) inferred from biometric data, except in narrow authorized cases (like limited law enforcement uses)?**\n\n*Explanation:*  \nThis categorization is banned except for limited law enforcement purposes under strict conditions. Inferring or grouping people by sensitive traits using biometric analysis (like face or voice) is not allowed in almost all scenarios.",
+        "order": 3,
+        "type": "yesNo",
+        "tags": [
+          "risk:prohibited",
+          "abort:go-to-results",
+          "risk:biometric_categorization"
+        ]
+      },
+      {
+        "id": "q24",
+        "text": "**Does your AI system use subliminal or manipulative techniques to influence people's decisions or behavior in harmful ways?**\n\n*Explanation:*  \nUsing covert techniques that bypass a person’s awareness to distort their decision-making and cause (or risk causing) them harm is prohibited. For example, imperceptible cues or manipulations that lead people into harmful choices are not allowed.",
+        "order": 4,
+        "type": "yesNo",
+        "tags": [
+          "risk:prohibited",
+          "abort:go-to-results",
+          "risk:subliminal"
+        ]
+      },
+      {
+        "id": "q25",
+        "text": "**Does your AI system try to predict if someone is likely to commit a crime or offense, primarily based on traits like their age, gender, ethnicity, residence, or social background, instead of objective evidence or individual conduct?**\n\n*Explanation:*  \nAI systems that \"flag\" people as likely to break the law because of who they are or where they live—rather than based on specific behaviors—are not allowed. This is to prevent unjust profiling and discrimination.",
+        "order": 5,
+        "type": "yesNo",
+        "tags": [
+          "risk:predictive_policing",
+          "risk:prohibited",
+          "abort:go-to-results"
+        ]
+      }
+    ],
+    "isComplete": false
   }
 ]

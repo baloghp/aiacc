@@ -101,14 +101,92 @@
   },
   {
     "id": "ai-system:non-legacy-system",
-    "category": "Legal Scope"
+    "category": "Legal Scope",
+    "description": "AI System is placed on the market after 2nd August 2025"
   },
   {
     "id": "ai-system:legacy-system-w-changes",
-    "category": "Legal Scope"
+    "category": "Legal Scope",
+    "description": "Legacy AI system with changes after 2nd August 2025"
   },
   {
     "id": "ai-system:legacy-system-wo-changes",
-    "category": "Legal Scope"
+    "category": "Legal Scope",
+    "description": "Legacy Sytem without changes after 2nd August 2025."
+  },
+  {
+    "id": "role:provider",
+    "category": "Role",
+    "description": "Provider"
+  },
+  {
+    "id": "role:deployer",
+    "category": "Role",
+    "description": "Deployer"
+  },
+  {
+    "id": "role:product-manufacturer",
+    "category": "Role",
+    "description": "Manufacturer"
+  },
+  {
+    "id": "role:authorized-representative",
+    "category": "Role",
+    "description": "Representative"
+  },
+  {
+    "id": "role:importer",
+    "category": "Role",
+    "description": "Importer"
+  },
+  {
+    "id": "role:distributor",
+    "category": "Role",
+    "description": "Distributor"
+  },
+  {
+    "id": "risk:social_scoring",
+    "category": "Risk",
+    "description": "social scoring"
+  },
+  {
+    "id": "risk:social_scoring-public_sector",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:realtime_biometric_id",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:realtime_biometric_id_in_lawenforcement",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:emotion-recognition",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:emotion-recognition-in-workplace-education",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:predictive_policing",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:exploiting_vulnaribilites",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:facial_recognition_db",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:biometric_categorization",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:subliminal",
+    "category": "Risk"
   }
 ]

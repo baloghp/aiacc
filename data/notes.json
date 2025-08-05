@@ -66,5 +66,85 @@
     "requiredTags": [
       "legal:output-in-eu"
     ]
+  },
+  {
+    "id": "n9",
+    "title": "AI System is not considered as legacy system.",
+    "description": "Since you indicated that the  AI system was not placed on the EU market (or put into service in the EU) before 2 August 2025, it does **not** qualify as a “legacy” or pre-existing system under the EU Artificial Intelligence Act.  \n\nThis means your system will be subject to the **full requirements of the AI Act** when they come into legal effect. You must:\n- Conduct a full risk assessment based on the system’s type and use context.\n- Undertake a conformity assessment and complete required technical documentation.\n- Implement all mandatory obligations for your system’s AI risk category, including requirements for high-risk, general-purpose, or other regulated AI       systems.\n- Ensure compliance with transparency, human oversight, data quality, cybersecurity, incident reporting, and ongoing risk management provisions as detailed in the AI Act.",
+    "requiredTags": [
+      "ai-system:non-legacy-system"
+    ]
+  },
+  {
+    "id": "n10",
+    "title": " AI system is considered a “legacy”",
+    "description": "Your AI system is considered a “legacy” or pre-existing system under the EU Artificial Intelligence Act.  \n\nThis means that, depending on whether your system undergoes any significant modifications after 2 August 2025:\n- If your system **remains unchanged**, you benefit from transitional provisions and are subject to a limited set of ongoing obligations.  \n  - You must maintain technical documentation, retain relevant logs, continue risk management, and cooperate with authorities if requested.  \n  - Full retraining or conformity reassessment is not required unless specifically triggered by sectoral law or a change in system use.\n- If your system **is significantly modified or upgraded** after 2 August 2025, you will be required to fully comply with all relevant obligations under the AI Act (including risk assessments and conformity procedures) as if it was a newly placed system.",
+    "requiredTags": [
+      "ai-system:legacy-system"
+    ]
+  },
+  {
+    "id": "n11",
+    "title": "AI System is a modified legacy system",
+    "description": "Since your system has been modified or upgraded since 2 August 2025, it is considered subject to the **full requirements of the AI Act**.  \nYou must comply with all applicable obligations, including:\n- Conducting comprehensive risk and fundamental rights impact assessments,\n- Undergoing conformity assessment procedures,\n- Ensuring appropriate human oversight,\n- Maintaining up-to-date technical documentation and incident reporting,\n- Meeting all other requirements for your system's risk category.\n\nTreat your system as if it is being newly placed on the EU market under the latest AI Act rules.",
+    "requiredTags": [
+      "ai-system:legacy-system-w-changes"
+    ]
+  },
+  {
+    "id": "n12",
+    "title": "Not modified legacy AI system",
+    "description": "Since your system has **not** been modified or upgraded since 2 August 2025, it remains a “legacy” system covered by transitional provisions under the AI Act.  \nYou must continue to fulfill essential obligations including:\n- Maintaining technical documentation,\n- Implementing risk management practices and ongoing monitoring,\n- Retaining logs and incident records,\n- Cooperating with EU authorities upon request.\n\nHowever, **full retraining or comprehensive re-assessment of the system is generally not required** for unchanged legacy systems, unless specifically mandated by sectoral or national law.",
+    "requiredTags": [
+      "ai-system:legacy-system-wo-changes"
+    ]
+  },
+  {
+    "id": "n13",
+    "title": "You play a role as provider",
+    "description": "Your organization is acting as a provider because you have indicated that you develop, commission the development of, or place this AI system on the market under your name or trademark. As a provider, you are primarily responsible for ensuring compliance with the EU AI Act, including technical documentation, conformity obligations, and post-market monitoring. This includes managing the AI system's compliance throughout its lifecycle and cooperating with regulatory authorities.",
+    "requiredTags": [
+      "role:provider"
+    ]
+  },
+  {
+    "id": "n14",
+    "title": "You play a role as deployer ",
+    "description": "Your organization is identified as a deployer since you have indicated you use or operate this AI system within your organization, or under your authority, beyond purely personal or non-professional activities. As a deployer, you must ensure the responsible and lawful operation of the AI system, follow transparency obligations, and implement any required oversight and risk mitigation measures stipulated by the EU AI Act.",
+    "requiredTags": [
+      "role:deployer"
+    ]
+  },
+  {
+    "id": "n15",
+    "title": "You play a role as distributor",
+    "description": "Your organization is classified as a distributor as you make this AI system available in the EU supply chain without being its provider or importer and without altering its intended purpose. Distributors have the responsibility to verify that the AI system is properly documented, CE marked where required, and supplied with all mandatory instructions and information according to EU AI Act rules.",
+    "requiredTags": [
+      "role:distributor"
+    ]
+  },
+  {
+    "id": "n16",
+    "title": "You integrate AI as a product manufacturer",
+    "description": "Your organization plays the role of product manufacturer integrating AI because you incorporate this AI system into your own products (such as machinery, vehicles, or equipment) and market the combined product under your name or trademark. In this role, you are responsible for ensuring both your finished product and its embedded AI functionalities meet all relevant regulatory and safety requirements, including those of the EU AI Act.",
+    "requiredTags": [
+      "role:product-manufacturer"
+    ]
+  },
+  {
+    "id": "n17",
+    "title": "You act as an authorized representative",
+    "description": "You are recognized as the authorized representative since you have been officially appointed to represent a non-EU provider for this AI system within the EU. As an authorized representative, you serve as the main contact point for EU authorities, maintain technical documentation, and fulfill compliance responsibilities on behalf of the provider as specified by the EU AI Act.",
+    "requiredTags": [
+      "role:authorized-representative"
+    ]
+  },
+  {
+    "id": "n18",
+    "title": "You play a role as importer",
+    "description": "You are assigned the role of importer because you bring or plan to bring this AI system (or products containing it) into the EU market from a provider established outside the EU. As an importer, you must make sure that the provider has met all legal and technical EU AI Act requirements before the system is placed on the EU market, and you may be required to maintain compliance documentation.",
+    "requiredTags": [
+      "role:importer"
+    ]
   }
 ]
