@@ -5,4 +5,4 @@ export interface Note {
   requiredTags?: string[]; // Tags that must be present for this note to apply
   requiredAllTags?: string[]; // Tags that must ALL be present together for this note to apply
   order?: number; // Optional order for sorting
-} 
+}

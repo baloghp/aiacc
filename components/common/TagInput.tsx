@@ -1,5 +1,5 @@
-import { TextInput, Button, Group, Stack, Badge } from '@mantine/core';
 import { useState } from 'react';
+import { Badge, Button, Group, Stack, TextInput } from '@mantine/core';
 
 interface TagInputProps {
   tags: string[];
@@ -8,27 +8,32 @@ interface TagInputProps {
   label?: string;
 }
 
-export function TagInput({ tags, onTagsChange, placeholder = 'Enter tag and click Add', label = 'Tags' }: TagInputProps) {
+export function TagInput({
+  tags,
+  onTagsChange,
+  placeholder = 'Enter tag and click Add',
+  label = 'Tags',
+}: TagInputProps) {
   const [inputValue, setInputValue] = useState('');
-  
+
   const addTag = () => {
     if (inputValue.trim() && !tags.includes(inputValue.trim())) {
       onTagsChange([...tags, inputValue.trim()]);
       setInputValue('');
     }
   };
-  
+
   const removeTag = (tagToRemove: string) => {
-    onTagsChange(tags.filter(tag => tag !== tagToRemove));
+    onTagsChange(tags.filter((tag) => tag !== tagToRemove));
   };
-  
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       addTag();
     }
   };
-  
+
   return (
     <div>
       <Group mb="xs">
@@ -58,4 +63,4 @@ export function TagInput({ tags, onTagsChange, placeholder = 'Enter tag and clic
       )}
     </div>
   );
-} 
+}

@@ -1,20 +1,33 @@
-import { Table, Button, Modal, TextInput, Textarea, Group, Badge, MultiSelect, NumberInput } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
+import { IconDeviceFloppy, IconPlus } from '@tabler/icons-react';
+import {
+  Badge,
+  Button,
+  Group,
+  Modal,
+  MultiSelect,
+  NumberInput,
+  Table,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import obligationsData from '../data/obligations.json';
 import tagsData from '../data/tags.json';
 import { Tag } from '../entities/Tag';
+import { MarkdownRenderer } from './common/MarkdownRenderer';
 
 export default function ObligationsCRUD() {
   const [obligations, setObligations] = useState<any[]>(obligationsData);
   const [saving, setSaving] = useState(false);
-  
+
   // Tag options from catalog
-  const tagOptions = (tagsData as Tag[]).map(tag => ({
-    value: tag.id,
-    label: tag.id
-  })).filter(option => option.value && option.label);
+  const tagOptions = (tagsData as Tag[])
+    .map((tag) => ({
+      value: tag.id,
+      label: tag.id,
+    }))
+    .filter((option) => option.value && option.label);
 
   // Add modal state
   const [addOpen, setAddOpen] = useState(false);
@@ -58,11 +71,11 @@ export default function ObligationsCRUD() {
       setAddError('ID, Article, and Description are required');
       return;
     }
-    if (obligations.some(o => o.id === addId)) {
+    if (obligations.some((o) => o.id === addId)) {
       setAddError('ID must be unique');
       return;
     }
-    
+
     const newObligations = [
       ...obligations,
       {
@@ -74,10 +87,10 @@ export default function ObligationsCRUD() {
         order: addOrder !== '' ? addOrder : undefined,
       },
     ];
-    
+
     setObligations(newObligations);
     setAddOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -97,10 +110,18 @@ export default function ObligationsCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -125,12 +146,14 @@ export default function ObligationsCRUD() {
       setEditError('ID, Article, and Description are required');
       return;
     }
-    if (editIdx === null) {return;}
+    if (editIdx === null) {
+      return;
+    }
     if (obligations.some((o, i) => o.id === editId && i !== editIdx)) {
       setEditError('ID must be unique');
       return;
     }
-    
+
     const updatedObligations = obligations.map((o, i) =>
       i === editIdx
         ? {
@@ -143,10 +166,10 @@ export default function ObligationsCRUD() {
           }
         : o
     );
-    
+
     setObligations(updatedObligations);
     setEditOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -166,10 +189,18 @@ export default function ObligationsCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -181,12 +212,14 @@ export default function ObligationsCRUD() {
   };
 
   const handleDelete = async () => {
-    if (deleteIdx === null) {return;}
-    
+    if (deleteIdx === null) {
+      return;
+    }
+
     const updatedObligations = obligations.filter((_, i) => i !== deleteIdx);
     setObligations(updatedObligations);
     setDeleteOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -206,18 +239,22 @@ export default function ObligationsCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
   };
-
-
-
-
 
   return (
     <div>
@@ -229,21 +266,21 @@ export default function ObligationsCRUD() {
         <TextInput
           label="ID"
           value={addId}
-          onChange={e => setAddId(e.currentTarget.value)}
+          onChange={(e) => setAddId(e.currentTarget.value)}
           required
           mb="sm"
         />
         <TextInput
           label="Article"
           value={addArticle}
-          onChange={e => setAddArticle(e.currentTarget.value)}
+          onChange={(e) => setAddArticle(e.currentTarget.value)}
           required
           mb="sm"
         />
         <Textarea
           label="Description (Markdown supported)"
           value={addDescription}
-          onChange={e => setAddDescription(e.currentTarget.value)}
+          onChange={(e) => setAddDescription(e.currentTarget.value)}
           required
           mb="sm"
           minRows={6}
@@ -276,28 +313,30 @@ export default function ObligationsCRUD() {
           min={0}
         />
         {addError && <div style={{ color: 'red', marginBottom: 8 }}>{addError}</div>}
-        <Button onClick={handleAddSubmit} fullWidth>Add Obligation</Button>
+        <Button onClick={handleAddSubmit} fullWidth>
+          Add Obligation
+        </Button>
       </Modal>
       {/* Edit Modal */}
       <Modal opened={editOpen} onClose={() => setEditOpen(false)} title="Edit Obligation" centered>
         <TextInput
           label="ID"
           value={editId}
-          onChange={e => setEditId(e.currentTarget.value)}
+          onChange={(e) => setEditId(e.currentTarget.value)}
           required
           mb="sm"
         />
         <TextInput
           label="Article"
           value={editArticle}
-          onChange={e => setEditArticle(e.currentTarget.value)}
+          onChange={(e) => setEditArticle(e.currentTarget.value)}
           required
           mb="sm"
         />
         <Textarea
           label="Description (Markdown supported)"
           value={editDescription}
-          onChange={e => setEditDescription(e.currentTarget.value)}
+          onChange={(e) => setEditDescription(e.currentTarget.value)}
           required
           mb="sm"
           minRows={6}
@@ -330,14 +369,21 @@ export default function ObligationsCRUD() {
           min={0}
         />
         {editError && <div style={{ color: 'red', marginBottom: 8 }}>{editError}</div>}
-        <Button onClick={handleEditSubmit} fullWidth>Save Changes</Button>
+        <Button onClick={handleEditSubmit} fullWidth>
+          Save Changes
+        </Button>
       </Modal>
       {/* Delete Modal */}
-      <Modal opened={deleteOpen} onClose={() => setDeleteOpen(false)} title="Delete Obligation" centered>
-        <div style={{ marginBottom: 16 }}>
-          Are you sure you want to delete this obligation?
-        </div>
-        <Button color="red" onClick={handleDelete} fullWidth>Delete</Button>
+      <Modal
+        opened={deleteOpen}
+        onClose={() => setDeleteOpen(false)}
+        title="Delete Obligation"
+        centered
+      >
+        <div style={{ marginBottom: 16 }}>Are you sure you want to delete this obligation?</div>
+        <Button color="red" onClick={handleDelete} fullWidth>
+          Delete
+        </Button>
       </Modal>
       <Table striped>
         <Table.Thead>
@@ -355,8 +401,12 @@ export default function ObligationsCRUD() {
           {obligations.map((obl, _idx) => (
             <Table.Tr key={obl.id}>
               <Table.Td>{obl.id}</Table.Td>
-              <Table.Td>{obl.article}</Table.Td>
-              <Table.Td>{obl.description}</Table.Td>
+              <Table.Td>
+                <MarkdownRenderer content={obl.article} />
+              </Table.Td>
+              <Table.Td>
+                <MarkdownRenderer content={obl.description} />
+              </Table.Td>
               <Table.Td>{obl.order || '-'}</Table.Td>
               <Table.Td>
                 {obl.requiredTags && obl.requiredTags.length > 0 ? (
@@ -367,7 +417,9 @@ export default function ObligationsCRUD() {
                       </Badge>
                     ))}
                   </Group>
-                ) : '-'}
+                ) : (
+                  '-'
+                )}
               </Table.Td>
               <Table.Td>
                 {obl.requiredAllTags && obl.requiredAllTags.length > 0 ? (
@@ -378,11 +430,17 @@ export default function ObligationsCRUD() {
                       </Badge>
                     ))}
                   </Group>
-                ) : '-'}
+                ) : (
+                  '-'
+                )}
               </Table.Td>
               <Table.Td>
-                <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(_idx)}>Edit</Button>
-                <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(_idx)}>Delete</Button>
+                <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(_idx)}>
+                  Edit
+                </Button>
+                <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(_idx)}>
+                  Delete
+                </Button>
               </Table.Td>
             </Table.Tr>
           ))}
@@ -390,4 +448,4 @@ export default function ObligationsCRUD() {
       </Table>
     </div>
   );
-} 
+}

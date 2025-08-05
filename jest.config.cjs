@@ -11,6 +11,9 @@ const customJestConfig = {
     '^@/pages/(.*)$': '<rootDir>/pages/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
+  transformIgnorePatterns: [
+    'node_modules/(?!(react-markdown)/)',
+  ],
 };
 
 module.exports = createJestConfig(customJestConfig);

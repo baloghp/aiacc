@@ -5,4 +5,4 @@ export interface Company {
   contactPerson: string;
   stakeholders: string[];
   certifications: string[];
-} 
+}

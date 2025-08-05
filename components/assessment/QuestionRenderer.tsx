@@ -1,18 +1,9 @@
-import { useState, useEffect } from "react";
-import { 
-  Button, 
-  Group, 
-  Text, 
-  Box, 
-  Progress,
-  Alert,
-  Badge,
-  SimpleGrid
-} from "@mantine/core";
-import { IconAlertCircle } from "@tabler/icons-react";
+import { useEffect, useState } from 'react';
+import { IconAlertCircle } from '@tabler/icons-react';
 import ReactMarkdown from 'react-markdown';
-import { AssessmentManager } from "@/entities/AssessmentManager";
-import { Question } from "@/entities/Question";
+import { Alert, Badge, Box, Button, Group, Progress, SimpleGrid, Text } from '@mantine/core';
+import { AssessmentManager } from '@/entities/AssessmentManager';
+import { Question } from '@/entities/Question';
 
 interface QuestionRendererProps {
   questions: Question[];
@@ -23,13 +14,13 @@ interface QuestionRendererProps {
   onEarlyTermination?: () => void;
 }
 
-export default function QuestionRenderer({ 
-  questions, 
-  assessmentManager, 
-  onComplete, 
+export default function QuestionRenderer({
+  questions,
+  assessmentManager,
+  onComplete,
   onBack,
   onStateChange,
-  onEarlyTermination
+  onEarlyTermination,
 }: QuestionRendererProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
@@ -37,18 +28,16 @@ export default function QuestionRenderer({
 
   // Sort questions by order and filter by dependencies
   const sortedQuestions = [...questions]
-    .filter(question => {
+    .filter((question) => {
       // If no dependencies, show the question
       if (!question.dependencies || question.dependencies.length === 0) {
         return true;
       }
-      
+
       // Check if any of the required dependencies are present in active tags
       const activeTags = assessmentManager.getActiveTags();
-      
-      return question.dependencies.some(dependency => 
-        activeTags.includes(dependency)
-      );
+
+      return question.dependencies.some((dependency) => activeTags.includes(dependency));
     })
     .sort((a, b) => (a.order || 1) - (b.order || 1));
 
@@ -66,7 +55,8 @@ export default function QuestionRenderer({
     return (
       <Box>
         <Text mt="md" c="dimmed">
-          Based on your previous answers, there are no applicable questions for this phase at this time.
+          Based on your previous answers, there are no applicable questions for this phase at this
+          time.
         </Text>
         <Text mt="sm" size="sm" c="dimmed">
           This could be because:
@@ -86,36 +76,36 @@ export default function QuestionRenderer({
               Back
             </Button>
           )}
-          <Button onClick={onComplete}>
-            Continue to Next Step
-          </Button>
+          <Button onClick={onComplete}>Continue to Next Step</Button>
         </Group>
       </Box>
     );
   }
 
   const validateAnswer = (questionId: string, value: any): boolean => {
-    const question = sortedQuestions.find(q => q.id === questionId);
-    if (!question) {return false;}
+    const question = sortedQuestions.find((q) => q.id === questionId);
+    if (!question) {
+      return false;
+    }
 
     if (question.type === 'yesNo') {
       return value === true || value === false;
     }
-    
+
     if (question.type === 'singleChoice') {
       return value && typeof value === 'string';
     }
-    
+
     if (question.type === 'multipleChoice') {
       return Array.isArray(value) && value.length > 0;
     }
-    
+
     return false;
   };
 
   const handleAnswerChange = (questionId: string, value: any) => {
-    setAnswers(prev => ({ ...prev, [questionId]: value }));
-    setErrors(prev => {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+    setErrors((prev) => {
       const newErrors = { ...prev };
       delete newErrors[questionId];
       return newErrors;
@@ -124,32 +114,32 @@ export default function QuestionRenderer({
 
   const handleNext = () => {
     const currentAnswer = answers[currentQuestion.id];
-    
+
     if (!validateAnswer(currentQuestion.id, currentAnswer)) {
-      setErrors(prev => ({ 
-        ...prev, 
-        [currentQuestion.id]: "Please provide an answer to this question." 
+      setErrors((prev) => ({
+        ...prev,
+        [currentQuestion.id]: 'Please provide an answer to this question.',
       }));
       return;
     }
 
     // Process the current answer using AssessmentManager's processQuestionAnswer
-    const question = sortedQuestions.find(q => q.id === currentQuestion.id);
+    const question = sortedQuestions.find((q) => q.id === currentQuestion.id);
     if (question) {
       // Convert boolean to string for yesNo questions
       let processedAnswer = currentAnswer;
       if (question.type === 'yesNo') {
         processedAnswer = currentAnswer ? 'Yes' : 'No';
       }
-      
+
       // Process the answer and any associated tags
       assessmentManager.processQuestionAnswer(
         currentQuestion.id,
         processedAnswer,
         question.type,
-        question.tags 
+        question.tags
       );
-      
+
       // Trigger state update
       onStateChange?.();
     }
@@ -162,7 +152,7 @@ export default function QuestionRenderer({
     }
 
     if (currentQuestionIndex < sortedQuestions.length - 1) {
-      setCurrentQuestionIndex(prev => prev + 1);
+      setCurrentQuestionIndex((prev) => prev + 1);
     } else {
       // All questions answered, complete the phase
       console.log('Answers processed and saved to AssessmentManager:', answers);
@@ -175,7 +165,7 @@ export default function QuestionRenderer({
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
+      setCurrentQuestionIndex((prev) => prev - 1);
     } else if (onBack) {
       onBack();
     }
@@ -183,15 +173,15 @@ export default function QuestionRenderer({
 
   const renderQuestion = (question: Question) => {
     const currentAnswer = answers[question.id];
-    
+
     switch (question.type) {
       case 'yesNo':
         return (
           <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
             <Button
               size="lg"
-              variant={currentAnswer === true ? "filled" : "outline"}
-              color={currentAnswer === true ? "blue" : "gray"}
+              variant={currentAnswer === true ? 'filled' : 'outline'}
+              color={currentAnswer === true ? 'blue' : 'gray'}
               onClick={() => handleAnswerChange(question.id, true)}
               style={{ height: '60px', fontSize: '16px' }}
             >
@@ -199,8 +189,8 @@ export default function QuestionRenderer({
             </Button>
             <Button
               size="lg"
-              variant={currentAnswer === false ? "filled" : "outline"}
-              color={currentAnswer === false ? "blue" : "gray"}
+              variant={currentAnswer === false ? 'filled' : 'outline'}
+              color={currentAnswer === false ? 'blue' : 'gray'}
               onClick={() => handleAnswerChange(question.id, false)}
               style={{ height: '60px', fontSize: '16px' }}
             >
@@ -208,56 +198,66 @@ export default function QuestionRenderer({
             </Button>
           </SimpleGrid>
         );
-        
+
       case 'singleChoice':
         return (
-          <SimpleGrid 
-            cols={{ 
-              base: 1, 
-              sm: question.options?.length === 2 ? 2 : 2, 
-              md: question.options?.length === 2 ? 2 : 3 
-            }} 
+          <SimpleGrid
+            cols={{
+              base: 1,
+              sm: question.options?.length === 2 ? 2 : 2,
+              md: question.options?.length === 2 ? 2 : 3,
+            }}
             spacing="md"
           >
             {question.options?.map((option) => (
               <Button
                 key={option.value}
                 size="lg"
-                variant={currentAnswer === option.value ? "filled" : "outline"}
-                color={currentAnswer === option.value ? "blue" : "gray"}
+                variant={currentAnswer === option.value ? 'filled' : 'outline'}
+                color={currentAnswer === option.value ? 'blue' : 'gray'}
                 onClick={() => handleAnswerChange(question.id, option.value)}
-                style={{ height: '60px', fontSize: '16px', justifyContent: 'flex-start', textAlign: 'left' }}
+                style={{
+                  height: '60px',
+                  fontSize: '16px',
+                  justifyContent: 'flex-start',
+                  textAlign: 'left',
+                }}
               >
                 {option.label}
               </Button>
             ))}
           </SimpleGrid>
         );
-        
+
       case 'multipleChoice': {
         const selectedValues = Array.isArray(currentAnswer) ? currentAnswer : [];
         return (
-          <SimpleGrid 
-            cols={{ 
-              base: 1, 
-              sm: question.options?.length === 2 ? 2 : 2, 
-              md: question.options?.length === 2 ? 2 : 3 
-            }} 
+          <SimpleGrid
+            cols={{
+              base: 1,
+              sm: question.options?.length === 2 ? 2 : 2,
+              md: question.options?.length === 2 ? 2 : 3,
+            }}
             spacing="md"
           >
             {question.options?.map((option) => (
               <Button
                 key={option.value}
                 size="lg"
-                variant={selectedValues.includes(option.value) ? "filled" : "outline"}
-                color={selectedValues.includes(option.value) ? "blue" : "gray"}
+                variant={selectedValues.includes(option.value) ? 'filled' : 'outline'}
+                color={selectedValues.includes(option.value) ? 'blue' : 'gray'}
                 onClick={() => {
                   const newSelection = selectedValues.includes(option.value)
-                    ? selectedValues.filter(v => v !== option.value)
+                    ? selectedValues.filter((v) => v !== option.value)
                     : [...selectedValues, option.value];
                   handleAnswerChange(question.id, newSelection);
                 }}
-                style={{ height: '60px', fontSize: '16px', justifyContent: 'flex-start', textAlign: 'left' }}
+                style={{
+                  height: '60px',
+                  fontSize: '16px',
+                  justifyContent: 'flex-start',
+                  textAlign: 'left',
+                }}
               >
                 {option.label}
               </Button>
@@ -266,17 +266,16 @@ export default function QuestionRenderer({
         );
       }
 
-        
       default:
         return <Text color="red">Unsupported question type</Text>;
     }
   };
 
   const getAnswerSummary = () => {
-    const answeredCount = sortedQuestions.filter(q => 
-      answers[q.id] !== undefined && validateAnswer(q.id, answers[q.id])
+    const answeredCount = sortedQuestions.filter(
+      (q) => answers[q.id] !== undefined && validateAnswer(q.id, answers[q.id])
     ).length;
-    
+
     return `${answeredCount}/${sortedQuestions.length} questions answered`;
   };
 
@@ -287,7 +286,6 @@ export default function QuestionRenderer({
 
   return (
     <Box>
-    
       {/* Progress */}
       <Group mb="lg" justify="space-between">
         <Text size="sm" c="dimmed">
@@ -297,7 +295,7 @@ export default function QuestionRenderer({
           {getAnswerSummary()}
         </Badge>
       </Group>
-      
+
       <Progress value={progress} mb="lg" />
 
       {/* Current Question */}
@@ -305,16 +303,11 @@ export default function QuestionRenderer({
         <Box mb="md">
           <ReactMarkdown>{currentQuestion.text}</ReactMarkdown>
         </Box>
-        
+
         {renderQuestion(currentQuestion)}
-        
+
         {errors[currentQuestion.id] && (
-          <Alert 
-            icon={<IconAlertCircle size={16} />} 
-            title="Answer Required" 
-            color="red" 
-            mt="sm"
-          >
+          <Alert icon={<IconAlertCircle size={16} />} title="Answer Required" color="red" mt="sm">
             {errors[currentQuestion.id]}
           </Alert>
         )}
@@ -322,21 +315,14 @@ export default function QuestionRenderer({
 
       {/* Navigation */}
       <Group justify="space-between" mt="xl">
-        <Button 
-          variant="outline" 
-          onClick={handlePrevious}
-          disabled={currentQuestionIndex === 0}
-        >
+        <Button variant="outline" onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
           Previous
         </Button>
-        
-        <Button 
-          onClick={handleNext}
-          disabled={!isCurrentQuestionValid()}
-        >
+
+        <Button onClick={handleNext} disabled={!isCurrentQuestionValid()}>
           {currentQuestionIndex === sortedQuestions.length - 1 ? 'Complete Step' : 'Next'}
         </Button>
       </Group>
     </Box>
   );
-} 
+}

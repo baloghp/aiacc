@@ -6,4 +6,4 @@ export interface AISystem {
   deploymentContext: string;
   version: string;
   assessmentDate: string; // ISO date string
-} 
+}

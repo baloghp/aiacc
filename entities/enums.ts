@@ -8,18 +8,18 @@ export enum Role {
 }
 
 export enum RiskLevel {
-  Prohibited = "Prohibited",
-  High = "High",
-  Limited = "Limited",
-  Minimal = "Minimal"
+  Prohibited = 'Prohibited',
+  High = 'High',
+  Limited = 'Limited',
+  Minimal = 'Minimal',
 }
 
 export enum AssessmentPhase {
-  Company = "Company",
-  AISystem = "AISystem", 
-  Applicability = "Applicability",
-  Roles = "Roles",
-  Risk = "Risk",
-  GPAI = "GPAI",
-  Results = "Results"
-} 
+  Company = 'Company',
+  AISystem = 'AISystem',
+  Applicability = 'Applicability',
+  Roles = 'Roles',
+  Risk = 'Risk',
+  GPAI = 'GPAI',
+  Results = 'Results',
+}

@@ -4,8 +4,8 @@ import '@mantine/notifications/styles.css';
 import React from 'react';
 import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
-// import { theme } from '../theme'; // Remove if not customizing theme
 
+// import { theme } from '../theme'; // Remove if not customizing theme
 
 export default function RootLayout({ children }: { children: any }) {
   return (

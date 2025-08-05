@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { Button, Group, Title, Text, Box, Alert, Card } from "@mantine/core";
-import { IconAlertCircle, IconUsers } from "@tabler/icons-react";
-import type { StepNavProps } from "./AssessmentIntroStep";
-import { AssessmentManager } from "@/entities/AssessmentManager";
-import { AssessmentPhase } from "@/entities/enums";
-import QuestionRenderer from "./QuestionRenderer";
-import { Question } from "@/entities/Question";
-import questionsData from "@/data/questions.json";
+import { useEffect, useState } from 'react';
+import { IconAlertCircle, IconUsers } from '@tabler/icons-react';
+import { Alert, Box, Button, Card, Group, Text, Title } from '@mantine/core';
+import questionsData from '@/data/questions.json';
+import { AssessmentManager } from '@/entities/AssessmentManager';
+import { AssessmentPhase } from '@/entities/enums';
+import { Question } from '@/entities/Question';
+import type { StepNavProps } from './AssessmentIntroStep';
+import QuestionRenderer from './QuestionRenderer';
 
 interface AssessmentRoleAssignmentStepProps extends StepNavProps {
   previousStep?: () => void;
@@ -15,7 +15,13 @@ interface AssessmentRoleAssignmentStepProps extends StepNavProps {
   onEarlyTermination?: () => void;
 }
 
-export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, assessmentManager, onStateChange, onEarlyTermination }: AssessmentRoleAssignmentStepProps) {
+export default function AssessmentRoleAssignmentStep({
+  nextStep,
+  previousStep,
+  assessmentManager,
+  onStateChange,
+  onEarlyTermination,
+}: AssessmentRoleAssignmentStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,26 +32,24 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
       const phaseQuestionGroups = questionsData.filter(
         (group: any) => group.phase === AssessmentPhase.Roles
       );
-      
-  
+
       // Sort groups by order, then flatten all questions into a single array
       const sortedGroups = phaseQuestionGroups.sort((a: any, b: any) => a.order - b.order);
-      
+
       const flattenedQuestions: Question[] = [];
-      
+
       sortedGroups.forEach((group: any) => {
         const typedQuestions = group.questions.map((q: any) => ({
           ...q,
-          type: q.type as 'yesNo' | 'multipleChoice' | 'singleChoice'
+          type: q.type as 'yesNo' | 'multipleChoice' | 'singleChoice',
         }));
         flattenedQuestions.push(...typedQuestions);
       });
-      
- 
+
       setQuestions(flattenedQuestions);
       setIsLoading(false);
     } catch (err) {
-      setError("Failed to load questions.");
+      setError('Failed to load questions.');
       setIsLoading(false);
     }
   }, []);
@@ -73,26 +77,29 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
           {error}
         </Alert>
         <Group mt="xl">
-          <Button variant="default" onClick={previousStep}>Back</Button>
+          <Button variant="default" onClick={previousStep}>
+            Back
+          </Button>
         </Group>
       </Box>
     );
   }
-
-
 
   return (
     <Box>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="md">
         <Group mb="md">
           <IconUsers size="2rem" color="var(--mantine-color-blue-6)" />
-          <Text fw={600} size="lg">Role Assignment</Text>
+          <Text fw={600} size="lg">
+            Role Assignment
+          </Text>
         </Group>
         <Text size="sm" c="dimmed" lh={1.5}>
-          Identify your organization's role in the AI system lifecycle. This determines which specific obligations apply to your organization under the EU AI Act.
+          Identify your organization's role in the AI system lifecycle. This determines which
+          specific obligations apply to your organization under the EU AI Act.
         </Text>
       </Card>
-      
+
       <QuestionRenderer
         questions={questions}
         assessmentManager={assessmentManager}
@@ -103,4 +110,4 @@ export default function AssessmentRoleAssignmentStep({ nextStep, previousStep, a
       />
     </Box>
   );
-} 
+}

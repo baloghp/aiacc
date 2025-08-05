@@ -1,8 +1,8 @@
-import { TextInput, NumberInput, Select } from '@mantine/core';
-import { useState, useEffect } from 'react';
-import { ModalWrapper } from '../common/ModalWrapper';
-import { useFormValidation } from '../../hooks/useFormValidation';
+import { useEffect, useState } from 'react';
+import { NumberInput, Select, TextInput } from '@mantine/core';
 import { AssessmentPhase } from '../../entities/enums';
+import { useFormValidation } from '../../hooks/useFormValidation';
+import { ModalWrapper } from '../common/ModalWrapper';
 
 interface QuestionGroupModalProps {
   isOpen: boolean;
@@ -18,9 +18,9 @@ export function QuestionGroupModal({ isOpen, onClose, onSubmit, group }: Questio
   const { errors, validate, clearErrors } = useFormValidation();
 
   // Create phase options for the dropdown
-  const phaseOptions = Object.values(AssessmentPhase).map(phase => ({
+  const phaseOptions = Object.values(AssessmentPhase).map((phase) => ({
     value: phase,
-    label: phase
+    label: phase,
   }));
 
   useEffect(() => {
@@ -39,12 +39,8 @@ export function QuestionGroupModal({ isOpen, onClose, onSubmit, group }: Questio
   const handleSubmit = () => {
     const data = { id, order, phase };
     const rules = {
-      id: [
-        { test: (value: string) => value.trim().length > 0, message: 'ID is required' }
-      ],
-      phase: [
-        { test: (value: string) => value.trim().length > 0, message: 'Phase is required' }
-      ]
+      id: [{ test: (value: string) => value.trim().length > 0, message: 'ID is required' }],
+      phase: [{ test: (value: string) => value.trim().length > 0, message: 'Phase is required' }],
     };
 
     if (validate(data, rules)) {
@@ -53,7 +49,7 @@ export function QuestionGroupModal({ isOpen, onClose, onSubmit, group }: Questio
         order,
         phase: phase.trim(),
         questions: group?.questions || [],
-        isComplete: false
+        isComplete: false,
       });
       onClose();
     }
@@ -94,4 +90,4 @@ export function QuestionGroupModal({ isOpen, onClose, onSubmit, group }: Questio
       />
     </ModalWrapper>
   );
-} 
+}

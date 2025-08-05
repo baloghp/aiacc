@@ -6,4 +6,4 @@ export interface QuestionGroup {
   phase: string;
   questions: Question[];
   isComplete: boolean;
-} 
+}

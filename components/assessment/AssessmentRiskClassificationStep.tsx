@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { Button, Group, Title, Text, Box, Alert, Card } from "@mantine/core";
-import { IconAlertCircle, IconShieldExclamation } from "@tabler/icons-react";
-import type { StepNavProps } from "./AssessmentIntroStep";
-import { AssessmentManager } from "@/entities/AssessmentManager";
-import { AssessmentPhase } from "@/entities/enums";
-import QuestionRenderer from "./QuestionRenderer";
-import { Question } from "@/entities/Question";
-import questionsData from "@/data/questions.json";
+import { useEffect, useState } from 'react';
+import { IconAlertCircle, IconShieldExclamation } from '@tabler/icons-react';
+import { Alert, Box, Button, Card, Group, Text, Title } from '@mantine/core';
+import questionsData from '@/data/questions.json';
+import { AssessmentManager } from '@/entities/AssessmentManager';
+import { AssessmentPhase } from '@/entities/enums';
+import { Question } from '@/entities/Question';
+import type { StepNavProps } from './AssessmentIntroStep';
+import QuestionRenderer from './QuestionRenderer';
 
 interface AssessmentRiskClassificationStepProps extends StepNavProps {
   previousStep?: () => void;
@@ -15,7 +15,13 @@ interface AssessmentRiskClassificationStepProps extends StepNavProps {
   onEarlyTermination?: () => void;
 }
 
-export default function AssessmentRiskClassificationStep({ nextStep, previousStep, assessmentManager, onStateChange, onEarlyTermination }: AssessmentRiskClassificationStepProps) {
+export default function AssessmentRiskClassificationStep({
+  nextStep,
+  previousStep,
+  assessmentManager,
+  onStateChange,
+  onEarlyTermination,
+}: AssessmentRiskClassificationStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,26 +32,24 @@ export default function AssessmentRiskClassificationStep({ nextStep, previousSte
       const phaseQuestionGroups = questionsData.filter(
         (group: any) => group.phase === AssessmentPhase.Risk
       );
-      
-   
+
       // Sort groups by order, then flatten all questions into a single array
       const sortedGroups = phaseQuestionGroups.sort((a: any, b: any) => a.order - b.order);
-      
+
       const flattenedQuestions: Question[] = [];
-      
+
       sortedGroups.forEach((group: any) => {
         const typedQuestions = group.questions.map((q: any) => ({
           ...q,
-          type: q.type as 'yesNo' | 'multipleChoice' | 'singleChoice'
+          type: q.type as 'yesNo' | 'multipleChoice' | 'singleChoice',
         }));
         flattenedQuestions.push(...typedQuestions);
       });
-      
-     
+
       setQuestions(flattenedQuestions);
       setIsLoading(false);
     } catch (err) {
-      setError("Failed to load questions.");
+      setError('Failed to load questions.');
       setIsLoading(false);
     }
   }, []);
@@ -73,26 +77,29 @@ export default function AssessmentRiskClassificationStep({ nextStep, previousSte
           {error}
         </Alert>
         <Group mt="xl">
-          <Button variant="default" onClick={previousStep}>Back</Button>
+          <Button variant="default" onClick={previousStep}>
+            Back
+          </Button>
         </Group>
       </Box>
     );
   }
-
-
 
   return (
     <Box>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="md">
         <Group mb="md">
           <IconShieldExclamation size="2rem" color="var(--mantine-color-blue-6)" />
-          <Text fw={600} size="lg">Risk Classification</Text>
+          <Text fw={600} size="lg">
+            Risk Classification
+          </Text>
         </Group>
         <Text size="sm" c="dimmed" lh={1.5}>
-          Classify your AI system's risk level according to the EU AI Act. This determines the specific compliance requirements and obligations that apply to your system.
+          Classify your AI system's risk level according to the EU AI Act. This determines the
+          specific compliance requirements and obligations that apply to your system.
         </Text>
       </Card>
-      
+
       <QuestionRenderer
         questions={questions}
         assessmentManager={assessmentManager}
@@ -103,4 +110,4 @@ export default function AssessmentRiskClassificationStep({ nextStep, previousSte
       />
     </Box>
   );
-} 
+}

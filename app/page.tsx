@@ -1,11 +1,13 @@
-import React from "react";
-import { Button, Group, Stack, Title, Text } from "@mantine/core";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
+import { Button, Group, Stack, Text, Title } from '@mantine/core';
 
 export default function HomePage() {
   return (
     <main style={{ padding: 32 }}>
-      <Title order={1} mb="md">AI Act Compliance POC</Title>
+      <Title order={1} mb="md">
+        AI Act Compliance POC
+      </Title>
       <Text mb="lg">Welcome! Choose a section to get started:</Text>
       <Stack gap="md">
         <Group>

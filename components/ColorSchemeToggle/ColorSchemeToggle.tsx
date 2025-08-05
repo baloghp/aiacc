@@ -1,8 +1,8 @@
 'use client';
 
-import { Group, useMantineColorScheme, useMantineTheme, ActionIcon, Tooltip } from '@mantine/core';
-import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import { IconDeviceDesktop, IconMoon, IconSun } from '@tabler/icons-react';
+import { ActionIcon, Group, Tooltip, useMantineColorScheme, useMantineTheme } from '@mantine/core';
 
 export function ColorSchemeToggle() {
   const { colorScheme, setColorScheme } = useMantineColorScheme();

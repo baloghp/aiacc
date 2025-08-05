@@ -1,5 +1,5 @@
-import { Modal, Button, Group } from '@mantine/core';
 import { ReactNode } from 'react';
+import { Button, Group, Modal } from '@mantine/core';
 
 interface ModalWrapperProps {
   isOpen: boolean;
@@ -14,17 +14,17 @@ interface ModalWrapperProps {
   size?: string;
 }
 
-export function ModalWrapper({ 
-  isOpen, 
-  onClose, 
-  title, 
-  children, 
-  onSubmit, 
+export function ModalWrapper({
+  isOpen,
+  onClose,
+  title,
+  children,
+  onSubmit,
   submitText = 'Submit',
   submitDisabled = false,
   showCancel = true,
   cancelText = 'Cancel',
-  size = 'md'
+  size = 'md',
 }: ModalWrapperProps) {
   return (
     <Modal opened={isOpen} onClose={onClose} title={title} centered size={size}>
@@ -45,4 +45,4 @@ export function ModalWrapper({
       )}
     </Modal>
   );
-} 
+}

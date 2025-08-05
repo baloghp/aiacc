@@ -1,17 +1,16 @@
-import { Box, Title, List, Text, Badge, Group } from "@mantine/core";
 import ReactMarkdown from 'react-markdown';
-import { Obligation } from "@/entities/Obligation";
+import { Badge, Box, Group, List, Text, Title } from '@mantine/core';
+import { Obligation } from '@/entities/Obligation';
 
 interface AssessmentObligationsListProps {
   obligations: Obligation[];
 }
 
 export default function AssessmentObligationsList({ obligations }: AssessmentObligationsListProps) {
-
   return (
     <Box>
       <Title order={5} mb="sm">
-        Applicable Obligations 
+        Applicable Obligations
         {obligations.length > 0 && (
           <Badge size="sm" ml="xs" color="blue">
             {obligations.length}
@@ -31,16 +30,18 @@ export default function AssessmentObligationsList({ obligations }: AssessmentObl
                 </Box>
               </Box>
               <Group gap="xs" mt={4}>
-                {obligation.requiredTags && obligation.requiredTags.map((tag: string) => (
-                  <Badge key={tag} size="xs" variant="light" color="blue">
-                    {tag}
-                  </Badge>
-                ))}
-                {(obligation as any).requiredAllTags && (obligation as any).requiredAllTags.map((tag: string) => (
-                  <Badge key={tag} size="xs" variant="light" color="green">
-                    {tag} 
-                  </Badge>
-                ))}
+                {obligation.requiredTags &&
+                  obligation.requiredTags.map((tag: string) => (
+                    <Badge key={tag} size="xs" variant="light" color="blue">
+                      {tag}
+                    </Badge>
+                  ))}
+                {(obligation as any).requiredAllTags &&
+                  (obligation as any).requiredAllTags.map((tag: string) => (
+                    <Badge key={tag} size="xs" variant="light" color="green">
+                      {tag}
+                    </Badge>
+                  ))}
               </Group>
             </List.Item>
           ))}
@@ -52,4 +53,4 @@ export default function AssessmentObligationsList({ obligations }: AssessmentObl
       )}
     </Box>
   );
-} 
+}

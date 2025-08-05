@@ -1,7 +1,17 @@
-import { Table, Button, Modal, TextInput, Textarea, Group, Badge, MultiSelect, NumberInput } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
+import { IconDeviceFloppy, IconPlus } from '@tabler/icons-react';
+import {
+  Badge,
+  Button,
+  Group,
+  Modal,
+  MultiSelect,
+  NumberInput,
+  Table,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import rulesData from '../data/rules.json';
 import tagsData from '../data/tags.json';
 import { Tag } from '../entities/Tag';
@@ -9,12 +19,14 @@ import { Tag } from '../entities/Tag';
 export default function RulesCRUD() {
   const [rules, setRules] = useState<any[]>(rulesData);
   const [saving, setSaving] = useState(false);
-  
+
   // Tag options from catalog
-  const tagOptions = (tagsData as Tag[]).map(tag => ({
-    value: tag.id,
-    label: tag.id
-  })).filter(option => option.value && option.label);
+  const tagOptions = (tagsData as Tag[])
+    .map((tag) => ({
+      value: tag.id,
+      label: tag.id,
+    }))
+    .filter((option) => option.value && option.label);
 
   // Add modal state
   const [addOpen, setAddOpen] = useState(false);
@@ -55,11 +67,11 @@ export default function RulesCRUD() {
       setAddError('ID and Name are required');
       return;
     }
-    if (rules.some(r => r.id === addId)) {
+    if (rules.some((r) => r.id === addId)) {
       setAddError('ID must be unique');
       return;
     }
-    
+
     const newRules = [
       ...rules,
       {
@@ -70,10 +82,10 @@ export default function RulesCRUD() {
         order: addOrder !== '' ? addOrder : undefined,
       },
     ];
-    
+
     setRules(newRules);
     setAddOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -93,10 +105,18 @@ export default function RulesCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -120,12 +140,14 @@ export default function RulesCRUD() {
       setEditError('ID and Name are required');
       return;
     }
-    if (editIdx === null) {return;}
+    if (editIdx === null) {
+      return;
+    }
     if (rules.some((r, i) => r.id === editId && i !== editIdx)) {
       setEditError('ID must be unique');
       return;
     }
-    
+
     const updatedRules = rules.map((r, i) =>
       i === editIdx
         ? {
@@ -137,10 +159,10 @@ export default function RulesCRUD() {
           }
         : r
     );
-    
+
     setRules(updatedRules);
     setEditOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -160,10 +182,18 @@ export default function RulesCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -175,12 +205,14 @@ export default function RulesCRUD() {
   };
 
   const handleDelete = async () => {
-    if (deleteIdx === null) {return;}
-    
+    if (deleteIdx === null) {
+      return;
+    }
+
     const updatedRules = rules.filter((_, i) => i !== deleteIdx);
     setRules(updatedRules);
     setDeleteOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -200,10 +232,18 @@ export default function RulesCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -219,7 +259,7 @@ export default function RulesCRUD() {
         <TextInput
           label="ID"
           value={addId}
-          onChange={e => setAddId(e.currentTarget.value)}
+          onChange={(e) => setAddId(e.currentTarget.value)}
           required
           mb="sm"
           placeholder="e.g., rule1"
@@ -227,7 +267,7 @@ export default function RulesCRUD() {
         <TextInput
           label="Name"
           value={addName}
-          onChange={e => setAddName(e.currentTarget.value)}
+          onChange={(e) => setAddName(e.currentTarget.value)}
           required
           mb="sm"
           placeholder="e.g., Non-EU Entity Rule"
@@ -259,14 +299,16 @@ export default function RulesCRUD() {
           min={0}
         />
         {addError && <div style={{ color: 'red', marginBottom: 8 }}>{addError}</div>}
-        <Button onClick={handleAddSubmit} fullWidth>Add Rule</Button>
+        <Button onClick={handleAddSubmit} fullWidth>
+          Add Rule
+        </Button>
       </Modal>
       {/* Edit Modal */}
       <Modal opened={editOpen} onClose={() => setEditOpen(false)} title="Edit Rule" centered>
         <TextInput
           label="ID"
           value={editId}
-          onChange={e => setEditId(e.currentTarget.value)}
+          onChange={(e) => setEditId(e.currentTarget.value)}
           required
           mb="sm"
           placeholder="e.g., rule1"
@@ -274,7 +316,7 @@ export default function RulesCRUD() {
         <TextInput
           label="Name"
           value={editName}
-          onChange={e => setEditName(e.currentTarget.value)}
+          onChange={(e) => setEditName(e.currentTarget.value)}
           required
           mb="sm"
           placeholder="e.g., Non-EU Entity Rule"
@@ -306,14 +348,16 @@ export default function RulesCRUD() {
           min={0}
         />
         {editError && <div style={{ color: 'red', marginBottom: 8 }}>{editError}</div>}
-        <Button onClick={handleEditSubmit} fullWidth>Save Changes</Button>
+        <Button onClick={handleEditSubmit} fullWidth>
+          Save Changes
+        </Button>
       </Modal>
       {/* Delete Modal */}
       <Modal opened={deleteOpen} onClose={() => setDeleteOpen(false)} title="Delete Rule" centered>
-        <div style={{ marginBottom: 16 }}>
-          Are you sure you want to delete this rule?
-        </div>
-        <Button color="red" onClick={handleDelete} fullWidth>Delete</Button>
+        <div style={{ marginBottom: 16 }}>Are you sure you want to delete this rule?</div>
+        <Button color="red" onClick={handleDelete} fullWidth>
+          Delete
+        </Button>
       </Modal>
       <Table striped>
         <Table.Thead>
@@ -341,7 +385,9 @@ export default function RulesCRUD() {
                       </Badge>
                     ))}
                   </Group>
-                ) : '-'}
+                ) : (
+                  '-'
+                )}
               </Table.Td>
               <Table.Td>
                 {rule.outputTags && rule.outputTags.length > 0 ? (
@@ -352,11 +398,17 @@ export default function RulesCRUD() {
                       </Badge>
                     ))}
                   </Group>
-                ) : '-'}
+                ) : (
+                  '-'
+                )}
               </Table.Td>
               <Table.Td>
-                <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(_idx)}>Edit</Button>
-                <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(_idx)}>Delete</Button>
+                <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(_idx)}>
+                  Edit
+                </Button>
+                <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(_idx)}>
+                  Delete
+                </Button>
               </Table.Td>
             </Table.Tr>
           ))}
@@ -364,4 +416,4 @@ export default function RulesCRUD() {
       </Table>
     </div>
   );
-} 
+}

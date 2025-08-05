@@ -1,13 +1,12 @@
-import { Box, Title, List, Text, Badge, Group } from "@mantine/core";
 import ReactMarkdown from 'react-markdown';
-import { Note } from "@/entities/Note";
+import { Badge, Box, Group, List, Text, Title } from '@mantine/core';
+import { Note } from '@/entities/Note';
 
 interface AssessmentNotesListProps {
   notes: Note[];
 }
 
 export default function AssessmentNotesList({ notes }: AssessmentNotesListProps) {
-
   return (
     <Box>
       <Title order={5} mb="sm">
@@ -23,22 +22,26 @@ export default function AssessmentNotesList({ notes }: AssessmentNotesListProps)
           {notes.map((note) => (
             <List.Item key={note.id}>
               <Group gap="xs" align="flex-start">
-                <Text fw={500} size="sm">{note.title}</Text>
+                <Text fw={500} size="sm">
+                  {note.title}
+                </Text>
               </Group>
               <Box mt={2}>
                 <ReactMarkdown>{note.description}</ReactMarkdown>
               </Box>
               <Group gap="xs" mt={4}>
-                {note.requiredTags && note.requiredTags.map((tag: string) => (
-                  <Badge key={tag} size="xs" variant="light" color="blue">
-                    {tag}
-                  </Badge>
-                ))}
-                {(note as any).requiredAllTags && (note as any).requiredAllTags.map((tag: string) => (
-                  <Badge key={tag} size="xs" variant="light" color="green">
-                    {tag} 
-                  </Badge>
-                ))}
+                {note.requiredTags &&
+                  note.requiredTags.map((tag: string) => (
+                    <Badge key={tag} size="xs" variant="light" color="blue">
+                      {tag}
+                    </Badge>
+                  ))}
+                {(note as any).requiredAllTags &&
+                  (note as any).requiredAllTags.map((tag: string) => (
+                    <Badge key={tag} size="xs" variant="light" color="green">
+                      {tag}
+                    </Badge>
+                  ))}
               </Group>
             </List.Item>
           ))}
@@ -50,4 +53,4 @@ export default function AssessmentNotesList({ notes }: AssessmentNotesListProps)
       )}
     </Box>
   );
-} 
+}

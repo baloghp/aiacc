@@ -1,9 +1,18 @@
-import { TextInput, Textarea, Select, Group, Stack, Button, NumberInput, MultiSelect } from '@mantine/core';
-import { useState, useEffect } from 'react';
-import { ModalWrapper } from '../common/ModalWrapper';
-import { useFormValidation } from '../../hooks/useFormValidation';
+import { useEffect, useState } from 'react';
+import {
+  Button,
+  Group,
+  MultiSelect,
+  NumberInput,
+  Select,
+  Stack,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
 import tagsData from '../../data/tags.json';
 import { Tag } from '../../entities/Tag';
+import { useFormValidation } from '../../hooks/useFormValidation';
+import { ModalWrapper } from '../common/ModalWrapper';
 
 interface QuestionOption {
   value: string;
@@ -30,10 +39,12 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
   const { errors, validate, clearErrors } = useFormValidation();
 
   // Tag options from catalog
-  const tagOptions = (tagsData as Tag[]).map(tag => ({
-    value: tag.id,
-    label: tag.id
-  })).filter(option => option.value && option.label);
+  const tagOptions = (tagsData as Tag[])
+    .map((tag) => ({
+      value: tag.id,
+      label: tag.id,
+    }))
+    .filter((option) => option.value && option.label);
 
   useEffect(() => {
     if (question) {
@@ -66,7 +77,7 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
   const addOption = () => {
     if (selectedTags.length > 0 && optionLabel.trim()) {
       const optionValue = selectedTags.join(',');
-      if (!options.some(opt => opt.value === optionValue)) {
+      if (!options.some((opt) => opt.value === optionValue)) {
         setOptions([...options, { value: optionValue, label: optionLabel.trim() }]);
         setSelectedTags([]);
         setOptionLabel('');
@@ -81,15 +92,9 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
   const handleSubmit = () => {
     const data = { id, text, order };
     const rules = {
-      id: [
-        { test: (value: string) => value.trim().length > 0, message: 'ID is required' }
-      ],
-      text: [
-        { test: (value: string) => value.trim().length > 0, message: 'Text is required' }
-      ],
-      order: [
-        { test: (value: number) => value > 0, message: 'Order must be greater than 0' }
-      ]
+      id: [{ test: (value: string) => value.trim().length > 0, message: 'ID is required' }],
+      text: [{ test: (value: string) => value.trim().length > 0, message: 'Text is required' }],
+      order: [{ test: (value: number) => value > 0, message: 'Order must be greater than 0' }],
     };
 
     if (validate(data, rules)) {
@@ -105,7 +110,7 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
         newQuestion.options = options;
         newQuestion.allowMultiple = type === 'multipleChoice';
         // For choice questions, use option values as tags
-        newQuestion.tags = options.map(opt => opt.value);
+        newQuestion.tags = options.map((opt) => opt.value);
       } else if (type === 'yesNo') {
         // For Yes/No questions, use manually entered tags
         newQuestion.tags = tags.length > 0 ? tags : undefined;
@@ -195,12 +200,12 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
               <Group key={opt.value} gap="xs">
                 <MultiSelect
                   data={tagOptions || []}
-                  value={opt.value.split(',').filter(tag => tag.trim())}
+                  value={opt.value.split(',').filter((tag) => tag.trim())}
                   onChange={(newTags) => {
                     const updatedOptions = [...options];
                     updatedOptions[idx] = {
                       ...updatedOptions[idx],
-                      value: newTags.join(',')
+                      value: newTags.join(','),
                     };
                     setOptions(updatedOptions);
                   }}
@@ -234,17 +239,19 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
           />
         </>
       )}
-      
+
       {/* Show info for choice questions */}
       {(type === 'multipleChoice' || type === 'singleChoice') && (
         <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '8px' }}>
-          For choice questions, select tags for each option. The selected tags will be set when this option is chosen.
+          For choice questions, select tags for each option. The selected tags will be set when this
+          option is chosen.
         </div>
       )}
 
       {/* Dependencies field */}
       <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '8px' }}>
-        Dependencies: Tags that must be present in the assessment state for this question to be shown.
+        Dependencies: Tags that must be present in the assessment state for this question to be
+        shown.
       </div>
       <MultiSelect
         label="Dependencies"
@@ -257,4 +264,4 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
       />
     </ModalWrapper>
   );
-} 
+}

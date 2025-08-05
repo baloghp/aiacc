@@ -1,13 +1,13 @@
-import { Button } from '@mantine/core';
-import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useState } from 'react';
+import { IconDeviceFloppy, IconPlus } from '@tabler/icons-react';
+import { Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { useQuestionGroups } from '../../hooks/useQuestionGroups';
 import { useModalState } from '../../hooks/useModalState';
-import { QuestionGroupsTable } from './QuestionGroupsTable';
-import { QuestionGroupModal } from './QuestionGroupModal';
-import { QuestionModal } from './QuestionModal';
+import { useQuestionGroups } from '../../hooks/useQuestionGroups';
 import { ConfirmationDialog } from '../common/ConfirmationDialog';
+import { QuestionGroupModal } from './QuestionGroupModal';
+import { QuestionGroupsTable } from './QuestionGroupsTable';
+import { QuestionModal } from './QuestionModal';
 
 export default function QuestionsCRUD() {
   const {
@@ -17,7 +17,7 @@ export default function QuestionsCRUD() {
     deleteGroup,
     addQuestionToGroup,
     updateQuestionInGroup,
-    deleteQuestionFromGroup
+    deleteQuestionFromGroup,
   } = useQuestionGroups();
 
   // Modal states
@@ -31,7 +31,10 @@ export default function QuestionsCRUD() {
   const [editingQuestion, setEditingQuestion] = useState<any>(null);
   const [addingToGroupId, setAddingToGroupId] = useState<string>('');
   const [deletingGroupId, setDeletingGroupId] = useState<string>('');
-  const [deletingQuestion, setDeletingQuestion] = useState<{ groupId: string; questionId: string } | null>(null);
+  const [deletingQuestion, setDeletingQuestion] = useState<{
+    groupId: string;
+    questionId: string;
+  } | null>(null);
 
   // Save state
   const [saving, setSaving] = useState(false);
@@ -54,10 +57,10 @@ export default function QuestionsCRUD() {
 
   const handleGroupSubmit = async (group: any) => {
     let updatedQuestionGroups;
-    
+
     if (editingGroup) {
       // Update existing group
-      updatedQuestionGroups = questionGroups.map(g => 
+      updatedQuestionGroups = questionGroups.map((g) =>
         g.id === editingGroup.id ? { ...g, ...group } : g
       );
       updateGroup(editingGroup.id, group);
@@ -66,7 +69,7 @@ export default function QuestionsCRUD() {
       updatedQuestionGroups = [...questionGroups, group];
       addGroup(group);
     }
-    
+
     // Auto-save with updated data
     setSaving(true);
     try {
@@ -80,16 +83,26 @@ export default function QuestionsCRUD() {
         notifications.show({
           color: 'green',
           title: 'Saved',
-          message: editingGroup ? 'QuestionGroup updated and saved successfully.' : 'QuestionGroup added and saved successfully.',
+          message: editingGroup
+            ? 'QuestionGroup updated and saved successfully.'
+            : 'QuestionGroup added and saved successfully.',
           icon: <IconDeviceFloppy size={18} />,
           autoClose: 2000,
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -97,11 +110,11 @@ export default function QuestionsCRUD() {
 
   const handleConfirmDeleteGroup = async () => {
     // Create updated data without the deleted group
-    const updatedQuestionGroups = questionGroups.filter(g => g.id !== deletingGroupId);
-    
+    const updatedQuestionGroups = questionGroups.filter((g) => g.id !== deletingGroupId);
+
     deleteGroup(deletingGroupId);
     deleteGroupModal.closeModal();
-    
+
     // Auto-save with updated data
     setSaving(true);
     try {
@@ -121,10 +134,18 @@ export default function QuestionsCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -149,29 +170,32 @@ export default function QuestionsCRUD() {
 
   const handleQuestionSubmit = async (question: any) => {
     let updatedQuestionGroups;
-    
+
     if (editingQuestion) {
       // Update existing question
-      updatedQuestionGroups = questionGroups.map(g => 
-        g.id === editingQuestion.groupId 
-          ? { ...g, questions: g.questions.map(q => q.id === editingQuestion.id ? { ...q, ...question } : q) }
+      updatedQuestionGroups = questionGroups.map((g) =>
+        g.id === editingQuestion.groupId
+          ? {
+              ...g,
+              questions: g.questions.map((q) =>
+                q.id === editingQuestion.id ? { ...q, ...question } : q
+              ),
+            }
           : g
       );
       updateQuestionInGroup(editingQuestion.groupId, editingQuestion.id, question);
     } else {
       // Add new question to the tracked group
       if (addingToGroupId) {
-        updatedQuestionGroups = questionGroups.map(g => 
-          g.id === addingToGroupId 
-            ? { ...g, questions: [...g.questions, question] }
-            : g
+        updatedQuestionGroups = questionGroups.map((g) =>
+          g.id === addingToGroupId ? { ...g, questions: [...g.questions, question] } : g
         );
         addQuestionToGroup(addingToGroupId, question);
       } else {
         updatedQuestionGroups = questionGroups;
       }
     }
-    
+
     // Auto-save with updated data
     setSaving(true);
     try {
@@ -185,16 +209,26 @@ export default function QuestionsCRUD() {
         notifications.show({
           color: 'green',
           title: 'Saved',
-          message: editingQuestion ? 'Question updated and saved successfully.' : 'Question added and saved successfully.',
+          message: editingQuestion
+            ? 'Question updated and saved successfully.'
+            : 'Question added and saved successfully.',
           icon: <IconDeviceFloppy size={18} />,
           autoClose: 2000,
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -203,15 +237,15 @@ export default function QuestionsCRUD() {
   const handleConfirmDeleteQuestion = async () => {
     if (deletingQuestion) {
       // Create updated data without the deleted question
-      const updatedQuestionGroups = questionGroups.map(g => 
-        g.id === deletingQuestion.groupId 
-          ? { ...g, questions: g.questions.filter(q => q.id !== deletingQuestion.questionId) }
+      const updatedQuestionGroups = questionGroups.map((g) =>
+        g.id === deletingQuestion.groupId
+          ? { ...g, questions: g.questions.filter((q) => q.id !== deletingQuestion.questionId) }
           : g
       );
-      
+
       deleteQuestionFromGroup(deletingQuestion.groupId, deletingQuestion.questionId);
       deleteQuestionModal.closeModal();
-      
+
       // Auto-save with updated data
       setSaving(true);
       try {
@@ -231,17 +265,23 @@ export default function QuestionsCRUD() {
             withCloseButton: true,
           });
         } else {
-          notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+          notifications.show({
+            color: 'red',
+            title: 'Error',
+            message: result.error || 'Failed to save.',
+          });
         }
       } catch (error: any) {
-        notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: error.message || 'Failed to save.',
+        });
       } finally {
         setSaving(false);
       }
     }
   };
-
-
 
   return (
     <div>
@@ -290,4 +330,4 @@ export default function QuestionsCRUD() {
       />
     </div>
   );
-} 
+}

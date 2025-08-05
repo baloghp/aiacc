@@ -1,17 +1,17 @@
-import { Button, Group, Title, Text, Box, Center, Card, Stack, Divider } from "@mantine/core";
-import { IconDownload } from "@tabler/icons-react";
-import jsPDF from 'jspdf';
+import { IconDownload } from '@tabler/icons-react';
 import html2canvas from 'html2canvas';
-import type { StepNavProps } from "./AssessmentIntroStep";
-import AssessmentCompanySummary from "./AssessmentCompanySummary";
-import AssessmentAISystemSummary from "./AssessmentAISystemSummary";
-import AssessmentLegalDisclaimer from "./AssessmentLegalDisclaimer";
-import AssessmentObligationsList from "./AssessmentObligationsList";
-import AssessmentNotesList from "./AssessmentNotesList";
-import { Company } from "@/entities/Company";
-import { AISystem } from "@/entities/AISystem";
-import { Note } from "@/entities/Note";
-import { Obligation } from "@/entities/Obligation";
+import jsPDF from 'jspdf';
+import { Box, Button, Card, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
+import { AISystem } from '@/entities/AISystem';
+import { Company } from '@/entities/Company';
+import { Note } from '@/entities/Note';
+import { Obligation } from '@/entities/Obligation';
+import AssessmentAISystemSummary from './AssessmentAISystemSummary';
+import AssessmentCompanySummary from './AssessmentCompanySummary';
+import type { StepNavProps } from './AssessmentIntroStep';
+import AssessmentLegalDisclaimer from './AssessmentLegalDisclaimer';
+import AssessmentNotesList from './AssessmentNotesList';
+import AssessmentObligationsList from './AssessmentObligationsList';
 
 interface AssessmentResultsStepProps extends StepNavProps {
   previousStep?: () => void;
@@ -22,15 +22,14 @@ interface AssessmentResultsStepProps extends StepNavProps {
   applicableObligations: Obligation[];
 }
 
-export default function AssessmentResultsStep({ 
-  previousStep: _previousStep, 
-  assessmentState: _assessmentState, 
-  company, 
-  aiSystem, 
-  applicableNotes, 
-  applicableObligations 
+export default function AssessmentResultsStep({
+  previousStep: _previousStep,
+  assessmentState: _assessmentState,
+  company,
+  aiSystem,
+  applicableNotes,
+  applicableObligations,
 }: AssessmentResultsStepProps) {
-  
   const showCompanySummary = company && company.name;
   const showAISystemSummary = aiSystem && aiSystem.name;
 
@@ -48,12 +47,12 @@ export default function AssessmentResultsStep({
         backgroundColor: '#ffffff',
         logging: false,
         width: element.scrollWidth,
-        height: element.scrollHeight
+        height: element.scrollHeight,
       });
 
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
-      
+
       const imgWidth = 210;
       const pageHeight = 295;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
@@ -75,7 +74,7 @@ export default function AssessmentResultsStep({
       const timestamp = new Date().toISOString().slice(0, 10);
       const companyName = company?.name || 'Assessment';
       const filename = `ai-act-compliance-${companyName}-${timestamp}.pdf`;
-      
+
       pdf.save(filename);
     } catch (error) {
       console.error('PDF export failed:', error);
@@ -89,12 +88,15 @@ export default function AssessmentResultsStep({
           <Box>
             <Group justify="space-between" align="flex-start">
               <Box>
-                <Title order={3} mb={4}>Assessment Results</Title>
+                <Title order={3} mb={4}>
+                  Assessment Results
+                </Title>
                 <Text c="dimmed" size="sm">
-                  Here are your currently applicable obligations and advisory notes based on your answers.
+                  Here are your currently applicable obligations and advisory notes based on your
+                  answers.
                 </Text>
               </Box>
-              <Button 
+              <Button
                 leftSection={<IconDownload size={16} />}
                 onClick={handleExportPDF}
                 color="blue"
@@ -105,9 +107,9 @@ export default function AssessmentResultsStep({
               </Button>
             </Group>
           </Box>
-          
+
           <Divider my="sm" />
-          
+
           {/* Company Summary */}
           {showCompanySummary && (
             <>
@@ -115,7 +117,7 @@ export default function AssessmentResultsStep({
               <Divider my="sm" />
             </>
           )}
-          
+
           {/* AI System Summary */}
           {showAISystemSummary && (
             <>
@@ -123,19 +125,19 @@ export default function AssessmentResultsStep({
               <Divider my="sm" />
             </>
           )}
-          
+
           {/* Notes Section */}
           <AssessmentNotesList notes={applicableNotes} />
-          
+
           <Divider my="sm" />
-          
+
           {/* Obligations Section */}
           <AssessmentObligationsList obligations={applicableObligations} />
-          
+
           {/* Legal Disclaimer */}
           <AssessmentLegalDisclaimer />
         </Stack>
       </Card>
     </Center>
   );
-} 
+}

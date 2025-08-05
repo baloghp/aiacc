@@ -1,11 +1,12 @@
-"use client";
-import { Tabs, Alert, Center, Text } from '@mantine/core';
+'use client';
+
 import { IconLock } from '@tabler/icons-react';
-import QuestionsCRUD from '../../components/QuestionsCRUD';
-import ObligationsCRUD from '../../components/ObligationsCRUD';
+import { Alert, Center, Tabs, Text } from '@mantine/core';
 import NotesCRUD from '../../components/NotesCRUD';
-import TagsCRUD from '../../components/TagsCRUD';
+import ObligationsCRUD from '../../components/ObligationsCRUD';
+import QuestionsCRUD from '../../components/QuestionsCRUD';
 import RulesCRUD from '../../components/RulesCRUD';
+import TagsCRUD from '../../components/TagsCRUD';
 
 export default function SetupPage() {
   // Check if the setup access is enabled via environment variable
@@ -14,16 +15,15 @@ export default function SetupPage() {
   if (!isSetupEnabled) {
     return (
       <Center style={{ minHeight: '50vh' }}>
-        <Alert 
-          icon={<IconLock size={16} />} 
-          title="Access Denied" 
+        <Alert
+          icon={<IconLock size={16} />}
+          title="Access Denied"
           color="red"
           style={{ maxWidth: 500 }}
         >
           <Text size="sm" mb="md">
             The setup page is not available in this environment.
           </Text>
-
         </Alert>
       </Center>
     );
@@ -39,22 +39,20 @@ export default function SetupPage() {
         <Tabs.Tab value="rules">Rules</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="questions">
-        
-        <QuestionsCRUD /> 
+        <QuestionsCRUD />
       </Tabs.Panel>
       <Tabs.Panel value="obligations">
-        
-        <ObligationsCRUD /> 
+        <ObligationsCRUD />
       </Tabs.Panel>
       <Tabs.Panel value="notes">
-         <NotesCRUD /> 
+        <NotesCRUD />
       </Tabs.Panel>
       <Tabs.Panel value="tags">
-         <TagsCRUD /> 
+        <TagsCRUD />
       </Tabs.Panel>
       <Tabs.Panel value="rules">
-         <RulesCRUD /> 
+        <RulesCRUD />
       </Tabs.Panel>
     </Tabs>
   );
-} 
+}

@@ -1,4 +1,4 @@
-import { Modal, Button, Group, Text } from '@mantine/core';
+import { Button, Group, Modal, Text } from '@mantine/core';
 
 interface ConfirmationDialogProps {
   isOpen: boolean;
@@ -11,15 +11,15 @@ interface ConfirmationDialogProps {
   confirmColor?: string;
 }
 
-export function ConfirmationDialog({ 
-  isOpen, 
-  onClose, 
-  onConfirm, 
-  title, 
-  message, 
+export function ConfirmationDialog({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
   confirmText = 'Delete',
   cancelText = 'Cancel',
-  confirmColor = 'red'
+  confirmColor = 'red',
 }: ConfirmationDialogProps) {
   return (
     <Modal opened={isOpen} onClose={onClose} title={title} centered>
@@ -34,4 +34,4 @@ export function ConfirmationDialog({
       </Group>
     </Modal>
   );
-} 
+}

@@ -1,8 +1,9 @@
-import { Table, Button, Modal, TextInput, Textarea, Group,  Badge, ActionIcon } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconPlus, IconDeviceFloppy, IconChevronUp, IconChevronDown } from '@tabler/icons-react';
 import { useState } from 'react';
+import { IconChevronDown, IconChevronUp, IconDeviceFloppy, IconPlus } from '@tabler/icons-react';
+import { ActionIcon, Badge, Button, Group, Modal, Table, Textarea, TextInput } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import tagsData from '../data/tags.json';
+import { MarkdownRenderer } from './common/MarkdownRenderer';
 
 export default function TagsCRUD() {
   const [tags, setTags] = useState<any[]>(tagsData);
@@ -43,11 +44,11 @@ export default function TagsCRUD() {
       setAddError('ID and Category are required');
       return;
     }
-    if (tags.some(t => t.id === addId)) {
+    if (tags.some((t) => t.id === addId)) {
       setAddError('ID must be unique');
       return;
     }
-    
+
     const newTags = [
       ...tags,
       {
@@ -56,10 +57,10 @@ export default function TagsCRUD() {
         description: addDescription.trim() || undefined,
       },
     ];
-    
+
     setTags(newTags);
     setAddOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -79,10 +80,18 @@ export default function TagsCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -104,12 +113,14 @@ export default function TagsCRUD() {
       setEditError('ID and Category are required');
       return;
     }
-    if (editIdx === null) {return;}
+    if (editIdx === null) {
+      return;
+    }
     if (tags.some((t, i) => t.id === editId && i !== editIdx)) {
       setEditError('ID must be unique');
       return;
     }
-    
+
     const updatedTags = tags.map((t, i) =>
       i === editIdx
         ? {
@@ -119,10 +130,10 @@ export default function TagsCRUD() {
           }
         : t
     );
-    
+
     setTags(updatedTags);
     setEditOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -142,10 +153,18 @@ export default function TagsCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
@@ -157,12 +176,14 @@ export default function TagsCRUD() {
   };
 
   const handleDelete = async () => {
-    if (deleteIdx === null) {return;}
-    
+    if (deleteIdx === null) {
+      return;
+    }
+
     const updatedTags = tags.filter((_, i) => i !== deleteIdx);
     setTags(updatedTags);
     setDeleteOpen(false);
-    
+
     // Auto-save
     setSaving(true);
     try {
@@ -182,16 +203,22 @@ export default function TagsCRUD() {
           withCloseButton: true,
         });
       } else {
-        notifications.show({ color: 'red', title: 'Error', message: result.error || 'Failed to save.' });
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
       }
     } catch (error: any) {
-      notifications.show({ color: 'red', title: 'Error', message: error.message || 'Failed to save.' });
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
     } finally {
       setSaving(false);
     }
   };
-
-
 
   const handleSort = (field: 'id' | 'category') => {
     if (sortField === field) {
@@ -203,16 +230,17 @@ export default function TagsCRUD() {
   };
 
   const sortedTags = [...tags].sort((a, b) => {
-    if (!sortField) {return 0;}
-    
+    if (!sortField) {
+      return 0;
+    }
+
     const aValue = a[sortField].toLowerCase();
     const bValue = b[sortField].toLowerCase();
-    
+
     if (sortDirection === 'asc') {
       return aValue.localeCompare(bValue);
-    } 
-      return bValue.localeCompare(aValue);
-    
+    }
+    return bValue.localeCompare(aValue);
   });
 
   const getSortIcon = (field: 'id' | 'category') => {
@@ -232,7 +260,7 @@ export default function TagsCRUD() {
         <TextInput
           label="ID"
           value={addId}
-          onChange={e => setAddId(e.currentTarget.value)}
+          onChange={(e) => setAddId(e.currentTarget.value)}
           required
           mb="sm"
           placeholder="e.g., legal:eu-entity"
@@ -240,7 +268,7 @@ export default function TagsCRUD() {
         <TextInput
           label="Category"
           value={addCategory}
-          onChange={e => setAddCategory(e.currentTarget.value)}
+          onChange={(e) => setAddCategory(e.currentTarget.value)}
           required
           mb="sm"
           placeholder="e.g., Legal Scope"
@@ -248,21 +276,23 @@ export default function TagsCRUD() {
         <Textarea
           label="Description (Optional)"
           value={addDescription}
-          onChange={e => setAddDescription(e.currentTarget.value)}
+          onChange={(e) => setAddDescription(e.currentTarget.value)}
           mb="sm"
           minRows={3}
           autosize
           placeholder="Brief description of what this tag represents (optional)"
         />
         {addError && <div style={{ color: 'red', marginBottom: 8 }}>{addError}</div>}
-        <Button onClick={handleAddSubmit} fullWidth>Add Tag</Button>
+        <Button onClick={handleAddSubmit} fullWidth>
+          Add Tag
+        </Button>
       </Modal>
       {/* Edit Modal */}
       <Modal opened={editOpen} onClose={() => setEditOpen(false)} title="Edit Tag" centered>
         <TextInput
           label="ID"
           value={editId}
-          onChange={e => setEditId(e.currentTarget.value)}
+          onChange={(e) => setEditId(e.currentTarget.value)}
           required
           mb="sm"
           placeholder="e.g., legal:eu-entity"
@@ -270,7 +300,7 @@ export default function TagsCRUD() {
         <TextInput
           label="Category"
           value={editCategory}
-          onChange={e => setEditCategory(e.currentTarget.value)}
+          onChange={(e) => setEditCategory(e.currentTarget.value)}
           required
           mb="sm"
           placeholder="e.g., Legal Scope"
@@ -278,21 +308,23 @@ export default function TagsCRUD() {
         <Textarea
           label="Description (Optional)"
           value={editDescription}
-          onChange={e => setEditDescription(e.currentTarget.value)}
+          onChange={(e) => setEditDescription(e.currentTarget.value)}
           mb="sm"
           minRows={3}
           autosize
           placeholder="Brief description of what this tag represents (optional)"
         />
         {editError && <div style={{ color: 'red', marginBottom: 8 }}>{editError}</div>}
-        <Button onClick={handleEditSubmit} fullWidth>Save Changes</Button>
+        <Button onClick={handleEditSubmit} fullWidth>
+          Save Changes
+        </Button>
       </Modal>
       {/* Delete Modal */}
       <Modal opened={deleteOpen} onClose={() => setDeleteOpen(false)} title="Delete Tag" centered>
-        <div style={{ marginBottom: 16 }}>
-          Are you sure you want to delete this tag?
-        </div>
-        <Button color="red" onClick={handleDelete} fullWidth>Delete</Button>
+        <div style={{ marginBottom: 16 }}>Are you sure you want to delete this tag?</div>
+        <Button color="red" onClick={handleDelete} fullWidth>
+          Delete
+        </Button>
       </Modal>
       <Table striped>
         <Table.Thead>
@@ -300,9 +332,9 @@ export default function TagsCRUD() {
             <Table.Th>
               <Group gap={4}>
                 ID
-                <ActionIcon 
-                  variant="subtle" 
-                  size="xs" 
+                <ActionIcon
+                  variant="subtle"
+                  size="xs"
                   onClick={() => handleSort('id')}
                   style={{ cursor: 'pointer' }}
                 >
@@ -313,9 +345,9 @@ export default function TagsCRUD() {
             <Table.Th>
               <Group gap={4}>
                 Category
-                <ActionIcon 
-                  variant="subtle" 
-                  size="xs" 
+                <ActionIcon
+                  variant="subtle"
+                  size="xs"
                   onClick={() => handleSort('category')}
                   style={{ cursor: 'pointer' }}
                 >
@@ -330,7 +362,7 @@ export default function TagsCRUD() {
         <Table.Tbody>
           {sortedTags.map((tag, _idx) => {
             // Find the original index for edit/delete operations
-            const originalIdx = tags.findIndex(t => t.id === tag.id);
+            const originalIdx = tags.findIndex((t) => t.id === tag.id);
             return (
               <Table.Tr key={tag.id}>
                 <Table.Td>
@@ -339,10 +371,26 @@ export default function TagsCRUD() {
                   </Badge>
                 </Table.Td>
                 <Table.Td>{tag.category}</Table.Td>
-                <Table.Td>{tag.description || '-'}</Table.Td>
                 <Table.Td>
-                  <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(originalIdx)}>Edit</Button>
-                  <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(originalIdx)}>Delete</Button>
+                  <MarkdownRenderer content={tag.description || ''} />
+                </Table.Td>
+                <Table.Td>
+                  <Button
+                    size="xs"
+                    variant="light"
+                    mr={4}
+                    onClick={() => openEditModal(originalIdx)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    size="xs"
+                    color="red"
+                    variant="light"
+                    onClick={() => openDeleteModal(originalIdx)}
+                  >
+                    Delete
+                  </Button>
                 </Table.Td>
               </Table.Tr>
             );
@@ -351,4 +399,4 @@ export default function TagsCRUD() {
       </Table>
     </div>
   );
-} 
+}

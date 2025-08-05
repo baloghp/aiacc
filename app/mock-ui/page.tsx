@@ -1,6 +1,7 @@
-"use client";
-import React, { useState } from "react";
-import { Button, Table, Modal, Stepper, Group, Text } from "@mantine/core";
+'use client';
+
+import React, { useState } from 'react';
+import { Button, Group, Modal, Stepper, Table, Text } from '@mantine/core';
 
 export default function MockUIPage() {
   const [opened, setOpened] = useState(false);
@@ -47,9 +48,7 @@ export default function MockUIPage() {
       <Modal opened={opened} onClose={() => setOpened(false)} title="Example Modal">
         <Text>This is a Mantine Modal component.</Text>
       </Modal>
-      <Text mt="xl">
-        This text uses the default Mantine theme and color scheme.
-      </Text>
+      <Text mt="xl">This text uses the default Mantine theme and color scheme.</Text>
     </main>
   );
-} 
+}
