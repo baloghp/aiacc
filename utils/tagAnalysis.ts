@@ -34,7 +34,7 @@ export function analyzeTagUsage(): TagUsageAnalysis {
           question.tags.forEach(tag => {
             // Handle comma-separated tags
             if (tag.includes(',')) {
-              tag.split(',').forEach(singleTag => {
+              tag.split(',').forEach((singleTag: string) => {
                 questionUsedTags.add(singleTag.trim());
               });
             } else {
@@ -44,10 +44,10 @@ export function analyzeTagUsage(): TagUsageAnalysis {
         }
         
         // Add tags from question.options
-        if (question.options && Array.isArray(question.options)) {
+        if ('options' in question && question.options && Array.isArray(question.options)) {
           question.options.forEach(option => {
             if (option.value && option.value.includes(',')) {
-              option.value.split(',').forEach(singleTag => {
+              option.value.split(',').forEach((singleTag: string) => {
                 questionUsedTags.add(singleTag.trim());
               });
             } else if (option.value) {
@@ -118,10 +118,10 @@ export function analyzeTagUsage(): TagUsageAnalysis {
 
   // Find unused tags
   const allUsedTags = new Set([
-    ...questionUsedTags,
-    ...noteUsedTags,
-    ...obligationUsedTags,
-    ...ruleUsedTags
+    ...Array.from(questionUsedTags),
+    ...Array.from(noteUsedTags),
+    ...Array.from(obligationUsedTags),
+    ...Array.from(ruleUsedTags)
   ]);
 
   const unusedTags = allTagIds.filter(tagId => !allUsedTags.has(tagId));
