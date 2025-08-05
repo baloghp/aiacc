@@ -16,10 +16,13 @@ import obligationsData from '../data/obligations.json';
 import tagsData from '../data/tags.json';
 import { Tag } from '../entities/Tag';
 import { MarkdownRenderer } from './common/MarkdownRenderer';
+import { trimTags } from '../utils/tagUtils';
 
 export default function ObligationsCRUD() {
   const [obligations, setObligations] = useState<any[]>(obligationsData);
-  const [saving, setSaving] = useState(false);
+  const [_saving, setSaving] = useState(false);
+
+
 
   // Tag options from catalog
   const tagOptions = (tagsData as Tag[])
@@ -82,8 +85,8 @@ export default function ObligationsCRUD() {
         id: addId,
         article: addArticle,
         description: addDescription,
-        requiredTags: addRequiredTags.length > 0 ? addRequiredTags : undefined,
-        requiredAllTags: addRequiredAllTags.length > 0 ? addRequiredAllTags : undefined,
+        requiredTags: addRequiredTags.length > 0 ? trimTags(addRequiredTags) : undefined,
+        requiredAllTags: addRequiredAllTags.length > 0 ? trimTags(addRequiredAllTags) : undefined,
         order: addOrder !== '' ? addOrder : undefined,
       },
     ];
@@ -160,8 +163,8 @@ export default function ObligationsCRUD() {
             id: editId,
             article: editArticle,
             description: editDescription,
-            requiredTags: editRequiredTags.length > 0 ? editRequiredTags : undefined,
-            requiredAllTags: editRequiredAllTags.length > 0 ? editRequiredAllTags : undefined,
+            requiredTags: editRequiredTags.length > 0 ? trimTags(editRequiredTags) : undefined,
+            requiredAllTags: editRequiredAllTags.length > 0 ? trimTags(editRequiredAllTags) : undefined,
             order: editOrder !== '' ? editOrder : undefined,
           }
         : o
@@ -392,8 +395,8 @@ export default function ObligationsCRUD() {
             <Table.Th>Article</Table.Th>
             <Table.Th>Description</Table.Th>
             <Table.Th>Order</Table.Th>
-            <Table.Th>Required Tags</Table.Th>
-            <Table.Th>Required All Tags</Table.Th>
+            <Table.Th>Required ANY Tags</Table.Th>
+            <Table.Th>Required ALL Tags</Table.Th>
             <Table.Th>Actions</Table.Th>
           </Table.Tr>
         </Table.Thead>

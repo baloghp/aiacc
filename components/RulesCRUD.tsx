@@ -8,17 +8,19 @@ import {
   MultiSelect,
   NumberInput,
   Table,
-  Textarea,
   TextInput,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import rulesData from '../data/rules.json';
 import tagsData from '../data/tags.json';
 import { Tag } from '../entities/Tag';
+import { trimTags } from '../utils/tagUtils';
 
 export default function RulesCRUD() {
   const [rules, setRules] = useState<any[]>(rulesData);
-  const [saving, setSaving] = useState(false);
+  const [_saving, setSaving] = useState(false);
+
+
 
   // Tag options from catalog
   const tagOptions = (tagsData as Tag[])
@@ -77,8 +79,8 @@ export default function RulesCRUD() {
       {
         id: addId,
         name: addName,
-        inputTags: addInputTags.length > 0 ? addInputTags : [],
-        outputTags: addOutputTags.length > 0 ? addOutputTags : [],
+        inputTags: addInputTags.length > 0 ? trimTags(addInputTags) : [],
+        outputTags: addOutputTags.length > 0 ? trimTags(addOutputTags) : [],
         order: addOrder !== '' ? addOrder : undefined,
       },
     ];
@@ -153,8 +155,8 @@ export default function RulesCRUD() {
         ? {
             id: editId,
             name: editName,
-            inputTags: editInputTags.length > 0 ? editInputTags : [],
-            outputTags: editOutputTags.length > 0 ? editOutputTags : [],
+            inputTags: editInputTags.length > 0 ? trimTags(editInputTags) : [],
+            outputTags: editOutputTags.length > 0 ? trimTags(editOutputTags) : [],
             order: editOrder !== '' ? editOrder : undefined,
           }
         : r

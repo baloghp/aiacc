@@ -85,12 +85,12 @@
     "description": "Research purpose exemption"
   },
   {
-    "id": "ai-system:exempt-security ",
+    "id": "ai-system:exempt-security",
     "category": "AI System",
     "description": "Security purpose exemption"
   },
   {
-    "id": "ai-system:legacy-system  ",
+    "id": "ai-system:legacy-system",
     "category": "AI System",
     "description": "Legacy system without changes"
   },
@@ -98,5 +98,17 @@
     "id": "ai-system:not-exempt",
     "category": "AI System",
     "description": "Not exempt for military, research or security usage."
+  },
+  {
+    "id": "ai-system:non-legacy-system",
+    "category": "Legal Scope"
+  },
+  {
+    "id": "ai-system:legacy-system-w-changes",
+    "category": "Legal Scope"
+  },
+  {
+    "id": "ai-system:legacy-system-wo-changes",
+    "category": "Legal Scope"
   }
 ]

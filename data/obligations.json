@@ -18,5 +18,15 @@
       "risk:high"
     ],
     "order": 1
+  },
+  {
+    "id": "o3",
+    "article": "[Article 2: Scope, EU Artificial Intelligence Act](https://artificialintelligenceact.eu/article/2/)",
+    "description": "No compliance actions are required under the EU AI Act for systems used solely for military, scientific research, or national security purposes.\nThis exemption is established in Article 2 of the EU AI Act.\nNote: Monitoring for potential regulatory updates or changes in the use case is still advised, especially if the system's deployment context evolves.",
+    "requiredTags": [
+      "ai-system:exempt-military",
+      "ai-system:exempt-research",
+      "ai-system:exempt-security"
+    ]
   }
 ]

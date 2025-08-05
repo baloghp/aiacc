@@ -10,7 +10,7 @@
         "order": 1,
         "type": "yesNo",
         "tags": [
-          "abort:got-to-results",
+          "abort:go-to-results",
           "legal:non-professional"
         ]
       },
@@ -42,7 +42,7 @@
         "type": "singleChoice",
         "tags": [
           "ai-system:meets-definition",
-          "ai-system:not-meets-definition,abort:got-to-results"
+          "ai-system:not-meets-definition,abort:go-to-results"
         ],
         "options": [
           {
@@ -58,7 +58,7 @@
       },
       {
         "id": "q4",
-        "text": "**Do you place this AI system on the EU market?**\n\n**Explanation:**  \n“Placing on the market” means making the AI system available for the first time in the EU, whether for payment or free of charge, regardless of where your organization is established.  \n_If you develop, sell, or otherwise supply this AI system directly or through intermediaries to customers or users in EU member states, select “Yes.”_",
+        "text": "**Do you place this AI system on the EU market?**  \n\n\n**Explanation:**  \n\n\n“Placing on the market” means making the AI system available for the first time in the EU, whether for payment or free of charge, regardless of where your organization is established.  \n\n\n_If you develop, sell, or otherwise supply this AI system directly or through intermediaries to customers or users in EU member states, select “Yes.”_",
         "order": 4,
         "type": "singleChoice",
         "tags": [
@@ -99,8 +99,8 @@
         ]
       },
       {
-        "id": "6",
-        "text": "## **Is this AI system used exclusively for any of the following purposes?**\n\n**Explanation:**  \nCertain AI systems are exempt from the EU AI Act if they are used exclusively for specific purposes. Please indicate if this system is used only for one (or more) of the following:\n\n- **Military purposes:** Used solely in defense, armed forces, or national military applications.\n    \n- **Scientific research:** Used solely for scientific research and development activities, not deployed in commercial or operational settings.\n    \n- **National security or law enforcement by non-EU public authorities:** Used solely for national security, defense, or public safety by non-EU governmental organizations.\n    \n- **No:** The system is not used exclusively for any of the above purposes.\n    \n\n_Select all that apply. If you choose \"No,\" it means your system is not limited to these purposes and will proceed through the standard assessment._",
+        "id": "q6",
+        "text": "**Is this AI system used exclusively for any of the following purposes?**\n\n**Explanation:**  \nCertain AI systems are exempt from the EU AI Act if they are used exclusively for specific purposes. Please indicate if this system is used only for one (or more) of the following:\n\n- **Military purposes:** Used solely in defense, armed forces, or national military applications.\n    \n- **Scientific research:** Used solely for scientific research and development activities, not deployed in commercial or operational settings.\n    \n- **National security or law enforcement by non-EU public authorities:** Used solely for national security, defense, or public safety by non-EU governmental organizations.\n    \n- **No:** The system is not used exclusively for any of the above purposes.\n    \n\n_Select all that apply. If you choose \"No,\" it means your system is not limited to these purposes and will proceed through the standard assessment._",
         "order": 6,
         "type": "singleChoice",
         "options": [
@@ -113,7 +113,7 @@
             "label": "Scientific research"
           },
           {
-            "value": "ai-system:exempt-security ,abort:go-to-results",
+            "value": "ai-system:exempt-security,abort:go-to-results",
             "label": "Security/national security purposes"
           },
           {
@@ -127,6 +127,51 @@
           "ai-system:exempt-research,abort:go-to-results",
           "ai-system:exempt-security ,abort:go-to-results",
           "ai-system:not-exempt"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Has your system been placed on the EU market before 2 August 2025?",
+        "order": 7,
+        "type": "singleChoice",
+        "tags": [
+          "ai-system:legacy-system",
+          "ai-system:non-legacy-system"
+        ],
+        "options": [
+          {
+            "value": "ai-system:legacy-system",
+            "label": "Yes"
+          },
+          {
+            "value": "ai-system:non-legacy-system",
+            "label": "No"
+          }
+        ],
+        "allowMultiple": false
+      },
+      {
+        "id": "q8",
+        "text": "Has the system been modified or upgraded since 2 August 2025?",
+        "order": 8,
+        "type": "multipleChoice",
+        "dependencies": [
+          "ai-system:legacy-system"
+        ],
+        "options": [
+          {
+            "value": "ai-system:legacy-system-w-changes",
+            "label": "Yes"
+          },
+          {
+            "value": "ai-system:legacy-system-wo-changes",
+            "label": "No"
+          }
+        ],
+        "allowMultiple": true,
+        "tags": [
+          "ai-system:legacy-system-w-changes",
+          "ai-system:legacy-system-wo-changes"
         ]
       }
     ],

@@ -15,12 +15,14 @@ jest.mock('@mantine/core', () => {
   return {
     ...original,
     Modal: ({ children, opened, onClose, title }: any) => {
-      if (!opened) return null;
+      if (!opened) {
+        return null;
+      }
       return (
         <div data-testid="modal">
           <div data-testid="modal-title">{title}</div>
           <div data-testid="modal-content">{children}</div>
-          <button data-testid="modal-close" onClick={onClose}>
+          <button data-testid="modal-close" onClick={onClose} type="button">
             Close
           </button>
         </div>

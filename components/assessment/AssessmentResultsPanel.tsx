@@ -14,7 +14,7 @@ import AssessmentNotesList from './AssessmentNotesList';
 import AssessmentObligationsList from './AssessmentObligationsList';
 
 interface AssessmentResultsPanelProps {
-  assessmentState?: AssessmentState;
+  _assessmentState?: AssessmentState;
   company?: Company;
   aiSystem?: AISystem;
   applicableNotes: Note[];
@@ -22,7 +22,7 @@ interface AssessmentResultsPanelProps {
 }
 
 export default function AssessmentResultsPanel({
-  assessmentState,
+  _assessmentState,
   company,
   aiSystem,
   applicableNotes,

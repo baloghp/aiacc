@@ -7,7 +7,7 @@ import { MarkdownRenderer } from './common/MarkdownRenderer';
 
 export default function TagsCRUD() {
   const [tags, setTags] = useState<any[]>(tagsData);
-  const [saving, setSaving] = useState(false);
+  const [_saving, setSaving] = useState(false);
   const [sortField, setSortField] = useState<'id' | 'category' | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -40,11 +40,14 @@ export default function TagsCRUD() {
 
   const handleAddSubmit = async () => {
     setAddError('');
-    if (!addId.trim() || !addCategory.trim()) {
+    const trimmedId = addId.trim();
+    const trimmedCategory = addCategory.trim();
+    
+    if (!trimmedId || !trimmedCategory) {
       setAddError('ID and Category are required');
       return;
     }
-    if (tags.some((t) => t.id === addId)) {
+    if (tags.some((t) => t.id === trimmedId)) {
       setAddError('ID must be unique');
       return;
     }
@@ -52,8 +55,8 @@ export default function TagsCRUD() {
     const newTags = [
       ...tags,
       {
-        id: addId,
-        category: addCategory,
+        id: trimmedId,
+        category: trimmedCategory,
         description: addDescription.trim() || undefined,
       },
     ];
@@ -109,14 +112,17 @@ export default function TagsCRUD() {
 
   const handleEditSubmit = async () => {
     setEditError('');
-    if (!editId.trim() || !editCategory.trim()) {
+    const trimmedId = editId.trim();
+    const trimmedCategory = editCategory.trim();
+    
+    if (!trimmedId || !trimmedCategory) {
       setEditError('ID and Category are required');
       return;
     }
     if (editIdx === null) {
       return;
     }
-    if (tags.some((t, i) => t.id === editId && i !== editIdx)) {
+    if (tags.some((t, i) => t.id === trimmedId && i !== editIdx)) {
       setEditError('ID must be unique');
       return;
     }
@@ -124,8 +130,8 @@ export default function TagsCRUD() {
     const updatedTags = tags.map((t, i) =>
       i === editIdx
         ? {
-            id: editId,
-            category: editCategory,
+            id: trimmedId,
+            category: trimmedCategory,
             description: editDescription.trim() || undefined,
           }
         : t

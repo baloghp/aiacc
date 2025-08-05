@@ -143,6 +143,8 @@ export class AssessmentManager {
 
     // Process rules after adding new tags
     this.processRules();
+    console.log('AssessmentManager.state', this.state);
+    console.log('Active tags after processing:', this.getActiveTags());
   }
 
   // Process rules to add output tags based on input tags
@@ -193,7 +195,15 @@ export class AssessmentManager {
     const activeTags = this.getActiveTags();
     const disqualificationTags = ['abort:go-to-results'];
 
-    return disqualificationTags.some((tag) => activeTags.includes(tag));
+    const shouldTerminate = disqualificationTags.some((tag) => activeTags.includes(tag));
+    
+    if (shouldTerminate) {
+      console.log('Early termination check: TRUE');
+      console.log('Active tags:', activeTags);
+      console.log('Disqualification tags:', disqualificationTags);
+    }
+
+    return shouldTerminate;
   }
 
   getApplicableNotes(): Note[] {

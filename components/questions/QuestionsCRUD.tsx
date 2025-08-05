@@ -37,7 +37,7 @@ export default function QuestionsCRUD() {
   } | null>(null);
 
   // Save state
-  const [saving, setSaving] = useState(false);
+  const [_saving, setSaving] = useState(false);
 
   // Group handlers
   const handleAddGroup = () => {
@@ -186,13 +186,14 @@ export default function QuestionsCRUD() {
       updateQuestionInGroup(editingQuestion.groupId, editingQuestion.id, question);
     } else {
       // Add new question to the tracked group
+      updatedQuestionGroups = addingToGroupId
+        ? questionGroups.map((g) =>
+            g.id === addingToGroupId ? { ...g, questions: [...g.questions, question] } : g
+          )
+        : questionGroups;
+      
       if (addingToGroupId) {
-        updatedQuestionGroups = questionGroups.map((g) =>
-          g.id === addingToGroupId ? { ...g, questions: [...g.questions, question] } : g
-        );
         addQuestionToGroup(addingToGroupId, question);
-      } else {
-        updatedQuestionGroups = questionGroups;
       }
     }
 

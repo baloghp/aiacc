@@ -13,6 +13,7 @@ import tagsData from '../../data/tags.json';
 import { Tag } from '../../entities/Tag';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { ModalWrapper } from '../common/ModalWrapper';
+import { trimTags } from '../../utils/tagUtils';
 
 interface QuestionOption {
   value: string;
@@ -103,7 +104,7 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
         text: text.trim(),
         order,
         type,
-        dependencies: dependencies.length > 0 ? dependencies : undefined,
+        dependencies: dependencies.length > 0 ? trimTags(dependencies) : undefined,
       };
 
       if (type === 'multipleChoice' || type === 'singleChoice') {
@@ -113,7 +114,7 @@ export function QuestionModal({ isOpen, onClose, onSubmit, question }: QuestionM
         newQuestion.tags = options.map((opt) => opt.value);
       } else if (type === 'yesNo') {
         // For Yes/No questions, use manually entered tags
-        newQuestion.tags = tags.length > 0 ? tags : undefined;
+        newQuestion.tags = tags.length > 0 ? trimTags(tags) : undefined;
       }
 
       onSubmit(newQuestion);

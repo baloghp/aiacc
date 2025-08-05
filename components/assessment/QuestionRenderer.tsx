@@ -110,6 +110,27 @@ export default function QuestionRenderer({
       delete newErrors[questionId];
       return newErrors;
     });
+
+    // Process the answer immediately to update tags and state
+    const question = sortedQuestions.find((q) => q.id === questionId);
+    if (question) {
+      // Convert boolean to string for yesNo questions
+      let processedAnswer = value;
+      if (question.type === 'yesNo') {
+        processedAnswer = value ? 'Yes' : 'No';
+      }
+
+      // Process the answer and any associated tags
+      assessmentManager.processQuestionAnswer(
+        questionId,
+        processedAnswer,
+        question.type,
+        question.tags
+      );
+
+      // Trigger state update
+      onStateChange?.();
+    }
   };
 
   const handleNext = () => {
@@ -204,8 +225,8 @@ export default function QuestionRenderer({
           <SimpleGrid
             cols={{
               base: 1,
-              sm: question.options?.length === 2 ? 2 : 2,
-              md: question.options?.length === 2 ? 2 : 3,
+              sm: question.options?.length === 2 ? 2 : 1,
+              md: question.options?.length === 2 ? 2 : 2,
             }}
             spacing="md"
           >
@@ -217,10 +238,15 @@ export default function QuestionRenderer({
                 color={currentAnswer === option.value ? 'blue' : 'gray'}
                 onClick={() => handleAnswerChange(question.id, option.value)}
                 style={{
-                  height: '60px',
+                  minHeight: '60px',
+                  height: 'auto',
                   fontSize: '16px',
                   justifyContent: 'flex-start',
                   textAlign: 'left',
+                  whiteSpace: 'normal',
+                  wordWrap: 'break-word',
+                  padding: '12px 16px',
+                  lineHeight: 1.4,
                 }}
               >
                 {option.label}
@@ -235,8 +261,8 @@ export default function QuestionRenderer({
           <SimpleGrid
             cols={{
               base: 1,
-              sm: question.options?.length === 2 ? 2 : 2,
-              md: question.options?.length === 2 ? 2 : 3,
+              sm: question.options?.length === 2 ? 2 : 1,
+              md: question.options?.length === 2 ? 2 : 2,
             }}
             spacing="md"
           >
@@ -253,10 +279,15 @@ export default function QuestionRenderer({
                   handleAnswerChange(question.id, newSelection);
                 }}
                 style={{
-                  height: '60px',
+                  minHeight: '60px',
+                  height: 'auto',
                   fontSize: '16px',
                   justifyContent: 'flex-start',
                   textAlign: 'left',
+                  whiteSpace: 'normal',
+                  wordWrap: 'break-word',
+                  padding: '12px 16px',
+                  lineHeight: 1.4,
                 }}
               >
                 {option.label}

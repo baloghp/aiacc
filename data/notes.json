@@ -40,5 +40,31 @@
       "legal:not-places-on-eu",
       "legal:not-output-in-eu"
     ]
+  },
+  {
+    "id": "n6",
+    "title": "Your AI system is exempt from the EU AI Act.",
+    "description": "Because this system is used exclusively for military, scientific research, or national security purposes, it is explicitly excluded from the scope of the EU AI Act under Article 2. This means you do not have compliance obligations for this system under this regulation.\n\nIf the purpose of this AI system changes in the future, or if it is used outside these exclusive contexts, please reassess its status under the Act.",
+    "requiredTags": [
+      "ai-system:exempt-military",
+      "ai-system:exempt-research",
+      "ai-system:exempt-security"
+    ]
+  },
+  {
+    "id": "n7",
+    "title": "Your AI system is subject to the EU AI Act.",
+    "description": "Since your system is not used exclusively for military, scientific research, or national security purposes, it falls within the scope of the EU AI Act.  \n\nYou should continue with the compliance assessment to determine your specific obligations under the regulation, based on the system’s use, risk category, and your organization’s role.  \n\n_If you are unsure about the correct classification, review your intended use cases and deployment contexts, or consult further guidance._",
+    "requiredTags": [
+      "ai-system:not-exempt"
+    ]
+  },
+  {
+    "id": "n8",
+    "title": "Outputs of your AI system will be used within the European Union.",
+    "description": "You have indicated that the outputs of your AI system will be used within the European Union.  \n\nUnder the EU AI Act, the regulation can apply even if your organization or the AI system itself is not based in the EU, as long as its results, predictions, or decisions are used by individuals or organizations within the EU.\n\n _If you plan to expand or change where your system’s outputs are used, be sure to reassess applicability as needed._",
+    "requiredTags": [
+      "legal:output-in-eu"
+    ]
   }
 ]

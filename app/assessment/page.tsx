@@ -229,7 +229,7 @@ export default function AssessmentPage() {
       {/* Only show results panel when not on the Results step */}
       {activeStep !== 7 && (
         <AssessmentResultsPanel
-          assessmentState={assessmentState}
+          _assessmentState={assessmentState}
           company={assessmentState?.company}
           aiSystem={assessmentState?.aiSystem}
           applicableNotes={applicableNotes}
