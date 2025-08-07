@@ -12,6 +12,7 @@ import type { StepNavProps } from './AssessmentIntroStep';
 import AssessmentLegalDisclaimer from './AssessmentLegalDisclaimer';
 import AssessmentNotesList from './AssessmentNotesList';
 import AssessmentObligationsList from './AssessmentObligationsList';
+import AssessmentExportButton from './AssessmentExportButton';
 
 interface AssessmentResultsStepProps extends StepNavProps {
   previousStep?: () => void;
@@ -20,6 +21,7 @@ interface AssessmentResultsStepProps extends StepNavProps {
   aiSystem?: AISystem;
   applicableNotes: Note[];
   applicableObligations: Obligation[];
+  assessmentManager?: any;
 }
 
 export default function AssessmentResultsStep({
@@ -29,6 +31,7 @@ export default function AssessmentResultsStep({
   aiSystem,
   applicableNotes,
   applicableObligations,
+  assessmentManager,
 }: AssessmentResultsStepProps) {
   const showCompanySummary = company && company.name;
   const showAISystemSummary = aiSystem && aiSystem.name;
@@ -96,15 +99,24 @@ export default function AssessmentResultsStep({
                   answers.
                 </Text>
               </Box>
-              <Button
-                leftSection={<IconDownload size={16} />}
-                onClick={handleExportPDF}
-                color="blue"
-                size="sm"
-                variant="outline"
-              >
-                Export PDF
-              </Button>
+              <Group gap="xs">
+                <Button
+                  leftSection={<IconDownload size={16} />}
+                  onClick={handleExportPDF}
+                  color="blue"
+                  size="sm"
+                  variant="outline"
+                >
+                  Export PDF
+                </Button>
+                {assessmentManager && (
+                  <AssessmentExportButton
+                    assessmentManager={assessmentManager}
+                    notes={applicableNotes}
+                    obligations={applicableObligations}
+                  />
+                )}
+              </Group>
             </Group>
           </Box>
 

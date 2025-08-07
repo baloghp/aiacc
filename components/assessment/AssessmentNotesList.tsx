@@ -27,7 +27,17 @@ export default function AssessmentNotesList({ notes }: AssessmentNotesListProps)
                 </Text>
               </Group>
               <Box mt={2}>
-                <ReactMarkdown>{note.description}</ReactMarkdown>
+                <ReactMarkdown
+                  components={{
+                    a: ({ href, children, ...props }) => (
+                      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+                        {children}
+                      </a>
+                    ),
+                  }}
+                >
+                  {note.description}
+                </ReactMarkdown>
               </Box>
               <Group gap="xs" mt={4}>
                 {note.requiredTags &&

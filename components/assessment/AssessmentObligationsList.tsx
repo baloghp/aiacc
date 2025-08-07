@@ -23,10 +23,30 @@ export default function AssessmentObligationsList({ obligations }: AssessmentObl
             <List.Item key={obligation.id}>
               <Box>
                 <Box mb="xs">
-                  <ReactMarkdown>{`${obligation.article}:`}</ReactMarkdown>
+                  <ReactMarkdown
+                    components={{
+                      a: ({ href, children, ...props }) => (
+                        <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+                          {children}
+                        </a>
+                      ),
+                    }}
+                  >
+                    {`${obligation.article}:`}
+                  </ReactMarkdown>
                 </Box>
                 <Box>
-                  <ReactMarkdown>{obligation.description}</ReactMarkdown>
+                  <ReactMarkdown
+                    components={{
+                      a: ({ href, children, ...props }) => (
+                        <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+                          {children}
+                        </a>
+                      ),
+                    }}
+                  >
+                    {obligation.description}
+                  </ReactMarkdown>
                 </Box>
               </Box>
               <Group gap="xs" mt={4}>

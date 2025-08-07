@@ -12,6 +12,7 @@ import AssessmentCompanySummary from './AssessmentCompanySummary';
 import AssessmentLegalDisclaimer from './AssessmentLegalDisclaimer';
 import AssessmentNotesList from './AssessmentNotesList';
 import AssessmentObligationsList from './AssessmentObligationsList';
+import AssessmentExportButton from './AssessmentExportButton';
 
 interface AssessmentResultsPanelProps {
   _assessmentState?: AssessmentState;
@@ -19,6 +20,7 @@ interface AssessmentResultsPanelProps {
   aiSystem?: AISystem;
   applicableNotes: Note[];
   applicableObligations: Obligation[];
+  assessmentManager?: any;
 }
 
 export default function AssessmentResultsPanel({
@@ -27,6 +29,7 @@ export default function AssessmentResultsPanel({
   aiSystem,
   applicableNotes,
   applicableObligations,
+  assessmentManager,
 }: AssessmentResultsPanelProps) {
   const showCompanySummary = company && company.name;
   const showAISystemSummary = aiSystem && aiSystem.name;
@@ -94,15 +97,24 @@ export default function AssessmentResultsPanel({
                   answers so far.
                 </Text>
               </Box>
-              <Button
-                leftSection={<IconDownload size={16} />}
-                onClick={handleExportPDF}
-                color="blue"
-                size="sm"
-                variant="outline"
-              >
-                Export PDF
-              </Button>
+              <Group gap="xs">
+                <Button
+                  leftSection={<IconDownload size={16} />}
+                  onClick={handleExportPDF}
+                  color="blue"
+                  size="sm"
+                  variant="outline"
+                >
+                  Export PDF
+                </Button>
+                {assessmentManager && (
+                  <AssessmentExportButton
+                    assessmentManager={assessmentManager}
+                    notes={applicableNotes}
+                    obligations={applicableObligations}
+                  />
+                )}
+              </Group>
             </Group>
           </Box>
 

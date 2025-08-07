@@ -220,6 +220,7 @@ export default function AssessmentPage() {
               aiSystem={assessmentState?.aiSystem}
               applicableNotes={applicableNotes}
               applicableObligations={applicableObligations}
+              assessmentManager={assessmentManagerRef.current}
             />
           )}
         </Paper>
@@ -234,6 +235,7 @@ export default function AssessmentPage() {
           aiSystem={assessmentState?.aiSystem}
           applicableNotes={applicableNotes}
           applicableObligations={applicableObligations}
+          assessmentManager={assessmentManagerRef.current}
         />
       )}
     </Box>

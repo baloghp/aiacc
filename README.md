@@ -1,49 +1,61 @@
-# AI Act Compliance WebApp POC
+# AI Act Compliance Assessment Tool
 
-A Next.js + Mantine UI application to guide organizations through the EU AI Act compliance journey. This POC implements a comprehensive assessment workflow with entity management, step-by-step compliance assessment, and obligation discovery.
+A Next.js + Mantine UI application that guides organizations through EU AI Act compliance assessment using a tag-based system. This tool implements a comprehensive assessment workflow with dynamic question filtering, obligation discovery, and professional reporting.
 
 ## Project Purpose
 
-This app helps organizations:
-- Manage assessment questions, obligations, and advisory notes (CRUD operations)
-- Conduct step-by-step compliance assessments through an interactive wizard
+This application helps organizations:
+- Conduct step-by-step AI Act compliance assessments through an interactive wizard
+- Dynamically filter questions based on previous answers using dependency tags
 - Discover applicable legal obligations and advisory notes based on assessment results
-- Export and import assessment data as JSON
+- Export comprehensive reports in both PDF and Excel formats
+- Manage assessment data with a tag-based system for precise filtering
 
-## Features
-
-### Entity Management (`/setup`)
-- **Questions Management**: Create, edit, and delete assessment question groups and individual questions
-  - Support for Yes/No, Multiple Choice, and Single Choice question types
-  - Markdown support for question text
-  - Method name mapping for assessment logic integration
-  - Phase-based organization (Company, AISystem, Applicability, Roles, Risk, GPAI, Results)
-- **Obligations Management**: Manage legal obligations with filtering criteria
-  - Applicable roles (Provider, Deployer, Importer, Distributor, ProductManufacturer, AuthorizedRepresentative)
-  - Risk categories (Prohibited, High, Limited, Minimal)
-  - GPAI and systemic risk applicability
-- **Notes Management**: Manage advisory notes and compliance guidance
-  - Similar filtering criteria as obligations
-  - Best practices and compliance recommendations
+## Core Features
 
 ### Assessment Wizard (`/assessment`)
 - **8-Step Assessment Process**:
-  1. **Welcome**: Introduction and overview
+  1. **Welcome**: Introduction and legal disclaimers
   2. **Company**: Organization details (name, legal entity, location, contact person, stakeholders, certifications)
   3. **AI System**: System details (name, purpose, description, functionality, deployment context, version, assessment date)
-  4. **Applicability**: Legal scope and AI system scope assessment
+  4. **Applicability**: Legal scope and AI system scope assessment with dynamic question filtering
   5. **Roles**: Role assignment (Provider, Deployer, Importer, Distributor, ProductManufacturer, AuthorizedRepresentative)
   6. **Risk**: Risk classification (Prohibited, High, Limited, Minimal)
-  7. **GPAI**: General Purpose AI assessment
-  8. **Results**: Assessment summary and applicable obligations/notes
+  7. **GPAI**: General Purpose AI and systemic risk assessment
+  8. **Results**: Assessment summary with applicable obligations and notes
 
+- **Dynamic Question Filtering**: Questions appear based on dependency tags from previous answers
 - **Interactive Stepper**: Responsive design with vertical (desktop) and horizontal (mobile) layouts
-- **State Management**: AssessmentManager class handles all assessment state and logic
-- **Results Panel**: Displays applicable obligations and notes based on assessment results
+- **State Management**: AssessmentManager class handles all assessment state and tag-based logic
+- **Real-time Results Panel**: Displays applicable obligations and notes as assessment progresses
 
-### Mock UI Showcase (`/mock-ui`)
-- Demonstrates Mantine UI components (Modal, Stepper, Table, Button)
-- Development and testing environment for UI components
+### Export Functionality
+- **PDF Export**: Complete assessment reports with company and AI system information
+- **Excel Export**: Multi-sheet professional reports including:
+  - Assessment Summary with legal disclaimers
+  - Company Information
+  - AI System Information
+  - Questions and Answers (with tag explanations)
+  - Active Tags Summary
+  - Advisory Notes
+  - Applicable Obligations
+- **Client-side Processing**: All exports generated in the browser
+- **Professional Formatting**: Structured data with clear explanations and context
+
+### Entity Management (`/setup`)
+- **Questions Management**: Create, edit, and delete assessment questions with dependency tags
+  - Support for Yes/No, Multiple Choice, and Single Choice question types
+  - Markdown support for question text
+  - Dependency tag system for dynamic filtering
+  - Phase-based organization (Company, AISystem, Applicability, Roles, Risk, GPAI, Results)
+- **Obligations Management**: Manage legal obligations with tag-based filtering
+  - Required tags and required all tags for precise filtering
+  - Article references and detailed descriptions
+  - Order-based organization
+- **Notes Management**: Manage advisory notes and compliance guidance
+  - Similar tag-based filtering as obligations
+  - Best practices and compliance recommendations
+  - Order-based organization
 
 ## Tech Stack
 - **Framework**: Next.js 15.3.3 (App Router, React 19.1.0)
@@ -51,12 +63,13 @@ This app helps organizations:
 - **Language**: TypeScript 5.8.3
 - **Testing**: Jest, React Testing Library
 - **Development**: ESLint, Prettier, Storybook
+- **Export Libraries**: XLSX for Excel export, jsPDF + html2canvas for PDF export
 - **Storage**: Local file storage (browser download/upload for JSON)
 
 ## Main Pages
 - `/` — Home page with navigation to main sections
-- `/setup` — Entity Setup (Questions, Obligations, Notes CRUD)
-- `/assessment` — Assessment Wizard (8-step compliance assessment)
+- `/setup` — Entity Setup (Questions, Obligations, Notes CRUD with tag-based filtering)
+- `/assessment` — Assessment Wizard (8-step compliance assessment with dynamic filtering)
 - `/mock-ui` — Mock UI Showcase (Mantine components demo)
 
 ## Domain Model
@@ -64,15 +77,19 @@ This app helps organizations:
 ### Core Entities
 - **Company**: name, legalEntity, location, contactPerson, stakeholders, certifications
 - **AISystem**: name, intendedPurpose, description, functionality, deploymentContext, version, assessmentDate
-- **ApplicabilityAssessment**: legalScope, aiSystemScope, isApplicable, legacyStatus
-- **RoleAssignment**: roles, primaryRole
-- **RiskClassification**: riskLevel, isGPAI, hasSystemicRisk, applicableObligations, applicableNotes
+- **AssessmentState**: company, aiSystem, activeTags (questionId -> tags mapping)
 
 ### Assessment Data
 - **QuestionGroup**: id, order, phase, questions[], isComplete
-- **Question**: id, text, type, methodName, options[] (for choice questions)
-- **Obligation**: id, article, description, applicableRoles[], riskCategory[], isGPAIApplicable, hasSystemicRiskApplicable
-- **Note**: id, title, description, applicableRoles[], riskCategory[], isGPAIApplicable, hasSystemicRiskApplicable
+- **Question**: id, text, type, order, options[], dependencies[], tags[]
+- **Obligation**: id, article, description, requiredTags[], requiredAllTags[], order
+- **Note**: id, title, description, requiredTags[], requiredAllTags[], order
+
+### Tag-Based System
+- **Active Tags**: Dynamic collection of tags representing current assessment state
+- **Dependency Tags**: Questions only appear when required tags are present
+- **Required Tags**: Obligations/notes apply if any required tags are present
+- **Required All Tags**: Obligations/notes apply only if ALL required tags are present
 
 ### Enums
 - **Role**: Provider, Deployer, ProductManufacturer, AuthorizedRepresentative, Importer, Distributor
@@ -80,10 +97,35 @@ This app helps organizations:
 - **AssessmentPhase**: Company, AISystem, Applicability, Roles, Risk, GPAI, Results
 
 ## Assessment Workflow
-1. **Setup Phase**: Configure questions, obligations, and notes in the setup page
-2. **Assessment Phase**: Complete the 8-step assessment wizard
-3. **Results Phase**: Review applicable obligations and notes based on assessment
-4. **Export Phase**: Download assessment data as JSON for external use
+1. **Setup Phase**: Configure questions, obligations, and notes with tag-based filtering
+2. **Assessment Phase**: Complete the 8-step assessment wizard with dynamic question filtering
+3. **Results Phase**: Review applicable obligations and notes based on active tags
+4. **Export Phase**: Download comprehensive reports in PDF or Excel format
+
+## Key Features
+
+### Dynamic Question Filtering
+- Questions appear based on dependency tags from previous answers
+- Maintains original question order within phases
+- Smooth user experience with conditional question flow
+
+### Tag-Based Obligation Discovery
+- Obligations and notes are filtered based on active tags
+- Supports both "any tag" and "all tags" filtering requirements
+- Real-time updates as assessment progresses
+
+### Professional Export System
+- **PDF Export**: Complete visual reports with all assessment data
+- **Excel Export**: Multi-sheet structured reports with:
+  - Professional formatting and organization
+  - Clear explanations for each section
+  - Legal disclaimers and context
+  - Timestamped filenames for easy organization
+
+### Responsive Design
+- Mobile-friendly interface with adaptive layouts
+- Color scheme toggle for accessibility
+- Progress tracking and navigation controls
 
 ## Environment Variables
 
@@ -120,20 +162,23 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 - `/components` — React components organized by feature
 - `/entities` — TypeScript domain models and business logic
 - `/data` — Sample and user data (JSON files)
+- `/utils` — Utility functions including Excel export
 - `/test-utils` — Testing utilities and setup
 
 ### Key Components
-- `AssessmentManager` — Core business logic for assessment state management
-- `QuestionsCRUD` — Full CRUD interface for assessment questions
-- `ObligationsCRUD` — Full CRUD interface for legal obligations
-- `NotesCRUD` — Full CRUD interface for advisory notes
+- `AssessmentManager` — Core business logic for assessment state and tag management
+- `QuestionRenderer` — Dynamic question rendering with dependency filtering
+- `AssessmentExportButton` — Excel export functionality
+- `AssessmentResultsPanel` — Real-time results display
 - Assessment step components — Individual steps in the assessment wizard
 
 ### Data Flow
-1. Questions, obligations, and notes are managed in `/setup`
+1. Questions, obligations, and notes are managed in `/setup` with tag-based filtering
 2. Assessment data flows through `AssessmentManager` during wizard steps
-3. Results are computed based on assessment state and filtered obligations/notes
-4. Data can be exported/imported as JSON for external processing
+3. Active tags are updated based on user answers
+4. Questions are filtered dynamically based on dependency tags
+5. Results are computed based on active tags and filtered obligations/notes
+6. Data can be exported in PDF or Excel format
 
 ## Testing
 ```sh
@@ -146,6 +191,19 @@ npm run jest:watch
 # Run Storybook
 npm run storybook
 ```
+
+## Export Features
+
+### Excel Export
+- **7 Professional Sheets**: Summary, Company, AI System, Questions, Tags, Notes, Obligations
+- **Structured Data**: Clear organization with explanations and context
+- **Legal Disclaimers**: Professional disclaimers and usage notes
+- **Client-side Processing**: No server dependencies
+
+### PDF Export
+- **Complete Visual Reports**: All assessment data in a single document
+- **Professional Formatting**: Clean, readable layout
+- **High-quality Output**: Suitable for official documentation
 
 ## References
 - See `_Design/Domain Design.md` and `_Design/POC Technical Design.md` for full domain and technical details

@@ -12,6 +12,8 @@ interface QuestionRendererProps {
   onBack?: () => void;
   onStateChange?: () => void;
   onEarlyTermination?: () => void;
+  onQuestionsUpdate?: (questions: Question[]) => void;
+  onAnswersUpdate?: (answers: Record<string, any>) => void;
 }
 
 export default function QuestionRenderer({
