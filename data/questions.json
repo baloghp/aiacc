@@ -5,7 +5,7 @@
     "phase": "Applicability",
     "questions": [
       {
-        "id": "q1",
+        "id": "q11",
         "text": "Are you a natural person using AI for non-professional activities?",
         "order": 1,
         "type": "yesNo",
@@ -15,7 +15,7 @@
         ]
       },
       {
-        "id": "q2",
+        "id": "q12",
         "text": "Is your organization established in the EU?",
         "order": 2,
         "type": "singleChoice",
@@ -36,7 +36,7 @@
         ]
       },
       {
-        "id": "q3",
+        "id": "q13",
         "text": "Does the system meet the definition of AI systems under the EU AI Act?",
         "order": 3,
         "type": "singleChoice",
@@ -57,7 +57,7 @@
         "allowMultiple": false
       },
       {
-        "id": "q4",
+        "id": "q14",
         "text": "**Do you place this AI system on the EU market?**  \n\n\n**Explanation:**  \n\n\n“Placing on the market” means making the AI system available for the first time in the EU, whether for payment or free of charge, regardless of where your organization is established.  \n\n\n_If you develop, sell, or otherwise supply this AI system directly or through intermediaries to customers or users in EU member states, select “Yes.”_",
         "order": 4,
         "type": "singleChoice",
@@ -78,7 +78,7 @@
         "allowMultiple": false
       },
       {
-        "id": "q5",
+        "id": "q15",
         "text": "**Is the output of this AI system used in the EU?**\n\n**Explanation:**  \nEven if your organization is not located in the EU and you do not place the AI system directly on the EU market, the EU AI Act may still apply if the system’s results, predictions, or outputs are used by individuals or organizations within the EU.  \n_If any output from this AI system reaches users, customers, or systems in the EU, select “Yes.”_",
         "order": 5,
         "type": "singleChoice",
@@ -99,7 +99,7 @@
         ]
       },
       {
-        "id": "q6",
+        "id": "q16",
         "text": "**Is this AI system used exclusively for any of the following purposes?**\n\n**Explanation:**  \nCertain AI systems are exempt from the EU AI Act if they are used exclusively for specific purposes. Please indicate if this system is used only for one (or more) of the following:\n\n- **Military purposes:** Used solely in defense, armed forces, or national military applications.\n    \n- **Scientific research:** Used solely for scientific research and development activities, not deployed in commercial or operational settings.\n    \n- **National security or law enforcement by non-EU public authorities:** Used solely for national security, defense, or public safety by non-EU governmental organizations.\n    \n- **No:** The system is not used exclusively for any of the above purposes.\n    \n\n_Select all that apply. If you choose \"No,\" it means your system is not limited to these purposes and will proceed through the standard assessment._",
         "order": 6,
         "type": "singleChoice",
@@ -125,12 +125,12 @@
         "tags": [
           "ai-system:exempt-military,abort:go-to-results",
           "ai-system:exempt-research,abort:go-to-results",
-          "ai-system:exempt-security ,abort:go-to-results",
+          "ai-system:exempt-security,abort:go-to-results",
           "ai-system:not-exempt"
         ]
       },
       {
-        "id": "q7",
+        "id": "q17",
         "text": "Has your system been placed on the EU market before 2 August 2025?",
         "order": 7,
         "type": "singleChoice",
@@ -151,7 +151,7 @@
         "allowMultiple": false
       },
       {
-        "id": "q8",
+        "id": "q18",
         "text": "Has the system been modified or upgraded since 2 August 2025?",
         "order": 8,
         "type": "multipleChoice",
@@ -183,7 +183,7 @@
     "phase": "Roles",
     "questions": [
       {
-        "id": "q9",
+        "id": "q21",
         "text": "**Do you develop or commission the development of this AI system, and place it on the market or put it into service under your name or trademark, either for your own use or for others (including via a third party)?**  \n  \n*Explanation:*  \nYou are considered a “provider” if you create, design, or have significant control over the development of the AI system and are responsible for placing it on the EU market or putting it into use. This role applies regardless of whether your company markets the system under its own name, or if another company does so on your behalf. Providers have primary responsibility for legal compliance, technical documentation, and ongoing monitoring.",
         "order": 1,
         "type": "yesNo",
@@ -192,7 +192,7 @@
         ]
       },
       {
-        "id": "q10",
+        "id": "q22",
         "text": "**Are you using or operating this AI system within your organization, or under your authority, other than for personal, non-professional use?**\n  \n*Explanation:*  \nA “deployer” is anyone—including companies, government bodies, or institutions—who deploys or manages the AI system as part of their operational processes, such as a bank using an AI-powered loan assessment tool, or an employer using AI for recruitment. If you are using the system in your business, school, or public organization, you are a deployer and have distinct transparency and oversight duties.",
         "order": 2,
         "type": "yesNo",
@@ -201,7 +201,7 @@
         ]
       },
       {
-        "id": "q11",
+        "id": "q23",
         "text": "**Do you import or intend to import this AI system (or products containing it) into the EU from a supplier established outside the EU?**\n  \n*Explanation:*  \nYou are considered an “importer” if you are the first entity to make the AI system available in the EU, when it has been manufactured by a third party located outside the EU. Importers must ensure the provider outside the EU has complied with all EU AI Act requirements before placing the system on the EU market.",
         "order": 3,
         "type": "yesNo",
@@ -210,7 +210,7 @@
         ]
       },
       {
-        "id": "q12",
+        "id": "q24",
         "text": "**Will you be distributing or making this AI system available in the EU supply chain, but not as its provider or importer, and without modifying its intended purpose?**  \n\n*Explanation:*  \nA “distributor” is any company or organization, other than the provider or importer, that makes the AI system available on the market (such as a reseller or retailer). Distributors are required to verify that the system bears the correct documentation, CE marking, and is accompanied by instructions and information as required by the EU AI Act.",
         "order": 3,
         "type": "yesNo",
@@ -219,7 +219,7 @@
         ]
       },
       {
-        "id": "q13",
+        "id": "q25",
         "text": "**Are you a manufacturer who incorporates or integrates this AI system into your own products—such as machinery, vehicles, or other equipment—before placing them on the EU market under your name or trademark?**\n  \n*Explanation:*  \nIf you build products that include AI components and market the finished product under your brand, you are regarded as a “product manufacturer” for the purposes of the AI Act. This role means you must ensure not only that your product meets product safety regulations, but also that integrated AI complies with the AI Act.",
         "order": 4,
         "type": "yesNo",
@@ -228,7 +228,7 @@
         ]
       },
       {
-        "id": "q14",
+        "id": "q26",
         "text": "**If the provider of the AI system is established outside the EU, have you been officially appointed in writing by that provider to act as their legal authorized representative in the EU?**\n>\n*Explanation:*  \nAn “authorized representative” is a personal or legal entity established in the EU, appointed by a non-EU provider to perform certain compliance tasks and to serve as the main point of contact with EU authorities. If you’ve been assigned this responsibility, your obligations include holding technical documentation and ensuring cooperation with regulators.",
         "order": 4,
         "type": "yesNo",
@@ -245,7 +245,7 @@
     "phase": "Risk",
     "questions": [
       {
-        "id": "q15",
+        "id": "q31",
         "text": "**Can your AI system generate a score, ranking, or classification about an individual based on their social behavior, personal characteristics, or economic status (for example: reliability, trustworthiness, or social worth)?**  \n\n*Explanation:*  \nSocial scoring means using AI to rate people based on traits or behaviors—like tracking their financial habits, social media use, or lifestyle—to assign a number or label.",
         "order": 1,
         "type": "yesNo",
@@ -254,7 +254,7 @@
         ]
       },
       {
-        "id": "q16",
+        "id": "q32",
         "text": "**Is your system intended for use, or could it realistically be made available for use, by a public authority (such as a government department, police, municipal agency), or someone acting on a public authority's behalf?**  \n\n*Explanation:*  \nThe EU AI Act prohibits social scoring by public bodies or on their behalf—especially where it could lead to denial of services or unfair disadvantages. If you build this capability, you must actively prevent public sector entities from using your AI for this purpose, through legal, technical, and organizational controls.",
         "order": 2,
         "type": "yesNo",
@@ -276,16 +276,17 @@
     "phase": "Risk",
     "questions": [
       {
-        "id": "q17",
+        "id": "q51",
         "text": "**Can your AI system automatically identify people in real-time, using biometric data (such as facial recognition, fingerprints, voice), in publicly accessible locations such as streets, parks, or transport hubs?**  \n\n*Explanation:*  \nReal-time biometric identification means your AI can pick people out of a crowd by their face or other biological features instantly, as they walk through public spaces.",
         "order": 1,
         "type": "yesNo",
         "tags": [
-          "risk:realtime_biometric_id"
+          "risk:realtime_biometric_id",
+          "risk:limited"
         ]
       },
       {
-        "id": "q18",
+        "id": "q52",
         "text": "**Is your system intended for use by, or could it be made available to, public law enforcement authorities (such as police or security agencies) for identifying individuals in public spaces?**  \n\n*Explanation:*  \nThe EU AI Act bans law enforcement and public authorities from using real-time biometric identification technologies in public places—except under strict legal exceptions (like searching for missing persons with court/judicial authorization). If your system could be used this way, you must prevent such deployment by design.",
         "order": 2,
         "type": "yesNo",
@@ -293,6 +294,21 @@
           "risk:realtime_biometric_id_in_lawenforcement",
           "abort:go-to-results",
           "risk:prohibited"
+        ],
+        "dependencies": [
+          "risk:realtime_biometric_id"
+        ]
+      },
+      {
+        "id": "53",
+        "text": "**Is your AI system used for access control, security, or verification?**\n\n*Explanation:*  \nAI systems that process biometric data for identifying or sorting individuals (like scanning faces for entry, verifying employees, etc.) are generally high-risk. This includes most uses beyond private, personal authentication.",
+        "order": 3,
+        "type": "yesNo",
+        "dependencies": [
+          "risk:realtime_biometric_id"
+        ],
+        "tags": [
+          "risk:high"
         ]
       }
     ],
@@ -304,7 +320,7 @@
     "phase": "Risk",
     "questions": [
       {
-        "id": "q19",
+        "id": "q61",
         "text": "**Can your AI system detect, analyze, or infer people’s emotions, moods, or mental states using biometric data—such as facial expressions, voice recordings, body language, heart rate, or other physical attributes?**  \n\n*Explanation:*  \nBiometric-based emotion recognition means using sensors, cameras, microphones, or wearables to read physical signals or behaviors (like facial expressions, tone of voice, body movement, pulse) to judge if someone is, for example, happy, angry, sad, tired, or engaged.\n\n**This does NOT apply to analyzing sentiment or emotions solely from written text, such as emails or chat messages, where no biometric data is used.**",
         "order": 1,
         "type": "yesNo",
@@ -313,7 +329,7 @@
         ]
       },
       {
-        "id": "q20",
+        "id": "q62",
         "text": "**Is your system intended to be used, or could it reasonably be made available for use, in workplaces for employment-related decisions (such as hiring, performance monitoring, or staff evaluation), or in schools/educational settings for managing or assessing students or staff?**  \n\n*Explanation:*  \nAI systems that use biometric data to analyze emotions in hiring, employee monitoring, student assessment, or classroom management are banned. If your AI is built for these purposes, you must take active steps to prevent its use in these contexts.",
         "order": 2,
         "type": "yesNo",
@@ -335,7 +351,7 @@
     "phase": "Risk",
     "questions": [
       {
-        "id": "q21",
+        "id": "q71",
         "text": "**Does your AI system exploit weaknesses of people due to age, disability, or socio-economic status to manipulate them and cause harm?**\n\n*Explanation:*  \nSuch exploitation is banned as it can severely harm vulnerable individuals or groups. Targeting or manipulating people because they are children, elderly, disabled, or in difficult life situations—to influence their actions or decisions for your benefit—is not allowed.",
         "order": 1,
         "type": "yesNo",
@@ -346,7 +362,7 @@
         ]
       },
       {
-        "id": "q22",
+        "id": "q72",
         "text": "**Does your AI system gather facial images from the internet or CCTV indiscriminately to create databases without individuals' consent?**\n\n*Explanation:*  \nCreating such databases without consent is illegal and violates privacy rights. Collecting faces from social media, websites, or public cameras without permission to build identification systems is strictly forbidden.",
         "order": 2,
         "type": "yesNo",
@@ -357,7 +373,7 @@
         ]
       },
       {
-        "id": "q23",
+        "id": "q73",
         "text": "**Does your AI system categorize people based on sensitive attributes (race, religion, political beliefs, sexual orientation) inferred from biometric data, except in narrow authorized cases (like limited law enforcement uses)?**\n\n*Explanation:*  \nThis categorization is banned except for limited law enforcement purposes under strict conditions. Inferring or grouping people by sensitive traits using biometric analysis (like face or voice) is not allowed in almost all scenarios.",
         "order": 3,
         "type": "yesNo",
@@ -368,7 +384,7 @@
         ]
       },
       {
-        "id": "q24",
+        "id": "q74",
         "text": "**Does your AI system use subliminal or manipulative techniques to influence people's decisions or behavior in harmful ways?**\n\n*Explanation:*  \nUsing covert techniques that bypass a person’s awareness to distort their decision-making and cause (or risk causing) them harm is prohibited. For example, imperceptible cues or manipulations that lead people into harmful choices are not allowed.",
         "order": 4,
         "type": "yesNo",
@@ -379,7 +395,7 @@
         ]
       },
       {
-        "id": "q25",
+        "id": "q75",
         "text": "**Does your AI system try to predict if someone is likely to commit a crime or offense, primarily based on traits like their age, gender, ethnicity, residence, or social background, instead of objective evidence or individual conduct?**\n\n*Explanation:*  \nAI systems that \"flag\" people as likely to break the law because of who they are or where they live—rather than based on specific behaviors—are not allowed. This is to prevent unjust profiling and discrimination.",
         "order": 5,
         "type": "yesNo",
@@ -387,6 +403,204 @@
           "risk:predictive_policing",
           "risk:prohibited",
           "abort:go-to-results"
+        ]
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-Risk-High",
+    "order": 8,
+    "phase": "Risk",
+    "questions": [
+      {
+        "id": "q81",
+        "text": "**Is your AI system used in critical infrastructure sectors (such as energy, water, transport, supply chains) where its failure or malfunction could endanger people’s life, health, or safety?**\n\n*Explanation:*  \nAI managing vital public systems (like power grids, water plants, traffic control or logistics) is high-risk because errors or attacks could seriously harm the public.",
+        "order": 1,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:high-critical_infrastructure"
+        ]
+      },
+      {
+        "id": "q83",
+        "text": "**Does your AI system assist or make decisions in hiring, promotion, task allocation, performance evaluation, or contract termination for employees, workers, or self-employed persons?**\n\n*Explanation:*  \nAny AI that screens job applicants, scores CVs, schedules work tasks, or evaluates employees has significant impact on careers, and is high-risk.",
+        "order": 3,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:high-work_setting"
+        ]
+      },
+      {
+        "id": "q84",
+        "text": "**Does your AI system evaluate or affect access to essential services (such as credit, insurance, housing, social benefits, healthcare, emergency services, or vital utilities)?**\n\n*Explanation:*  \nAI in banking, loan applications, housing assignments, or the distribution of social support are high-risk because unfairness or errors can harm livelihoods.",
+        "order": 4,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:high-essential_services"
+        ]
+      },
+      {
+        "id": "q85",
+        "text": "**Is your AI system intended for use by law enforcement authorities in areas such as crime prediction, profiling, evidence analysis, or decision-making about policing, detention, or parole?**\n\n*Explanation:*  \nLaw enforcement AI—outside strictly prohibited activities—is high-risk; this includes tools supporting investigations, evidence handling, or criminal risk assessments.",
+        "order": 5,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:high-law_enforcment"
+        ]
+      },
+      {
+        "id": "q86",
+        "text": "**Is your AI system used by authorities to assess or verify applications for migration, asylum, or visas, or for tasks like border security checks or risk scoring of travelers?**\n\n*Explanation:*  \nAI in border control, migration decisions, or visa processing is high-risk due to the impact on people’s rights and freedoms.",
+        "order": 6,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:high-border_security"
+        ]
+      },
+      {
+        "id": "q87",
+        "text": "**Does your AI help decide, evaluate, or assist in the determination of a person’s legal status, rights, or entitlements (such as eligibility for benefits, taxes, or legal representation)?**\n\n*Explanation:*  \nThis includes tools used in public administration to process and resolve applications for welfare, permits, taxation, or legal aid.",
+        "order": 7,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:high-legal_status_determination"
+        ]
+      },
+      {
+        "id": "q88",
+        "text": "**Is your AI system used to assist or make decisions in court proceedings, judicial administration, or the democratic process (like election management)?**\n\n*Explanation:*  \nAI supporting judges, managing judicial workflows, or influencing elections is high-risk due to potential effects on justice and democracy.",
+        "order": 8,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:high-judicial_democratic"
+        ]
+      },
+      {
+        "id": "q82",
+        "text": "**Does your AI system determine access to, or decisions in, educational and vocational training or assessment (such as school admissions, grading, professional exams)?**\n\n*Explanation:*  \nAI used for student admission, automated grading, or evaluating candidates for qualifications is high-risk if it affects people’s future or opportunities.",
+        "order": 2,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:high-educational_access"
+        ]
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-9-Risk-Limited",
+    "order": 9,
+    "phase": "Risk",
+    "questions": [
+      {
+        "id": "q-91",
+        "text": "**Does your AI system interact directly with people in a way that, for a person, it is not obvious they are communicating with an AI and not a human? (For example: chatbots, virtual agents, AI-powered customer service, voice assistants, content creation tools, or content suggestion features.)**\n\n*Explanation:*  \nThe EU AI Act requires transparency when individuals interact with AI systems rather than humans. If your AI acts as a chatbot, virtual assistant, customer support bot, or suggests/generates content in a way that could be mistaken for a human, it is classified as “limited risk.” You must clearly inform users that they are communicating with (or receiving content from) an AI system, unless this fact is obvious from the situation. This helps users make informed decisions about the interaction and understand its automated nature.",
+        "order": 1,
+        "type": "yesNo",
+        "tags": [
+          "risk:limited",
+          "risk:limited-content_creation"
+        ]
+      },
+      {
+        "id": "q-92",
+        "text": "**Does your AI system generate or modify audio, video, images, or text content in a way that imitates real people, objects, or events—such as deepfakes or synthetic media?**\n\n*Explanation:*  \nA “limited risk” system includes those that could create or manipulate content to make it seem real (like forging photos, videos, voices, or documents). You must disclose to people that the content is AI-generated, except in cases like humor, satire, or obvious fiction.",
+        "order": 2,
+        "type": "yesNo",
+        "tags": [
+          "risk:limited",
+          "risk:limited-deepfakes"
+        ]
+      }
+    ],
+    "isComplete": false
+  },
+  {
+    "id": "qg-GPAI",
+    "order": 10,
+    "phase": "GPAI",
+    "questions": [
+      {
+        "id": "q-101",
+        "text": "**Is the AI model capable to perform a wide range of distinct tasks (such as text, image, audio, or code generation, reasoning, summarization, etc.) across many application domains, and can it be integrated into various different systems or products?**\n\n*Explanation:*  \nA model is considered “general purpose AI” if it displays **significant generality** and **can competently handle multiple, unrelated tasks**—for example:  \n- Large language models (like GPT or Gemini) that can write, translate, reason, generate code, etc.  \n- Image models that generate or classify in multiple domains (art, medicine, engineering, etc.)  \n- Multimodal models that can process or create content across text, images, and audio.  \nThese models are not limited to a single, narrow task but are capable of being reused and integrated into many different downstream applications",
+        "order": 1,
+        "type": "yesNo",
+        "tags": [
+          "risk:gpai"
+        ]
+      },
+      {
+        "id": "q-102",
+        "text": "**Is any model used by the AI system been trained using self-supervised techniques at scale, with a large amount of data (often billions of parameters), so that it can learn generic capabilities rather than a specific application?**\n\n*Explanation:*  \nModels exhibiting significant generality (often with over a billion parameters, trained on broad data) are typically classified as GPAI. This includes many \"foundation\" and advanced generative models, but excludes models trained for a single, narrow function.",
+        "order": 2,
+        "type": "yesNo",
+        "tags": [
+          "risk:gpai"
+        ]
+      },
+      {
+        "id": "q-103",
+        "text": "**Has the cumulative computational power used to train your GPAI model exceeded $$10^{25}$$ floating-point operations (FLOPs)?**\n\n*Explanation:*  \nAny GPAI model trained with more than $$10^{25}$$ FLOPs is **automatically presumed** to have \"high impact capabilities\" and thus be classified as a **systemic risk GPAI** model, requiring special regulatory measures.",
+        "order": 3,
+        "type": "yesNo",
+        "tags": [
+          "risk:gpai",
+          "risk:GPAI-Systemic"
+        ]
+      },
+      {
+        "id": "q-104",
+        "text": "**Does the AI System have capabilities that match or exceed those of the most advanced general-purpose models available (regardless of parameter count), such as:**\n- Generating realistic, human-like content across multiple modalities (text, image, audio, video, code)?\n- Solving or outperforming benchmarks in multiple domains (e.g., law, medicine, STEM, creativity)?\n- Enabling or amplifying large-scale automation, content generation, misinformation, or manipulation?\n- Allowing integration or deployment in ways that can affect millions of users, critical infrastructure, or democratic processes?\n\n*Explanation:*  \nEven if your model does not cross the technical threshold, if it achieves **high impact capabilities**—for example, can cause widespread societal, economic, or fundamental rights impact through reach, technical prowess, or risk propagation—it may still be classified as a GPAI with systemic risk.",
+        "order": 4,
+        "type": "yesNo",
+        "tags": [
+          "risk:gpai",
+          "risk:GPAI-Systemic"
+        ]
+      },
+      {
+        "id": "q-105",
+        "text": "**Has your model been made available to at least 10,000 registered business users in the EU, or reached a very large number of end users via downstream applications?**\n\n*Explanation:*  \nA GPAI model with significant market reach and downstream integration may be considered as having systemic risk, even if purely technical benchmarks are not met. The European Commission can also designate a model as systemic risk if it sees high market impact.",
+        "order": 5,
+        "type": "yesNo",
+        "dependencies": [
+          "risk:gpai"
+        ],
+        "tags": [
+          "risk:GPAI-Systemic"
+        ]
+      },
+      {
+        "id": "q-106",
+        "text": "**Could your GPAI model, through its capabilities or widespread use, result in:**\n- Large-scale negative effects on public health, safety, security, or the environment?\n- Serious threats to democratic processes or the rule of law?\n- The production or propagation of illegal, false, or discriminatory content at scale?\n- Widespread cyber vulnerabilities, manipulation, or loss of human oversight?\n- Economic or market disruption affecting a significant number of people?\n\n*Explanation:*  \nSystemic risk is defined not just by technical features, but by reasonably foreseeable negative impacts on society, public interests, and the EU market—especially those that can propagate across value chains and sectors.",
+        "order": 6,
+        "type": "yesNo",
+        "dependencies": [
+          "risk:gpai"
+        ],
+        "tags": [
+          "risk:GPAI-Systemic"
+        ]
+      },
+      {
+        "id": "q-107",
+        "text": "**Has the European Commission or the AI Office formally designated your GPAI model as \"systemic risk,\" or notified your company of such a classification?**\n\n*Explanation:*  \nIn some cases, the EU authorities may designate a GPAI as systemic risk based on observed or anticipated impact, even if technical or user-based thresholds are not (yet) reached.[7]",
+        "order": 7,
+        "type": "yesNo",
+        "dependencies": [
+          "risk:gpai"
+        ],
+        "tags": [
+          "risk:GPAI-Systemic"
         ]
       }
     ],

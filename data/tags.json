@@ -35,11 +35,6 @@
     "description": "AI System is limited risk."
   },
   {
-    "id": "risk:minimal",
-    "category": "Risk",
-    "description": "AI Risk is minimal"
-  },
-  {
     "id": "risk:gpai",
     "category": "Risk",
     "description": "AI System is GPAI"
@@ -187,6 +182,50 @@
   },
   {
     "id": "risk:subliminal",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:high-critical_infrastructure",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:high-educational_access",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:high-work_setting",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:high-essential_services",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:high-law_enforcment",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:high-border_security",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:high-legal_status_determination",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:high-judicial_democratic",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:limited-content_creation",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:limited-deepfakes",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:GPAI-Systemic",
     "category": "Risk"
   }
 ]

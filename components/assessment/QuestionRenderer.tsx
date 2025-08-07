@@ -26,7 +26,7 @@ export default function QuestionRenderer({
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Sort questions by order and filter by dependencies
+  // Filter questions by dependencies while preserving original order
   const sortedQuestions = [...questions]
     .filter((question) => {
       // If no dependencies, show the question
@@ -38,8 +38,7 @@ export default function QuestionRenderer({
       const activeTags = assessmentManager.getActiveTags();
 
       return question.dependencies.some((dependency) => activeTags.includes(dependency));
-    })
-    .sort((a, b) => (a.order || 1) - (b.order || 1));
+    });
 
   // Load existing answers from AssessmentManager
   useEffect(() => {
@@ -318,10 +317,7 @@ export default function QuestionRenderer({
   return (
     <Box>
       {/* Progress */}
-      <Group mb="lg" justify="space-between">
-        <Text size="sm" c="dimmed">
-          Question {currentQuestion.order || currentQuestionIndex + 1} of {sortedQuestions.length}
-        </Text>
+      <Group mb="lg" justify="flex-end">
         <Badge variant="light" color="blue">
           {getAnswerSummary()}
         </Badge>
