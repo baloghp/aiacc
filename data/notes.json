@@ -2,7 +2,7 @@
   {
     "id": "n1",
     "title": "Personal Use: Out of Scope",
-    "description": "You are using this AI system for purely personal, non-professional activities, which are out of the AI Act scope (Article 2). You have no obligations",
+    "description": "You are using this AI system for purely personal, non-professional activities, which are out of the AI Act scope (Article 2). You have no obligations under the regulation.\n\nThis means that if your use of the AI system is strictly for hobbies, entertainment, private communication, or other personal, non-work-related tasks, the EU AI Act does not apply to you. No compliance actions are required.\n\nFor more information, refer to Article 2 of the EU AI Act.",
     "requiredTags": [
       "legal:non-professional"
     ],
@@ -11,10 +11,11 @@
   {
     "id": "n2",
     "title": "Organization is established in the EU",
-    "description": "Organizations registered or headquartered in an EU Member State are directly subject to the EU Artificial Intelligence Act (AI Act). This includes all legal entities (companies, organizations, associations) established anywhere within the territory of the European Union.",
+    "description": "Organizations that are registered or headquartered in an EU Member State are directly subject to the EU Artificial Intelligence Act (AI Act). This includes all legal entities such as companies, organizations, and associations established within the territory of the European Union.\n\nBeing an EU-established entity means you must comply with the full range of obligations under the AI Act for any AI systems you place on the EU market or put into service. This encompasses requirements related to conformity assessments, transparency, risk management, reporting, and ongoing compliance depending on the risk classification and use of your AI systems.",
     "requiredTags": [
       "legal:eu-entity"
-    ]
+    ],
+    "order": 10
   },
   {
     "id": "n3",
@@ -22,7 +23,8 @@
     "description": "Your system does not meet the AI definition under the EU AI Act.\n\nAccording to Article 3 of the EU AI Act, an AI system is defined as a “machine-based system designed to operate with varying levels of autonomy and that may exhibit adaptiveness after deployment, which, for explicit or implicit objectives, infers from the input it receives how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments.”\n\nSince your system does not fit this definition, the EU AI Act does not apply. You do not have legal obligations under this regulation for this system.\n\nTip: If your system changes in the future to include machine-based inference, adaptability, or autonomous decision-making, you should reassess its status under the Act at that time.",
     "requiredTags": [
       "ai-system:not-meets-definition"
-    ]
+    ],
+    "order": 1
   },
   {
     "id": "n4",
@@ -30,7 +32,8 @@
     "description": "According to Article 3 of the EU AI Act, an AI system is “a machine-based system designed to operate with varying levels of autonomy and that may exhibit adaptiveness after deployment, which, for explicit or implicit objectives, infers from the input it receives how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments.”\n\nBecause your system fits this definition, it may be subject to obligations under the EU AI Act depending on other factors, such as its use, risk level, and market placement.",
     "requiredTags": [
       "ai-system:meets-definition"
-    ]
+    ],
+    "order": 10
   },
   {
     "id": "n5",
@@ -39,25 +42,28 @@
     "requiredAllTags": [
       "legal:not-places-on-eu",
       "legal:not-output-in-eu"
-    ]
+    ],
+    "order": 1
   },
   {
     "id": "n6",
     "title": "Your AI system is exempt from the EU AI Act.",
-    "description": "Because this system is used exclusively for military, scientific research, or national security purposes, it is explicitly excluded from the scope of the EU AI Act under Article 2. This means you do not have compliance obligations for this system under this regulation.\n\nIf the purpose of this AI system changes in the future, or if it is used outside these exclusive contexts, please reassess its status under the Act.",
+    "description": "Your AI system is used exclusively for one or more specific purposes that are exempt from the EU Artificial Intelligence Act (AI Act). These exempted purposes include:\n\n- Military purposes: AI systems deployed solely for defense, armed forces, or national military applications are not covered by the AI Act.\n\n- Scientific research: AI used exclusively for non-commercial, non-operational research and development activities is excluded from the regulation.\n\n- National security or law enforcement by non-EU public authorities: AI systems used exclusively by governmental agencies outside the EU for security, defense, or public safety purposes fall outside the scope of the AI Act.\n\nBecause your system operates only within these narrowly defined areas, you do not need to comply with the AI Act's requirements. If in the future your system’s use extends beyond these purposes or includes commercial, operational, or EU-based activities, please reassess its compliance obligations accordingly.",
     "requiredTags": [
       "ai-system:exempt-military",
       "ai-system:exempt-research",
       "ai-system:exempt-security"
-    ]
+    ],
+    "order": 1
   },
   {
     "id": "n7",
     "title": "Your AI system is subject to the EU AI Act.",
-    "description": "Since your system is not used exclusively for military, scientific research, or national security purposes, it falls within the scope of the EU AI Act.  \n\nYou should continue with the compliance assessment to determine your specific obligations under the regulation, based on the system’s use, risk category, and your organization’s role.  \n\n_If you are unsure about the correct classification, review your intended use cases and deployment contexts, or consult further guidance._",
+    "description": "Since your AI system is not used exclusively for military purposes, scientific research, or national security by non-EU public authorities—meaning it does not qualify for any of the specific exemptions under the EU AI Act—it falls within the scope of the regulation. You are required to continue with the compliance assessment to determine your precise obligations based on your system’s use, risk classification, and your organization’s role.\n\nIt is important to carefully review your AI system’s deployment context and intended uses to maintain compliance. If there is any uncertainty about whether your system qualifies as exempt, you should consult the relevant provisions of the Act or seek legal guidance.",
     "requiredTags": [
       "ai-system:not-exempt"
-    ]
+    ],
+    "order": 5
   },
   {
     "id": "n8",
@@ -65,7 +71,8 @@
     "description": "You have indicated that the outputs of your AI system will be used within the European Union.  \n\nUnder the EU AI Act, the regulation can apply even if your organization or the AI system itself is not based in the EU, as long as its results, predictions, or decisions are used by individuals or organizations within the EU.\n\n _If you plan to expand or change where your system’s outputs are used, be sure to reassess applicability as needed._",
     "requiredTags": [
       "legal:output-in-eu"
-    ]
+    ],
+    "order": 1
   },
   {
     "id": "n9",
@@ -73,7 +80,8 @@
     "description": "Since you indicated that the  AI system was not placed on the EU market (or put into service in the EU) before 2 August 2025, it does **not** qualify as a “legacy” or pre-existing system under the EU Artificial Intelligence Act.  \n\nThis means your system will be subject to the **full requirements of the AI Act** when they come into legal effect. You must:\n- Conduct a full risk assessment based on the system’s type and use context.\n- Undertake a conformity assessment and complete required technical documentation.\n- Implement all mandatory obligations for your system’s AI risk category, including requirements for high-risk, general-purpose, or other regulated AI       systems.\n- Ensure compliance with transparency, human oversight, data quality, cybersecurity, incident reporting, and ongoing risk management provisions as detailed in the AI Act.",
     "requiredTags": [
       "ai-system:non-legacy-system"
-    ]
+    ],
+    "order": 10
   },
   {
     "id": "n10",
@@ -81,7 +89,8 @@
     "description": "Your AI system is considered a “legacy” or pre-existing system under the EU Artificial Intelligence Act.  \n\nThis means that, depending on whether your system undergoes any significant modifications after 2 August 2025:\n- If your system **remains unchanged**, you benefit from transitional provisions and are subject to a limited set of ongoing obligations.  \n  - You must maintain technical documentation, retain relevant logs, continue risk management, and cooperate with authorities if requested.  \n  - Full retraining or conformity reassessment is not required unless specifically triggered by sectoral law or a change in system use.\n- If your system **is significantly modified or upgraded** after 2 August 2025, you will be required to fully comply with all relevant obligations under the AI Act (including risk assessments and conformity procedures) as if it was a newly placed system.",
     "requiredTags": [
       "ai-system:legacy-system"
-    ]
+    ],
+    "order": 10
   },
   {
     "id": "n11",
@@ -89,7 +98,8 @@
     "description": "Since your system has been modified or upgraded since 2 August 2025, it is considered subject to the **full requirements of the AI Act**.  \nYou must comply with all applicable obligations, including:\n- Conducting comprehensive risk and fundamental rights impact assessments,\n- Undergoing conformity assessment procedures,\n- Ensuring appropriate human oversight,\n- Maintaining up-to-date technical documentation and incident reporting,\n- Meeting all other requirements for your system's risk category.\n\nTreat your system as if it is being newly placed on the EU market under the latest AI Act rules.",
     "requiredTags": [
       "ai-system:legacy-system-w-changes"
-    ]
+    ],
+    "order": 15
   },
   {
     "id": "n12",
@@ -97,7 +107,8 @@
     "description": "Since your system has **not** been modified or upgraded since 2 August 2025, it remains a “legacy” system covered by transitional provisions under the AI Act.  \nYou must continue to fulfill essential obligations including:\n- Maintaining technical documentation,\n- Implementing risk management practices and ongoing monitoring,\n- Retaining logs and incident records,\n- Cooperating with EU authorities upon request.\n\nHowever, **full retraining or comprehensive re-assessment of the system is generally not required** for unchanged legacy systems, unless specifically mandated by sectoral or national law.",
     "requiredTags": [
       "ai-system:legacy-system-wo-changes"
-    ]
+    ],
+    "order": 15
   },
   {
     "id": "n13",
@@ -105,7 +116,8 @@
     "description": "Your organization is acting as a provider because you have indicated that you develop, commission the development of, or place this AI system on the market under your name or trademark. As a provider, you are primarily responsible for ensuring compliance with the EU AI Act, including technical documentation, conformity obligations, and post-market monitoring. This includes managing the AI system's compliance throughout its lifecycle and cooperating with regulatory authorities.",
     "requiredTags": [
       "role:provider"
-    ]
+    ],
+    "order": 15
   },
   {
     "id": "n14",
@@ -113,7 +125,8 @@
     "description": "Your organization is identified as a deployer since you have indicated you use or operate this AI system within your organization, or under your authority, beyond purely personal or non-professional activities. As a deployer, you must ensure the responsible and lawful operation of the AI system, follow transparency obligations, and implement any required oversight and risk mitigation measures stipulated by the EU AI Act.",
     "requiredTags": [
       "role:deployer"
-    ]
+    ],
+    "order": 15
   },
   {
     "id": "n15",
@@ -121,7 +134,8 @@
     "description": "Your organization is classified as a distributor as you make this AI system available in the EU supply chain without being its provider or importer and without altering its intended purpose. Distributors have the responsibility to verify that the AI system is properly documented, CE marked where required, and supplied with all mandatory instructions and information according to EU AI Act rules.",
     "requiredTags": [
       "role:distributor"
-    ]
+    ],
+    "order": 15
   },
   {
     "id": "n16",
@@ -129,7 +143,8 @@
     "description": "Your organization plays the role of product manufacturer integrating AI because you incorporate this AI system into your own products (such as machinery, vehicles, or equipment) and market the combined product under your name or trademark. In this role, you are responsible for ensuring both your finished product and its embedded AI functionalities meet all relevant regulatory and safety requirements, including those of the EU AI Act.",
     "requiredTags": [
       "role:product-manufacturer"
-    ]
+    ],
+    "order": 15
   },
   {
     "id": "n17",
@@ -137,7 +152,8 @@
     "description": "You are recognized as the authorized representative since you have been officially appointed to represent a non-EU provider for this AI system within the EU. As an authorized representative, you serve as the main contact point for EU authorities, maintain technical documentation, and fulfill compliance responsibilities on behalf of the provider as specified by the EU AI Act.",
     "requiredTags": [
       "role:authorized-representative"
-    ]
+    ],
+    "order": 15
   },
   {
     "id": "n18",
@@ -145,6 +161,268 @@
     "description": "You are assigned the role of importer because you bring or plan to bring this AI system (or products containing it) into the EU market from a provider established outside the EU. As an importer, you must make sure that the provider has met all legal and technical EU AI Act requirements before the system is placed on the EU market, and you may be required to maintain compliance documentation.",
     "requiredTags": [
       "role:importer"
-    ]
+    ],
+    "order": 15
+  },
+  {
+    "id": "n19",
+    "title": "Your AI system is classified as high-risk under the EU AI Act",
+    "description": "Your AI system is identified as high-risk, meaning it is deployed in critical areas or contexts where its malfunction, bias, or errors could seriously affect the safety, rights, or well-being of individuals or society. High-risk AI systems include those used in:\n\n- Critical infrastructure sectors (energy, transport, water, supply chains) where failures may endanger life or health\n- Employment decisions (hiring, promotion, performance evaluation)\n- Access to essential services (credit, insurance, housing, healthcare, emergency services)\n- Law enforcement functions (crime prediction, profiling, evidence analysis)\n- Migration, asylum, border security, or traveler risk assessment\n- Legal status determinations or public administration decisions\n- Judicial and democratic processes such as court proceedings or election management\n- Education and vocational training assessments\n\nBecause of their significant impact, high-risk AI systems are subject to strict obligations under the EU AI Act, including risk management, conformity assessments, transparency, human oversight, data quality requirements, incident reporting, and post-market monitoring.\n\nIf your AI system operates in any of these contexts, you must ensure full compliance with relevant provisions of the AI Act to protect fundamental rights and public safety.",
+    "requiredTags": [
+      "risk:high"
+    ],
+    "order": 20
+  },
+  {
+    "id": "n20",
+    "title": "Your AI system is prohibited under the EU AI Act",
+    "description": "Your AI system falls under the category of prohibited AI practices according to the EU Artificial Intelligence Act. These systems pose unacceptable risks to fundamental rights, safety, or ethical standards and are therefore banned from being placed on the EU market or put into service within the EU.\n\nProhibited AI practices include, but are not limited to:\n\n- AI systems that manipulate individuals through subliminal techniques or exploit vulnerabilities due to age, disability, or socio-economic status to cause harm.\n- AI systems used for social scoring by public authorities or entities acting on their behalf, which significantly restrict individuals’ rights or opportunities.\n- AI systems that perform real-time biometric identification in publicly accessible spaces by law enforcement without proper legal authorization.\n- AI systems categorizing individuals based on sensitive biometric data attributes such as race, religion, political beliefs, or sexual orientation outside narrowly defined exceptions.\n- AI systems predicting criminal behavior based on inherent personal characteristics rather than objective evidence.\n\nBecause these systems are prohibited, you must not deploy or place them on the EU market. If your system involves any of these practices, you should immediately cease its use or development for the EU context and seek legal advice for compliance and risk management.\n",
+    "requiredTags": [
+      "risk:prohibited"
+    ],
+    "order": 20
+  },
+  {
+    "id": "n21",
+    "title": "Your AI system is classified as limited risk under the EU AI Act",
+    "description": "Your AI system is considered limited risk because it interacts with people in ways where it may not be obvious that the communication or content generation is AI-driven. Examples include chatbots, virtual assistants, AI-powered customer service, voice assistants, content creation tools, or content suggestion features.\n\nUnder the EU AI Act, limited risk AI systems have specific transparency obligations. You must clearly inform users that they are interacting with an AI system unless the context makes it obvious. Additionally, if your AI system generates or modifies audio, video, images, or text content to imitate real people, objects, or events—such as deepfakes or synthetic media—you must disclose that the content is AI-generated unless the context clearly indicates it is fictional, satirical, or humorous.\n\nThese transparency measures help ensure users are aware of AI involvement and can make informed decisions, reducing potential deception or confusion.",
+    "requiredTags": [
+      "risk:limited"
+    ],
+    "order": 20
+  },
+  {
+    "id": "n22",
+    "title": "Your AI system is classified as General-Purpose AI (GPAI) under the EU AI Act",
+    "description": "Your AI system is identified as a General-Purpose AI (GPAI), meaning it is capable of performing a wide range of distinct tasks across multiple domains and can be integrated into various systems or products. Examples include large language models, multimodal AI models, and foundation models trained with scalable self-supervised learning.\n\nGPAI systems may require specific regulatory attention due to their broad applicability and potential societal impact. The EU AI Act considers factors such as the scale of training, computational power, market reach, and systemic risk capabilities when assessing GPAI systems.\n\nIf your system meets criteria such as training with billions of parameters on extensive datasets, wide deployment, or having high-impact capabilities, further assessment and compliance actions are necessary under the AI Act to manage risks associated with these advanced models.",
+    "requiredTags": [
+      "risk:gpai"
+    ],
+    "order": 25
+  },
+  {
+    "id": "n23",
+    "title": "Your AI system is classified as a General-Purpose AI model with Systemic Risk under the EU AI Act",
+    "description": "Your General-Purpose AI (GPAI) model is designated as having systemic risk, indicating it possesses high-impact capabilities with the potential to significantly affect the EU market and society. This classification arises mainly under two conditions: \n\n- The cumulative computing power used to train your model exceeds the threshold of $$10^{25}$$ floating-point operations (FLOPs), which presumes high-impact capabilities.\n- The European Commission may also designate your model as systemic risk based on factors such as complexity, parameter size, input/output modalities, or its reach in business and consumer markets.\n\nBeing classified as a systemic risk GPAI model entails enhanced regulatory obligations under Article 55 of the EU AI Act. You must implement comprehensive risk assessment and mitigation measures throughout the AI lifecycle, ensure robust cybersecurity standards for the model and its infrastructure, and report serious incidents promptly to relevant authorities. Additionally, you are required to maintain detailed technical documentation including model evaluation results and system architecture, support ongoing monitoring, and cooperate fully with EU regulatory bodies.\n\nProviders must notify the European Commission within two weeks of reasonably foreseeing or reaching the systemic risk criteria. While the systemic risk presumption is strong, providers can contest it by supplying well-substantiated evidence that the model does not present such risks, though the Commission retains broad discretion in the final decision.\n\nThese requirements aim to safeguard public health, safety, fundamental rights, democratic processes, and market integrity in light of the wide-ranging capabilities and potential impacts of systemic GPAI models.",
+    "requiredTags": [
+      "risk:GPAI-Systemic"
+    ],
+    "order": 25
+  },
+  {
+    "id": "24",
+    "title": "Organization is not established in the EU",
+    "description": "Your organization is registered or headquartered outside the European Union (EU). As a non-EU entity, different obligations may apply under the EU Artificial Intelligence Act (AI Act) when placing AI systems on the EU market or putting them into service within the EU.\n\nWhile you may not be directly subject to all AI Act requirements, you could have compliance responsibilities such as appointing an authorized representative within the EU, ensuring your AI systems meet applicable EU standards, and cooperating with EU regulatory authorities.\n\nIt is important to carefully assess your role and activities related to the EU market to determine the exact obligations imposed by the EU AI Act.",
+    "requiredTags": [
+      "legal:non-eu-entity"
+    ],
+    "order": 10
+  },
+  {
+    "id": "n25",
+    "title": "Your AI system is placed on the EU market",
+    "description": "You have indicated that you place your AI system on the European Union (EU) market. This means you make the system available for the first time within the EU, either for sale or free of charge, regardless of where your organization is established.\n\nPlacing an AI system on the EU market subjects it to the full scope of the EU Artificial Intelligence Act (AI Act) obligations. These include ensuring compliance with risk management, conformity assessments, transparency, technical documentation, and ongoing monitoring requirements based on the system’s risk classification.\n\nIt is essential to maintain compliance with all relevant provisions of the EU AI Act when placing your AI system on the EU market to meet legal requirements and support safe and trustworthy AI deployment.",
+    "requiredTags": [
+      "legal:places-on-eu"
+    ],
+    "order": 10
+  },
+  {
+    "id": "n26",
+    "title": "Your AI system is not placed on the EU market",
+    "description": "You have indicated that your AI system is not placed on the European Union (EU) market. This means you do not make the system available for the first time within the EU, either for sale or free of charge.\n\nSince your AI system is not placed on the EU market, some obligations under the EU Artificial Intelligence Act may not directly apply to you at this stage. However, it is important to note that other factors, such as whether the AI system’s outputs are used within the EU, may still trigger regulatory obligations.\n\nIf you plan to place your AI system on the EU market in the future, you should reassess your compliance obligations under the EU AI Act at that time.",
+    "requiredTags": [
+      "legal:not-places-on-eu"
+    ],
+    "order": 10
+  },
+  {
+    "id": "n27",
+    "title": " Your AI system involves social scoring",
+    "description": " Your AI system generates scores, rankings, or classifications about individuals based on their social behavior, personal characteristics, or economic status—such as reliability, trustworthiness, or social worth. Social scoring raises significant ethical and legal concerns under the EU AI Act due to risks of unfair discrimination, privacy violations, and misuse of personal data.\n\nIf your system has social scoring functionality, you must carefully assess its compliance obligations. The Act strictly regulates social scoring, especially when used by public authorities or for purposes that could limit individuals' rights or access to services.\n\nYou should implement robust safeguards, transparency, and oversight to prevent misuse and ensure fairness. If your AI system is intended for or could be accessed by public authorities, additional prohibitions or restrictions may apply.",
+    "requiredTags": [
+      "risk:social_scoring"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n28",
+    "title": "Your AI system’s social scoring in the public sector is prohibited under the EU AI Act",
+    "description": " If your AI system’s social scoring capabilities are intended for use by public authorities or entities acting on their behalf, such as government departments, police, or municipal agencies, it is subject to strict prohibitions under the EU Artificial Intelligence Act. The Act bans social scoring by public sector bodies where it can lead to denial of services, rights restrictions, or unfair disadvantages to individuals.\n\nYou must take active legal, technical, and organizational measures to prevent your AI system’s social scoring features from being used by public authorities. This restriction is designed to protect individuals from discrimination, privacy violations, and misuse of AI in the public sector.\n\nIf your system is used or could be made available to authorities or their proxies, compliance with these prohibitions is mandatory.",
+    "requiredTags": [
+      "risk:social_scoring-public_sector"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n29",
+    "title": "Your AI system performs real-time biometric identification in public spaces",
+    "description": "Your AI system has the capability to automatically identify individuals in real-time using biometric data such as facial recognition, fingerprints, or voice, in publicly accessible locations like streets, parks, or transport hubs. This functionality is subject to specific regulatory scrutiny under the EU Artificial Intelligence Act due to significant privacy, ethical, and legal concerns.\n\nReal-time biometric identification in public spaces enables your system to recognize and differentiate people instantly without their prior knowledge or consent. This raises important issues related to fundamental rights, data protection, and public safety.\n\nBecause of the risks involved, such AI systems are often classified as high-risk under the EU AI Act and must comply with strict obligations, including rigorous risk assessment, transparency, human oversight, data quality, cybersecurity measures, and incident reporting.\n\nIf your system is used by or intended for law enforcement or public authorities for biometric identification in these environments, additional prohibitions or restrictions may apply.",
+    "requiredTags": [
+      "risk:realtime_biometric_id"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n30",
+    "title": "Your AI system performs real-time biometric identification used by law enforcement",
+    "description": "Your AI system is designed, intended, or could realistically be made available for use by public law enforcement authorities or entities acting on their behalf for identifying individuals in public spaces using biometric data (such as facial recognition, fingerprints, or voice recognition). This use case is subject to very strict prohibitions under the EU Artificial Intelligence Act.\n\nThe EU AI Act generally bans law enforcement from using real-time biometric identification technologies in publicly accessible places like streets, parks, or transport hubs, except under very limited, legally authorized exceptions (e.g., searching for missing persons with judicial approval).\n\nBecause of serious privacy, ethical, and fundamental rights concerns, if your system supports or could be used for this purpose, you must comply with the prohibition and cease such deployment or seek proper legal authorization where allowed. Non-compliance can lead to enforcement actions and penalties.",
+    "requiredTags": [
+      "risk:realtime_biometric_id_in_lawenforcement"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n31",
+    "title": "Your AI system performs emotion recognition based on biometric data",
+    "description": "Your AI system detects, analyzes, or infers people's emotions, moods, or mental states using biometric data such as facial expressions, voice recordings, body language, heart rate, or other physical attributes. This technology involves sensors, cameras, microphones, or wearable devices to interpret emotional states including happiness, anger, sadness, fatigue, or engagement.\n\nUnder the EU Artificial Intelligence Act, emotion recognition AI that uses biometric data is subject to specific regulatory considerations due to privacy, ethical, and fundamental rights concerns.",
+    "requiredTags": [
+      "risk:emotion-recognition"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n32",
+    "title": "Your AI system's use of emotion recognition in workplace or educational settings is prohibited under the EU AI Act",
+    "description": "Your AI system performs emotion recognition based on biometric data and is intended for use in workplaces or educational contexts, such as for employment decisions, performance monitoring, staff evaluation, student management, or assessment.\n\nUnder the EU Artificial Intelligence Act, the use of biometric emotion recognition AI in these settings is prohibited. This is due to the significant ethical, privacy, and fundamental rights concerns raised by analyzing emotional or mental states of employees, job applicants, students, or staff for decision-making or management purposes.\n\nIf your system is designed or realistically could be used in such employment-related or educational scenarios involving biometric emotion recognition, you must prevent such deployment, discontinue current uses, and ensure compliance with the prohibition to avoid legal penalties.",
+    "requiredTags": [
+      "risk:emotion-recognition-in-workplace-education"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n33",
+    "title": "Your AI system is involved in predictive policing",
+    "description": " Your AI system is used to predict if someone is likely to commit a crime or offense based primarily on inherent traits such as age, gender, ethnicity, residence, or social background rather than specific, objective evidence or individual conduct. This approach can lead to unjust profiling, discrimination, and violations of fundamental rights.\n\nUnder the EU Artificial Intelligence Act, predictive policing systems that rely on such characteristics rather than factual behavior or evidence are prohibited due to their risk of unfair bias, social harm, and fundamental rights infringements.\n\nIf your AI system employs these predictive policing methods, you must cease its use or development for deployment in the EU market and ensure compliance with the prohibition. Immediate legal, technical, and organizational actions are necessary to prevent misuse and avoid penalties.",
+    "requiredTags": [
+      "risk:predictive_policing"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n34",
+    "title": " Your AI system exploits vulnerabilities and is prohibited under the EU AI Act",
+    "description": "Your AI system intentionally or unintentionally exploits weaknesses of people due to their age, disability, or socio-economic status to manipulate them and cause harm. This practice is prohibited under the EU Artificial Intelligence Act because it can seriously harm vulnerable individuals or groups, including children, the elderly, persons with disabilities, or those facing difficult life circumstances.\n\nSuch exploitation involves targeting or manipulating these vulnerable people to influence their decisions or actions for the benefit of others, which raises significant ethical, legal, and human rights concerns.\n\nIf your AI system engages in exploiting vulnerabilities, you must cease such practices immediately to comply with the prohibition. Legal, technical, and organizational measures must be implemented to prevent misuse and ensure that your AI system respects fundamental rights and protections.",
+    "requiredTags": [
+      "risk:exploiting_vulnaribilites"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n35",
+    "title": " Your AI system creates facial recognition databases without consent",
+    "description": " Your AI system collects facial images from sources such as the internet or public CCTV cameras without obtaining individuals' consent to build facial recognition databases. The EU Artificial Intelligence Act strictly prohibits the indiscriminate gathering of facial images for database creation without explicit permission from the individuals concerned.\n\nThis practice raises serious privacy and data protection concerns, as well as legal risks under the EU AI Act. If your AI system collects such biometric data without proper consent, you must cease this activity immediately. Compliance requires implementing appropriate data governance measures, obtaining lawful consent, and ensuring transparency in data collection and use.",
+    "requiredTags": [
+      "risk:facial_recognition_db"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n36",
+    "title": "Your AI system performs biometric categorization based on sensitive attributes",
+    "description": "Your AI system categorizes individuals based on sensitive personal attributes inferred from biometric data. This includes attributes such as race, religion, political beliefs, sexual orientation, or other protected characteristics.\n\nUnder the EU Artificial Intelligence Act, such categorization is generally prohibited, except for very limited cases specifically authorized by law (for example, narrowly defined law enforcement uses with strict legal safeguards). This prohibition stems from the high risk of discrimination, privacy violations, and ethical concerns tied to grouping people by sensitive characteristics.\n\nIf your system performs biometric categorization of this kind, you must ensure it complies with these restrictions. Unauthorized use or deployment of such AI functionality can lead to significant legal consequences. Careful assessment, controls, and transparency are necessary to avoid misuse and protect fundamental rights.",
+    "requiredTags": [
+      "risk:biometric_categorization"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n37",
+    "title": "Your AI system uses subliminal or manipulative techniques and is prohibited under the EU AI Act",
+    "description": "Your AI system employs subliminal or manipulative methods that influence people's decisions or behavior in ways that could cause harm. This includes covert techniques that bypass an individual's awareness to distort their decision-making, such as imperceptible cues or manipulations designed to lead individuals toward harmful choices without their conscious recognition.\n\nSuch practices are prohibited under the EU Artificial Intelligence Act due to the significant risks they pose to individuals' autonomy, safety, and fundamental rights. If your AI system uses subliminal methods or manipulative techniques causing or risking harm, you must immediately cease these activities and implement legal, technical, and organizational measures to ensure compliance.",
+    "requiredTags": [
+      "risk:subliminal"
+    ],
+    "order": 30
+  },
+  {
+    "id": "n38",
+    "title": "Your AI system is classified as high-risk in critical infrastructure sectors under the EU AI Act",
+    "description": "Your AI system is used in critical infrastructure sectors such as energy, water, transport, or supply chains, where any failure, malfunction, or error could seriously endanger people's life, health, or safety.\n\nBecause of the potentially severe consequences in these vital public systems, the EU Artificial Intelligence Act classifies such AI systems as high-risk. This classification entails strict compliance requirements, including comprehensive risk management, conformity assessments, transparency obligations, human oversight, data quality assurance, incident reporting, and continuous post-market monitoring.\n\nEnsuring full adherence to these regulatory obligations is essential to protect fundamental rights, maintain public safety, and prevent disruptions in critical services.",
+    "requiredTags": [
+      "risk:high-critical_infrastructure"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n39",
+    "title": "Your AI system is classified as high-risk in educational and vocational training under the EU AI Act",
+    "description": "Your AI system is used to determine access to, evaluate, or assist in decision-making related to educational or vocational training contexts. This includes activities such as school admissions, automated grading, professional exams, or candidate assessments.\n\nBecause such AI systems significantly affect individuals’ educational opportunities and career prospects, the EU Artificial Intelligence Act classifies them as high-risk. This classification triggers strict regulatory obligations to ensure fairness, transparency, accountability, and respect for fundamental rights.\n\nYou must implement comprehensive risk management, conduct conformity assessments, maintain technical documentation, provide human oversight, and adhere to all other requirements applicable to high-risk AI systems in these sensitive areas.",
+    "requiredTags": [
+      "risk:high-educational_access"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n40",
+    "title": "Your AI system is classified as high-risk in work settings under the EU AI Act",
+    "description": "Your AI system is used in workplace contexts such as hiring, promotion, task allocation, performance evaluation, or termination decisions. AI systems in these settings have a significant impact on individuals' professional lives and livelihoods.\n\nBecause of these potential effects, the EU Artificial Intelligence Act classifies such AI systems as high-risk. This means you must comply with stringent regulatory obligations including thorough risk management, conformity assessments, transparency, human oversight, and maintaining technical documentation. These requirements help ensure fairness, accountability, and protection of fundamental rights in employment and work-related decisions.\n\nIf your AI system is deployed in work settings involving personnel decisions or evaluations, you must ensure full compliance with the AI Act’s provisions for high-risk AI systems.",
+    "requiredTags": [
+      "risk:high-work_setting"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n41",
+    "title": "Your AI system is classified as high-risk in essential services under the EU AI Act",
+    "description": "Your AI system is involved in evaluating, deciding, or influencing access to essential services such as credit, insurance, housing, social benefits, healthcare, emergency services, or vital utilities. Because these areas are critical to individuals' livelihoods and well-being, inaccuracies, bias, or unfair decisions by your AI system could have significant adverse impacts.\n\nAs a high-risk AI system in essential services, your system is subject to stringent regulatory obligations under the EU AI Act. These obligations include conducting comprehensive risk management, performing conformity assessments, maintaining detailed technical documentation, ensuring transparency and human oversight, implementing data quality measures, reporting incidents, and engaging in continuous post-market monitoring.\n\nFull compliance with the AI Act provisions for high-risk AI systems is required to protect fundamental rights and ensure safe and trustworthy deployment in these critical sectors.",
+    "requiredTags": [
+      "risk:high-essential_services"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n42",
+    "title": "Your AI system is classified as high-risk in law enforcement under the EU AI Act",
+    "description": "Your AI system is considered high-risk because it is intended for use by or on behalf of law enforcement authorities in areas such as crime prediction, profiling, evidence analysis, or decision-making related to policing, detention, or parole. These applications can significantly impact fundamental rights and due process, requiring stringent regulatory compliance under the EU AI Act.\n\nCertain uses of AI in law enforcement, such as real-time biometric identification in public spaces without proper authorization, are strictly prohibited, indicating the sensitive nature of this risk category.\n\nIf your system falls under this category, you must ensure full compliance with the detailed requirements of the EU AI Act to safeguard individuals’ rights and uphold legal standards in law enforcement processes.\n",
+    "requiredTags": [
+      "risk:high-law_enforcment"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n43",
+    "title": "Your AI system is classified as high-risk in border security under the EU AI Act",
+    "description": "Your AI system is used by authorities to assess or verify applications for migration, asylum, or visas, or for tasks such as border security checks or risk scoring of travelers. These applications have significant implications for individuals’ fundamental rights and freedoms.\n\nBecause of the critical impact in these sensitive areas, the EU Artificial Intelligence Act classifies such AI systems as high-risk. This classification requires you to comply with strict regulatory obligations including comprehensive risk management, conformity assessments, transparency, human oversight, data quality assurance, incident reporting, and continuous post-market monitoring.\n\nEnsuring full compliance with the AI Act provisions for high-risk systems in border security is essential to protect vulnerable individuals and maintain lawful, trustworthy operations in these critical public functions.",
+    "requiredTags": [
+      "risk:high-border_security"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n44",
+    "title": "Your AI system is classified as high-risk in legal status determination under the EU AI Act",
+    "description": "Your AI system is used to assist, decide, or evaluate a person's legal status, rights, or entitlements—such as eligibility for benefits, taxes, legal representation, or other administrative determinations. Because such AI systems significantly impact individuals' access to legal protections, benefits, and fundamental rights, they are classified as high-risk under the EU Artificial Intelligence Act.\n\nThis classification imposes stringent regulatory obligations, including conducting thorough risk management, conformity assessments, transparency, human oversight, maintaining detailed technical documentation, incident reporting, and ongoing post-market monitoring.\n\nYou must ensure full compliance with these requirements to protect fundamental rights, ensure fairness, and maintain trustworthy operation of AI systems involved in legal status determinations.",
+    "requiredTags": [
+      "risk:high-legal_status_determination"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n45",
+    "title": "Your AI system is classified as high-risk in judicial and democratic processes under the EU AI Act",
+    "description": "Your AI system is used to assist, make decisions, or influence court proceedings, judicial administration, or democratic processes such as election management. These applications can significantly impact fundamental rights, including the right to a fair trial, presumption of innocence, effective remedies, and the integrity of democratic elections.\n\nBecause of their profound implications, AI systems in judicial and democratic contexts are classified as high-risk under the EU Artificial Intelligence Act. This classification entails stringent regulatory obligations to ensure transparency, accountability, and human oversight. You must implement comprehensive risk management, conduct conformity assessments, maintain detailed technical documentation, ensure meaningful human control over AI decisions, and comply with all other relevant provisions for high-risk AI systems.\n\nFull compliance with these requirements is essential to protect the rule of law, democratic integrity, and fundamental rights in contexts where AI influences legal or democratic outcomes.",
+    "requiredTags": [
+      "risk:high-judicial_democratic"
+    ],
+    "order": 35
+  },
+  {
+    "id": "n46",
+    "title": " Your AI system is classified as limited risk for content creation under the EU AI Act",
+    "description": "Your AI system interacts with people by generating or modifying content such as text, images, audio, or video that may be mistaken for human-created content. Examples include AI-powered content creation tools, chatbots, virtual assistants, or recommendation engines that produce or suggest creative outputs.\n\nUnder the EU AI Act, AI systems classified as limited risk due to content creation must comply with specific transparency obligations. You must clearly inform users that they are interacting with an AI system or receiving AI-generated content unless the context makes this obvious. This is to ensure users understand the nature of the content and reduce the risk of deception or confusion.\n\nIf your system produces synthetic media or deepfakes that imitate real people, objects, or events, you must disclose that the content is AI-generated, unless it is clearly fictional, satirical, or humorous as indicated by the context.\n\nThese transparency measures help protect users and promote responsible use of AI-generated content.",
+    "requiredTags": [
+      "risk:limited-content_creation"
+    ],
+    "order": 40
+  },
+  {
+    "id": "n47",
+    "title": "Your AI system is classified as limited risk for deepfakes under the EU AI Act",
+    "description": "Your AI system generates or modifies audio, video, images, or text content in ways that imitate real people, objects, or events—commonly known as deepfakes or synthetic media. This technology can create realistic but artificial content that may be mistaken for genuine recordings.\n\nUnder the EU AI Act, AI systems classified as limited risk for deepfakes must adhere to transparency obligations. You are required to clearly disclose to users that the content is AI-generated unless the context clearly indicates that the content is fictional, satirical, or humorous.\n\nThese transparency requirements are intended to prevent deception, protect users from misinformation, and promote responsible use of AI-generated synthetic media.",
+    "requiredTags": [
+      "risk:limited-deepfakes"
+    ],
+    "order": 40
   }
 ]
