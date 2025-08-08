@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IconAlertCircle } from '@tabler/icons-react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Alert, Badge, Box, Button, Group, Progress, SimpleGrid, Text } from '@mantine/core';
 import { AssessmentManager } from '@/entities/AssessmentManager';
 import { Question } from '@/entities/Question';
@@ -330,7 +331,7 @@ export default function QuestionRenderer({
       {/* Current Question */}
       <Box mb="xl">
         <Box mb="md">
-          <ReactMarkdown>{currentQuestion.text}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentQuestion.text}</ReactMarkdown>
         </Box>
 
         {renderQuestion(currentQuestion)}

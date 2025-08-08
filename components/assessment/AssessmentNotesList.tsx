@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Badge, Box, Group, List, Text, Title } from '@mantine/core';
 import { Note } from '@/entities/Note';
 
@@ -28,6 +29,7 @@ export default function AssessmentNotesList({ notes }: AssessmentNotesListProps)
               </Group>
               <Box mt={2}>
                 <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
                   components={{
                     a: ({ href, children, ...props }) => (
                       <a href={href} target="_blank" rel="noopener noreferrer" {...props}>

@@ -227,5 +227,13 @@
   {
     "id": "risk:GPAI-Systemic",
     "category": "Risk"
+  },
+  {
+    "id": "risk:High-annex_I",
+    "category": "Risk"
+  },
+  {
+    "id": "risk:High_No_Risk_Demo",
+    "category": "Risk"
   }
 ]

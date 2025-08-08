@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Box, Text, Modal, Button, Tooltip } from '@mantine/core';
 import { useState } from 'react';
 
@@ -43,7 +44,7 @@ export function MarkdownRenderer({
     <>
       <Box style={containerStyle}>
         <div style={markdownStyle}>
-          <ReactMarkdown>{content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         </div>
         {!showFullContent && content.length > 200 && (
           <Tooltip label="Click to view full content" withArrow>
@@ -84,7 +85,7 @@ export function MarkdownRenderer({
         centered
       >
         <div style={fullMarkdownStyle}>
-          <ReactMarkdown>{content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         </div>
         <Button onClick={() => setShowFullModal(false)} fullWidth mt="md">
           Close

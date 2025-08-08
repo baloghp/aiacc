@@ -424,5 +424,21 @@
       "risk:limited-deepfakes"
     ],
     "order": 40
+  },
+  {
+    "id": "n48",
+    "title": "Your AI system is classified as high-risk as a safety component under Annex I of the EU AI Act",
+    "description": "Your AI system is designated as high-risk because it is intended to function as a safety component in products covered by the Union harmonization legislation listed in Annex I of the EU Artificial Intelligence Act. This includes AI systems integrated into medical devices (such as for diagnostic or therapeutic use), vehicles and aircraft or their parts, lifts and elevators, radio equipment regulated under the Radio Equipment Directive, and other products falling under the specified EU harmonization laws.\n\nAs a safety component, your AI system performs critical safety functions essential to the overall product, where any failure, malfunction, or error could seriously endanger the health and safety of individuals or damage property. Due to these significant implications, the EU AI Act classifies such AI systems as high-risk, imposing strict compliance requirements.\n\nYou must ensure full adherence to regulatory obligations including comprehensive risk management, third-party conformity assessments, transparency measures, human oversight, high data quality, incident reporting, and ongoing post-market monitoring. These measures are crucial to safeguard fundamental rights, public safety, and product reliability when AI is embedded in safety-critical applications.",
+    "requiredTags": [
+      "risk:High-annex_I"
+    ]
+  },
+  {
+    "id": "n49",
+    "title": "Your AI system qualifies for derogation as no significant risk under Annex III of the EU AI Act",
+    "description": "Your AI system is eligible for an exemption from classification as high-risk under Article 6(3) of the EU Artificial Intelligence Act because it meets the specific criteria outlined in Annex III. This means your system:\n\n- Performs only narrow procedural tasks within a larger process.\n- Improves the outcomes of completed human activities without making independent decisions.\n- Detects patterns in decision-making but does not replace or materially influence prior human judgments without proper human review.\n- Conducts preparatory tasks related to use cases listed in Annex III.\n\nBecause your AI system does not pose a significant risk to health, safety, or fundamental rights under these conditions, it is not considered high-risk even if it may otherwise fall under that category. This derogation aims to reduce regulatory burdens for systems that have limited impact or operate under strict human oversight.\n\nYou should maintain appropriate documentation and ensure that your system continues to operate within these bounds to retain this status.",
+    "requiredTags": [
+      "risk:High_No_Risk_Demo"
+    ]
   }
 ]

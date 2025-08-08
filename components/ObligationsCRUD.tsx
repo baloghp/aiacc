@@ -18,6 +18,23 @@ import { Tag } from '../entities/Tag';
 import { MarkdownRenderer } from './common/MarkdownRenderer';
 import { trimTags } from '../utils/tagUtils';
 
+// Function to generate the next automatic ID for obligations
+const generateNextObligationId = (obligations: any[]): string => {
+  // Extract all IDs that match the pattern "o" + number
+  const obligationIds = obligations
+    .map(obl => obl.id)
+    .filter(id => /^o\d+$/.test(id)) // Only IDs that match "o" + number pattern
+    .map(id => {
+      const match = id.match(/^o(\d+)$/);
+      return match ? parseInt(match[1], 10) : 0;
+    })
+    .filter(num => num > 0); // Filter out any invalid numbers
+
+  // Find the highest number and increment by 1
+  const maxNumber = obligationIds.length > 0 ? Math.max(...obligationIds) : 0;
+  return `o${maxNumber + 1}`;
+};
+
 export default function ObligationsCRUD() {
   const [obligations, setObligations] = useState<any[]>(obligationsData);
   const [_saving, setSaving] = useState(false);
@@ -57,8 +74,15 @@ export default function ObligationsCRUD() {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteIdx, setDeleteIdx] = useState<number | null>(null);
 
+  // Duplicate modal state
+  const [duplicateOpen, setDuplicateOpen] = useState(false);
+  const [duplicateIdx, setDuplicateIdx] = useState<number | null>(null);
+  const [duplicateId, setDuplicateId] = useState('');
+  const [duplicateError, setDuplicateError] = useState('');
+
   const handleAdd = () => {
-    setAddId('');
+    const nextId = generateNextObligationId(obligations);
+    setAddId(nextId);
     setAddArticle('');
     setAddDescription('');
     setAddRequiredTags([]);
@@ -214,6 +238,14 @@ export default function ObligationsCRUD() {
     setDeleteOpen(true);
   };
 
+  const openDuplicateModal = (idx: number) => {
+    setDuplicateIdx(idx);
+    const nextId = generateNextObligationId(obligations);
+    setDuplicateId(nextId);
+    setDuplicateError('');
+    setDuplicateOpen(true);
+  };
+
   const handleDelete = async () => {
     if (deleteIdx === null) {
       return;
@@ -259,6 +291,70 @@ export default function ObligationsCRUD() {
     }
   };
 
+  const handleDuplicate = async () => {
+    setDuplicateError('');
+    if (!duplicateId.trim()) {
+      setDuplicateError('ID is required');
+      return;
+    }
+    if (obligations.some((o) => o.id === duplicateId)) {
+      setDuplicateError('ID must be unique');
+      return;
+    }
+    if (duplicateIdx === null) {
+      return;
+    }
+
+    const originalObligation = obligations[duplicateIdx];
+    const duplicatedObligation = {
+      id: duplicateId,
+      article: originalObligation.article,
+      description: originalObligation.description,
+      requiredTags: originalObligation.requiredTags,
+      requiredAllTags: originalObligation.requiredAllTags,
+      order: originalObligation.order,
+    };
+
+    const newObligations = [...obligations, duplicatedObligation];
+    setObligations(newObligations);
+    setDuplicateOpen(false);
+
+    // Auto-save
+    setSaving(true);
+    try {
+      const res = await fetch('/api/save-obligations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newObligations),
+      });
+      const result = await res.json();
+      if (result.success) {
+        notifications.show({
+          color: 'green',
+          title: 'Saved',
+          message: 'Obligation duplicated and saved successfully.',
+          icon: <IconDeviceFloppy size={18} />,
+          autoClose: 2000,
+          withCloseButton: true,
+        });
+      } else {
+        notifications.show({
+          color: 'red',
+          title: 'Error',
+          message: result.error || 'Failed to save.',
+        });
+      }
+    } catch (error: any) {
+      notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: error.message || 'Failed to save.',
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div>
       <Button leftSection={<IconPlus size={16} />} mb="md" onClick={handleAdd}>
@@ -267,11 +363,12 @@ export default function ObligationsCRUD() {
       {/* Add Modal */}
       <Modal opened={addOpen} onClose={() => setAddOpen(false)} title="Add Obligation" centered>
         <TextInput
-          label="ID"
+          label="ID (Auto-generated)"
           value={addId}
           onChange={(e) => setAddId(e.currentTarget.value)}
           required
           mb="sm"
+          placeholder="Auto-generated ID (can be edited)"
         />
         <TextInput
           label="Article"
@@ -388,6 +485,26 @@ export default function ObligationsCRUD() {
           Delete
         </Button>
       </Modal>
+      {/* Duplicate Modal */}
+      <Modal
+        opened={duplicateOpen}
+        onClose={() => setDuplicateOpen(false)}
+        title="Duplicate Obligation"
+        centered
+      >
+        <TextInput
+          label="New ID (Auto-generated)"
+          value={duplicateId}
+          onChange={(e) => setDuplicateId(e.currentTarget.value)}
+          required
+          mb="sm"
+          placeholder="Auto-generated ID (can be edited)"
+        />
+        {duplicateError && <div style={{ color: 'red', marginBottom: 8 }}>{duplicateError}</div>}
+        <Button onClick={handleDuplicate} fullWidth>
+          Duplicate Obligation
+        </Button>
+      </Modal>
       <Table striped>
         <Table.Thead>
           <Table.Tr>
@@ -440,6 +557,9 @@ export default function ObligationsCRUD() {
               <Table.Td>
                 <Button size="xs" variant="light" mr={4} onClick={() => openEditModal(_idx)}>
                   Edit
+                </Button>
+                <Button size="xs" variant="light" mr={4} onClick={() => openDuplicateModal(_idx)}>
+                  Duplicate
                 </Button>
                 <Button size="xs" color="red" variant="light" onClick={() => openDeleteModal(_idx)}>
                   Delete

@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Badge, Box, Group, List, Text, Title } from '@mantine/core';
 import { Obligation } from '@/entities/Obligation';
 
@@ -24,6 +25,7 @@ export default function AssessmentObligationsList({ obligations }: AssessmentObl
               <Box>
                 <Box mb="xs">
                   <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
                     components={{
                       a: ({ href, children, ...props }) => (
                         <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
@@ -37,6 +39,7 @@ export default function AssessmentObligationsList({ obligations }: AssessmentObl
                 </Box>
                 <Box>
                   <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
                     components={{
                       a: ({ href, children, ...props }) => (
                         <a href={href} target="_blank" rel="noopener noreferrer" {...props}>

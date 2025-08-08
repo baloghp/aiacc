@@ -492,6 +492,28 @@
           "risk:high",
           "risk:high-educational_access"
         ]
+      },
+      {
+        "id": "q89",
+        "text": "### Is your AI system intended to be used as a safety component in any product covered in the following list:\n### - Medical devices (e.g., AI for diagnostic or therapeutic purposes)\n### - Vehicles, aircraft, or parts thereof\n### - Lifts/elevators or related safety equipment\n### - Radio equipment subject to the Radio Equipment Directive.\n### - Any other product regulated by the listed Union harmonisation legislation in [Annex I](https://artificialintelligenceact.eu/annex/1/).\n\nExplanation:\nUnder the EU AI Act, an AI system is classified as high-risk if it is intended to be used as a safety component of a product regulated by the Union harmonization legislation listed in Annex I. This includes products subject to third-party conformity assessment requirements under such legislation. The role of the AI system as a safety component means it performs safety functions critical to the product, where failure or malfunction could endanger health or safety of persons or property.\n\n*Select “Yes” if your AI system is a safety component in any product covered in the following list. Select “No” Otherwise.*",
+        "order": 10,
+        "type": "yesNo",
+        "tags": [
+          "risk:high",
+          "risk:High-annex_I"
+        ]
+      },
+      {
+        "id": "q810",
+        "text": "## Can you demonstrate that the AI system does not pose any significant risk of harm or materially influence decision-making by performing any of the following?  \n- Performing only a narrow procedural task within a broader process.  \n- Improving the outcome of a completed human activity without independently making decisions.  \n- Detecting patterns in decisions but not replacing or influencing prior human assessments without proper review.  \n- Conducting preparatory tasks pertinent to Annex III use cases.  \n\n**Explanation:**  \n\nArticle 6(3) of the EU AI Act provides a derogation for AI systems listed in Annex III: such systems shall not be considered high-risk if they do not pose a significant risk to health, safety, or fundamental rights, and meet specific conditions. These conditions include performing narrow procedural tasks, improving prior human activities, detecting decision-making patterns without replacing human review, or conducting preparatory tasks related to Annex III use cases.  \n\n_Select “Yes” if your AI system is included in Annex III and performs one or more of the above. Select “No” if it does not, or if you are unsure._",
+        "order": 1,
+        "type": "yesNo",
+        "dependencies": [
+          "risk:high"
+        ],
+        "tags": [
+          "risk:High_No_Risk_Demo"
+        ]
       }
     ],
     "isComplete": false
