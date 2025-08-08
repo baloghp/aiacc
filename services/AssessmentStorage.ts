@@ -1,3 +1,5 @@
+'use client';
+
 import { AssessmentState } from '@/entities/AssessmentManager';
 
 export interface SavedAssessment {

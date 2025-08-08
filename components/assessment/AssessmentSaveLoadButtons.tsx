@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Button, Group } from '@mantine/core';
 import { IconDeviceFloppy, IconFolderOpen } from '@tabler/icons-react';

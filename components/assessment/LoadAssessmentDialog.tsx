@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import {
   Button,
@@ -15,7 +17,6 @@ import {
 import {
   IconTrash,
   IconDownload,
-  IconUpload,
   IconAlertCircle,
   IconFileImport,
 } from '@tabler/icons-react';
