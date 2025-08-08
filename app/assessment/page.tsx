@@ -13,9 +13,11 @@ import AssessmentResultsStep from '@/components/assessment/AssessmentResultsStep
 import AssessmentRiskClassificationStep from '@/components/assessment/AssessmentRiskClassificationStep';
 import AssessmentRoleAssignmentStep from '@/components/assessment/AssessmentRoleAssignmentStep';
 import { ColorSchemeToggle } from '@/components/ColorSchemeToggle/ColorSchemeToggle';
+import AssessmentSaveLoadButtons from '@/components/assessment/AssessmentSaveLoadButtons';
 import { AssessmentManager, AssessmentState } from '@/entities/AssessmentManager';
 import { Note } from '@/entities/Note';
 import { Obligation } from '@/entities/Obligation';
+import { SavedAssessment } from '@/services/AssessmentStorage';
 
 const stepLabels = [
   'Welcome',
@@ -43,6 +45,14 @@ export default function AssessmentPage() {
   const [applicableNotes, setApplicableNotes] = useState<Note[]>([]);
   const [applicableObligations, setApplicableObligations] = useState<Obligation[]>([]);
   const [stateUpdateTrigger, setStateUpdateTrigger] = useState(0);
+
+  // Handle assessment loaded from storage
+  const handleAssessmentLoaded = (assessment: SavedAssessment) => {
+    // Update the current step to where the assessment was saved
+    setActiveStep(assessment.currentStep);
+    // Trigger state update to refresh the UI
+    triggerStateUpdate();
+  };
 
   // Update assessment state and applicable lists whenever it changes
   useEffect(() => {
@@ -83,6 +93,18 @@ export default function AssessmentPage() {
         {!isMobile && (
           <Box style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10 }}>
             <ColorSchemeToggle />
+          </Box>
+        )}
+
+        {/* Save/Load Buttons - Top Right (Hidden on Mobile) */}
+        {!isMobile && (
+          <Box style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
+            <AssessmentSaveLoadButtons
+              assessmentManager={assessmentManagerRef.current}
+              currentStep={activeStep}
+              isComplete={activeStep === 7}
+              onAssessmentLoaded={handleAssessmentLoaded}
+            />
           </Box>
         )}
 
@@ -225,6 +247,19 @@ export default function AssessmentPage() {
           )}
         </Paper>
       </Flex>
+
+      {/* Save/Load Buttons - Mobile (Below content) */}
+      {isMobile && (
+        <Box p="md">
+          <AssessmentSaveLoadButtons
+            assessmentManager={assessmentManagerRef.current}
+            currentStep={activeStep}
+            isComplete={activeStep === 7}
+            onAssessmentLoaded={handleAssessmentLoaded}
+          />
+        </Box>
+      )}
+
       {/* Results panel below the wizard, same width as content */}
 
       {/* Only show results panel when not on the Results step */}

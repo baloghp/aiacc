@@ -189,6 +189,16 @@ export class AssessmentManager {
     this.state = state;
   }
 
+  // Serialize the assessment state for storage
+  toJSON(): AssessmentState {
+    return this.state;
+  }
+
+  // Deserialize and restore assessment state
+  fromJSON(state: AssessmentState): void {
+    this.state = state;
+  }
+
   // Check if assessment should terminate early (mock implementation)
   shouldTerminateEarly(): boolean {
     // Mock: terminate if we have any disqualification tags
