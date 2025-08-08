@@ -7,5 +7,8 @@ export default tseslint.config(
   {
     files: ['**/*.story.tsx'],
     rules: { 'no-console': 'off' },
+  },
+  {
+    rules: { 'no-console': 'off' },
   }
 );

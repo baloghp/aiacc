@@ -1,6 +1,4 @@
 import { IconDownload } from '@tabler/icons-react';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import { Box, Button, Card, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
 import { AISystem } from '@/entities/AISystem';
 import { AssessmentState } from '@/entities/AssessmentManager';
@@ -13,6 +11,7 @@ import AssessmentLegalDisclaimer from './AssessmentLegalDisclaimer';
 import AssessmentNotesList from './AssessmentNotesList';
 import AssessmentObligationsList from './AssessmentObligationsList';
 import AssessmentExportButton from './AssessmentExportButton';
+import { downloadAssessmentPDF } from '@/utils/pdfExport';
 
 interface AssessmentResultsPanelProps {
   _assessmentState?: AssessmentState;
@@ -35,48 +34,8 @@ export default function AssessmentResultsPanel({
   const showAISystemSummary = aiSystem && aiSystem.name;
 
   const handleExportPDF = async () => {
-    const element = document.getElementById('assessment-results');
-    if (!element) {
-      return;
-    }
-
     try {
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        width: element.scrollWidth,
-        height: element.scrollHeight,
-      });
-
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-
-      const imgWidth = 210;
-      const pageHeight = 295;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-
-      let position = 0;
-
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      // Generate filename with timestamp
-      const timestamp = new Date().toISOString().slice(0, 10);
-      const companyName = company?.name || 'Assessment';
-      const filename = `ai-act-compliance-${companyName}-${timestamp}.pdf`;
-
-      pdf.save(filename);
+      await downloadAssessmentPDF(company, aiSystem, applicableNotes, applicableObligations);
     } catch (error) {
       console.error('PDF export failed:', error);
     }

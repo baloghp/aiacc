@@ -169,7 +169,9 @@ export default function QuestionRenderer({
 
     // Check for early termination after processing the answer
     if (assessmentManager.shouldTerminateEarly()) {
-      console.log('Early termination triggered - moving to results');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Early termination triggered - moving to results');
+      }
       onEarlyTermination?.();
       return;
     }
@@ -178,8 +180,10 @@ export default function QuestionRenderer({
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
       // All questions answered, complete the phase
-      console.log('Answers processed and saved to AssessmentManager:', answers);
-      console.log('Current assessment state:', assessmentManager.getState());
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Answers processed and saved to AssessmentManager:', answers);
+        console.log('Current assessment state:', assessmentManager.getState());
+      }
 
       // Complete the phase
       onComplete();

@@ -12,7 +12,7 @@ import {
 } from '@mantine/core';
 import { IconAlertCircle, IconDeviceFloppy } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
-import { AssessmentStorage, SavedAssessment } from '@/services/AssessmentStorage';
+import { AssessmentStorage } from '@/services/AssessmentStorage';
 import { AssessmentManager } from '@/entities/AssessmentManager';
 
 interface SaveAssessmentDialogProps {
@@ -35,12 +35,20 @@ export default function SaveAssessmentDialog({
   const [name, setName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const [storage, setStorage] = useState<AssessmentStorage | null>(null);
 
-  const storage = new AssessmentStorage();
+  useEffect(() => {
+    setStorage(new AssessmentStorage());
+  }, []);
 
   const handleSave = async () => {
     if (!name.trim()) {
       setError('Please enter a name for your assessment');
+      return;
+    }
+
+    if (!storage) {
+      setError('Storage not initialized');
       return;
     }
 
@@ -134,7 +142,7 @@ export default function SaveAssessmentDialog({
           autoFocus
         />
 
-        {storage.isStorageFull() && (
+        {storage?.isStorageFull() && (
           <Alert
             icon={<IconAlertCircle size={16} />}
             title="Storage Full"
@@ -153,7 +161,7 @@ export default function SaveAssessmentDialog({
           <Button
             onClick={handleSave}
             loading={isSaving}
-            disabled={!name.trim() || storage.isStorageFull()}
+            disabled={!name.trim() || storage?.isStorageFull() || false}
             leftSection={<IconDeviceFloppy size={16} />}
           >
             Save Assessment

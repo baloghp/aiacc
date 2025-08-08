@@ -47,10 +47,7 @@ if ($buildExitCode -ne 0) {
 
 Write-Host "✅ Image built successfully" -ForegroundColor Green
 
-# Test the image locally
-Write-Host "🧪 Testing image locally..." -ForegroundColor Yellow
-
-# Check and stop any existing containers
+# Clean up any existing containers BEFORE testing
 Write-Host "🔍 Checking for existing containers..." -ForegroundColor Yellow
 
 # Find containers using the same image
@@ -70,6 +67,9 @@ if ($port3000Containers) {
     docker rm $port3000Containers
     Write-Host "✅ Port 3000 containers stopped and removed" -ForegroundColor Green
 }
+
+# Test the image locally
+Write-Host "🧪 Testing image locally..." -ForegroundColor Yellow
 
 $containerId = docker run -d -p 3000:3000 $imageName
 $runExitCode = $LASTEXITCODE

@@ -26,7 +26,7 @@ export default function AssessmentExportButton({
         obligations
       );
     } catch (error) {
-      console.error('Export failed:', error);
+        console.error('Export failed:', error);
       // You could add a notification here if you have a notification system
     }
   };

@@ -225,7 +225,9 @@ export default function AssessmentPage() {
               assessmentManager={assessmentManagerRef.current}
               onStateChange={triggerStateUpdate}
               onEarlyTermination={() => {
-                console.log('Early termination: skipping to Results step');
+                if (process.env.NODE_ENV === 'development') {
+                  console.log('Early termination: skipping to Results step');
+                }
                 setActiveStep(7); // Skip directly to Results step
                 setAssessmentState(getCurrentAssessmentState());
               }}
@@ -241,7 +243,9 @@ export default function AssessmentPage() {
               assessmentManager={assessmentManagerRef.current}
               onStateChange={triggerStateUpdate}
               onEarlyTermination={() => {
-                console.log('Early termination: skipping to Results step');
+                if (process.env.NODE_ENV === 'development') {
+                  console.log('Early termination: skipping to Results step');
+                }
                 setActiveStep(7); // Skip directly to Results step
                 setAssessmentState(getCurrentAssessmentState());
               }}
@@ -257,7 +261,9 @@ export default function AssessmentPage() {
               assessmentManager={assessmentManagerRef.current}
               onStateChange={triggerStateUpdate}
               onEarlyTermination={() => {
-                console.log('Early termination: skipping to Results step');
+                if (process.env.NODE_ENV === 'development') {
+                  console.log('Early termination: skipping to Results step');
+                }
                 setActiveStep(7); // Skip directly to Results step
                 setAssessmentState(getCurrentAssessmentState());
               }}
@@ -273,7 +279,9 @@ export default function AssessmentPage() {
               assessmentManager={assessmentManagerRef.current}
               onStateChange={triggerStateUpdate}
               onEarlyTermination={() => {
-                console.log('Early termination: skipping to Results step');
+                if (process.env.NODE_ENV === 'development') {
+                  console.log('Early termination: skipping to Results step');
+                }
                 setActiveStep(7); // Skip directly to Results step
                 setAssessmentState(getCurrentAssessmentState());
               }}

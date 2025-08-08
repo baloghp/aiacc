@@ -30,6 +30,7 @@ interface LoadAssessmentDialogProps {
   onClose: () => void;
   assessmentManager: AssessmentManager;
   onLoad: (assessment: SavedAssessment) => void;
+  refreshTrigger?: number;
 }
 
 export default function LoadAssessmentDialog({
@@ -37,27 +38,36 @@ export default function LoadAssessmentDialog({
   onClose,
   assessmentManager,
   onLoad,
+  refreshTrigger,
 }: LoadAssessmentDialogProps) {
   const [assessments, setAssessments] = useState<SavedAssessment[]>([]);
   const [selectedAssessment, setSelectedAssessment] = useState<SavedAssessment | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [storage, setStorage] = useState<AssessmentStorage | null>(null);
 
-  const storage = new AssessmentStorage();
+  useEffect(() => {
+    setStorage(new AssessmentStorage());
+  }, []);
 
   useEffect(() => {
     if (opened) {
       loadAssessments();
     }
-  }, [opened]);
+  }, [opened, refreshTrigger]);
 
   const loadAssessments = () => {
+    if (!storage) {
+      return;
+    }
     const savedAssessments = storage.getAllAssessments();
     setAssessments(savedAssessments);
   };
 
   const handleLoad = () => {
-    if (!selectedAssessment) {return;}
+    if (!selectedAssessment) {
+      return;
+    }
 
     setIsLoading(true);
     setError('');
@@ -83,6 +93,9 @@ export default function LoadAssessmentDialog({
   };
 
   const handleDelete = (assessmentId: string) => {
+    if (!storage) {
+      return;
+    }
     if (storage.deleteAssessment(assessmentId)) {
       loadAssessments();
       if (selectedAssessment?.id === assessmentId) {
@@ -99,6 +112,9 @@ export default function LoadAssessmentDialog({
   };
 
   const handleExport = (assessmentId: string) => {
+    if (!storage) {
+      return;
+    }
     const jsonData = storage.exportAssessment(assessmentId);
     if (!jsonData) {
       notifications.show({
@@ -121,7 +137,14 @@ export default function LoadAssessmentDialog({
   };
 
   const handleImport = async (file: File | null) => {
-    if (!file) {return;}
+    if (!file) {
+      return;
+    }
+
+    if (!storage) {
+      setError('Storage not initialized');
+      return;
+    }
 
     setIsLoading(true);
     setError('');

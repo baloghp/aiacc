@@ -28,7 +28,7 @@ export function BacktrackConfirmationDialog({
   ];
 
   const getPhaseLabel = (phase: AssessmentPhase | null): string => {
-    if (!phase) return '';
+    if (!phase) {return '';}
     
     const phaseLabels = {
       [AssessmentPhase.Company]: 'Company Information',
@@ -62,11 +62,11 @@ export function BacktrackConfirmationDialog({
         
         <Text size="sm" c="red">
           • {targetPhase}
-          {currentPhase && currentPhase !== targetPhase && (
+          {currentPhase && currentPhase !== targetPhase ? (
             <>
               <br />• {currentPhase}
             </>
-          )}
+          ) : null}
         </Text>
         
         <Text size="sm" c="dimmed">

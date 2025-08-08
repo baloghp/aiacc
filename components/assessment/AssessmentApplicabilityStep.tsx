@@ -70,8 +70,10 @@ export default function AssessmentApplicabilityStep({
 
   const handleQuestionsComplete = () => {
     // QuestionRenderer has already saved the answers to AssessmentManager
-    console.log('Applicability phase completed');
-    console.log('Current assessment state:', assessmentManager.getState());
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Applicability phase completed');
+      console.log('Current assessment state:', assessmentManager.getState());
+    }
 
     // Complete the step
     nextStep?.();

@@ -89,8 +89,10 @@ export default function AssessmentCompanyStep({
     if (validate() && nextStep) {
       // Save form data to AssessmentManager
       assessmentManager.updateCompany(form);
-      console.log('Company data saved:', form);
-      console.log('Current assessment state:', assessmentManager.getState());
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Company data saved:', form);
+        console.log('Current assessment state:', assessmentManager.getState());
+      }
       nextStep();
     }
   };

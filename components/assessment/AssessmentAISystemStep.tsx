@@ -88,8 +88,10 @@ export default function AssessmentAISystemStep({
     if (validate() && nextStep) {
       // Save form data to AssessmentManager
       assessmentManager.updateAISystem(form);
-      console.log('AI System data saved:', form);
-      console.log('Current assessment state:', assessmentManager.getState());
+      if (process.env.NODE_ENV === 'development') {
+        console.log('AI System data saved:', form);
+        console.log('Current assessment state:', assessmentManager.getState());
+      }
       nextStep();
     }
   };

@@ -23,13 +23,20 @@ export default function AssessmentSaveLoadButtons({
 }: AssessmentSaveLoadButtonsProps) {
   const [saveDialogOpened, setSaveDialogOpened] = useState(false);
   const [loadDialogOpened, setLoadDialogOpened] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleSave = (assessmentId: string) => {
-    console.log('Assessment saved with ID:', assessmentId);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Assessment saved with ID:', assessmentId);
+    }
+    // Trigger refresh of load dialog
+    setRefreshTrigger(prev => prev + 1);
   };
 
   const handleLoad = (assessment: SavedAssessment) => {
-    console.log('Assessment loaded:', assessment);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Assessment loaded:', assessment);
+    }
     onAssessmentLoaded?.(assessment);
   };
 
@@ -68,6 +75,7 @@ export default function AssessmentSaveLoadButtons({
         onClose={() => setLoadDialogOpened(false)}
         assessmentManager={assessmentManager}
         onLoad={handleLoad}
+        refreshTrigger={refreshTrigger}
       />
     </>
   );
