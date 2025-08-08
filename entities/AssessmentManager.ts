@@ -5,6 +5,7 @@ import { AISystem } from './AISystem';
 import { Company } from './Company';
 import { Note } from './Note';
 import { Obligation } from './Obligation';
+import { AssessmentPhase } from './enums';
 
 export interface AssessmentState {
   company: Company;
@@ -318,5 +319,65 @@ export class AssessmentManager {
         return false;
       })
       .sort((a, b) => (a.order || 0) - (b.order || 0));
+  }
+
+  // Clear answers from a specific phase onwards
+  clearAnswersFromPhase(targetPhase: AssessmentPhase) {
+    // Get all question groups to identify which questions belong to which phases
+    const questionGroupsData = require('../data/questions.json');
+    
+    // Find all question IDs that belong to phases >= targetPhase
+    const phasesToClear = Object.values(AssessmentPhase).filter(phase => {
+      const phaseOrder = {
+        [AssessmentPhase.Company]: 1,
+        [AssessmentPhase.AISystem]: 2,
+        [AssessmentPhase.Applicability]: 3,
+        [AssessmentPhase.Roles]: 4,
+        [AssessmentPhase.Risk]: 5,
+        [AssessmentPhase.GPAI]: 6,
+        [AssessmentPhase.Results]: 7,
+      };
+      
+      const targetPhaseOrder = phaseOrder[targetPhase];
+      const currentPhaseOrder = phaseOrder[phase as AssessmentPhase];
+      
+      return currentPhaseOrder >= targetPhaseOrder;
+    });
+
+    // Get all question IDs that need to be cleared
+    const questionIdsToClear: string[] = [];
+    questionGroupsData.forEach((group: any) => {
+      if (phasesToClear.includes(group.phase)) {
+        group.questions.forEach((question: any) => {
+          questionIdsToClear.push(question.id);
+        });
+      }
+    });
+
+    // Clear tags for all affected questions
+    questionIdsToClear.forEach(questionId => {
+      delete this.state.activeTags[questionId];
+    });
+
+    // Re-process rules after clearing tags
+    this.processRules();
+    
+    console.log(`Cleared answers from phase ${targetPhase} onwards. Affected questions:`, questionIdsToClear);
+  }
+
+  // Get the phase for a specific step
+  getPhaseForStep(step: number): AssessmentPhase | null {
+    const stepToPhaseMap = {
+      0: null, // Welcome step has no phase
+      1: AssessmentPhase.Company,
+      2: AssessmentPhase.AISystem,
+      3: AssessmentPhase.Applicability,
+      4: AssessmentPhase.Roles,
+      5: AssessmentPhase.Risk,
+      6: AssessmentPhase.GPAI,
+      7: null, // Results step has no phase
+    };
+    
+    return stepToPhaseMap[step as keyof typeof stepToPhaseMap] || null;
   }
 }

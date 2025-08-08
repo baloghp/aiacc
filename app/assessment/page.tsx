@@ -14,6 +14,7 @@ import AssessmentRiskClassificationStep from '@/components/assessment/Assessment
 import AssessmentRoleAssignmentStep from '@/components/assessment/AssessmentRoleAssignmentStep';
 import { ColorSchemeToggle } from '@/components/ColorSchemeToggle/ColorSchemeToggle';
 import AssessmentSaveLoadButtons from '@/components/assessment/AssessmentSaveLoadButtons';
+import { BacktrackConfirmationDialog } from '@/components/assessment/BacktrackConfirmationDialog';
 import { AssessmentManager, AssessmentState } from '@/entities/AssessmentManager';
 import { Note } from '@/entities/Note';
 import { Obligation } from '@/entities/Obligation';
@@ -45,6 +46,10 @@ export default function AssessmentPage() {
   const [applicableNotes, setApplicableNotes] = useState<Note[]>([]);
   const [applicableObligations, setApplicableObligations] = useState<Obligation[]>([]);
   const [stateUpdateTrigger, setStateUpdateTrigger] = useState(0);
+
+  // Backtracking state
+  const [showBacktrackDialog, setShowBacktrackDialog] = useState(false);
+  const [pendingTargetStep, setPendingTargetStep] = useState<number | null>(null);
 
   // Handle assessment loaded from storage
   const handleAssessmentLoaded = (assessment: SavedAssessment) => {
@@ -80,6 +85,46 @@ export default function AssessmentPage() {
     return newState;
   };
 
+  // Handle stepper step click with backtracking confirmation
+  const handleStepClick = (step: number) => {
+    // If clicking on a previous step, show confirmation dialog
+    if (step < activeStep) {
+      setPendingTargetStep(step);
+      setShowBacktrackDialog(true);
+    } else {
+      // For future steps, just set the step (should be prevented by allowNextStepsSelect)
+      setActiveStep(step);
+    }
+  };
+
+  // Handle backtracking confirmation
+  const handleBacktrackConfirm = () => {
+    if (pendingTargetStep !== null) {
+      const targetPhase = assessmentManagerRef.current.getPhaseForStep(pendingTargetStep);
+      
+      if (targetPhase) {
+        // Clear answers from the target phase onwards
+        assessmentManagerRef.current.clearAnswersFromPhase(targetPhase);
+      }
+      
+      // Navigate to the target step
+      setActiveStep(pendingTargetStep);
+      
+      // Trigger state update to refresh the UI
+      triggerStateUpdate();
+      
+      // Reset dialog state
+      setShowBacktrackDialog(false);
+      setPendingTargetStep(null);
+    }
+  };
+
+  // Handle backtracking cancellation
+  const handleBacktrackCancel = () => {
+    setShowBacktrackDialog(false);
+    setPendingTargetStep(null);
+  };
+
   return (
     <Box maw={1100} mx="auto" w="100%">
       <Flex
@@ -111,7 +156,7 @@ export default function AssessmentPage() {
         <Stepper
           orientation={isMobile ? 'horizontal' : 'vertical'}
           active={activeStep}
-          onStepClick={setActiveStep}
+          onStepClick={handleStepClick}
           allowNextStepsSelect={false}
           w={isMobile ? '100%' : 220}
           size="md"
@@ -246,6 +291,15 @@ export default function AssessmentPage() {
             />
           )}
         </Paper>
+
+        {/* Backtrack Confirmation Dialog */}
+        <BacktrackConfirmationDialog
+          isOpen={showBacktrackDialog}
+          onClose={handleBacktrackCancel}
+          onConfirm={handleBacktrackConfirm}
+          targetStep={pendingTargetStep || 0}
+          currentStep={activeStep}
+        />
       </Flex>
 
       {/* Save/Load Buttons - Mobile (Below content) */}
