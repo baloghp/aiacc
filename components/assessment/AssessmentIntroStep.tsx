@@ -78,8 +78,11 @@ export default function AssessmentIntroStep({ nextStep }: StepNavProps) {
             <Text size="sm" c="dimmed" lh={1.5}>
               This platform is a free and open source initiative. Our mission is to democratize
               access to AI compliance expertise and support organizations of all sizes in their
-              responsible AI journey. At the end of the wizard, you'll have the option to export
-              your results for internal use or sharing with compliance stakeholders.
+              responsible AI journey. We welcome contributions from the community at{' '}
+              <a href="https://github.com/baloghp/aiacc" target="_blank" rel="noopener noreferrer">
+                github.com/baloghp/aiacc
+              </a>
+              .
             </Text>
           </Card>
         </Grid.Col>
