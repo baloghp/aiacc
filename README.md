@@ -87,7 +87,23 @@ This application helps organizations:
 - `/` — Home page with navigation to main sections
 - `/setup` — Entity Setup (Questions, Obligations, Notes CRUD with tag-based filtering)
 - `/assessment` — Assessment Wizard (8-step compliance assessment with dynamic filtering)
-- `/mock-ui` — Mock UI Showcase (Mantine components demo)
+- `/mock-ui` — Mock UI Showcase (Mantine components demo) - testing ground for UI elements during development
+
+## Project Structure
+
+### Core Application
+- `/app` — Next.js pages and API routes
+- `/components` — React components organized by feature
+- `/entities` — TypeScript domain models and business logic
+- `/data` — Sample and user data (JSON files)
+- `/utils` — Utility functions including Excel and PDF export
+- `/services` — Assessment storage and persistence services
+- `/test-utils` — Testing utilities and setup
+
+### Documentation & Design
+- `/_Backlog/` — Feature backlog and enhancements
+- `/_Design/` — Domain design, technical architecture, and system documentation
+- `/_Tests/` — Comprehensive test cases and test execution results
 
 ## Domain Model
 
@@ -187,15 +203,6 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Development
 
-### Project Structure
-- `/app` — Next.js pages and API routes
-- `/components` — React components organized by feature
-- `/entities` — TypeScript domain models and business logic
-- `/data` — Sample and user data (JSON files)
-- `/utils` — Utility functions including Excel and PDF export
-- `/services` — Assessment storage and persistence services
-- `/test-utils` — Testing utilities and setup
-
 ### Key Components
 - `AssessmentManager` — Core business logic for assessment state and tag management
 - `QuestionRenderer` — Dynamic question rendering with dependency filtering
@@ -228,35 +235,6 @@ npm run storybook
 # Run Playwright tests
 npx playwright test
 ```
-
-## Export Features
-
-### Excel Export
-- **7 Professional Sheets**: Summary, Company, AI System, Questions, Tags, Notes, Obligations
-- **Structured Data**: Clear organization with explanations and context
-- **Legal Disclaimers**: Professional disclaimers and usage notes
-- **Client-side Processing**: No server dependencies
-
-### PDF Export
-- **Complete Visual Reports**: All assessment data in a single document
-- **Professional Formatting**: Clean, readable layout with legal disclaimers
-- **High-quality Output**: Suitable for official documentation
-- **Tag-based Results**: Clear presentation of applicable obligations and notes
-
-## Save/Load Features
-
-### Assessment Persistence
-- **Local Storage**: Browser-based persistence with automatic cleanup
-- **Multiple Assessments**: Store up to 10 assessments with intelligent management
-- **Export/Import**: Share assessments as JSON files
-- **Cross-Device**: Import assessments on different devices
-- **State Restoration**: Complete restoration of assessment progress
-
-### User Experience
-- **Desktop Interface**: Save/load buttons in top-right corner
-- **Mobile Interface**: Save/load buttons below assessment content
-- **Confirmation Dialogs**: Clear feedback for save/load operations
-- **Error Handling**: Graceful handling of storage issues and corrupted data
 
 ## References
 - See `_Design/Domain Design.md` and `_Design/POC Technical Design.md` for full domain and technical details
